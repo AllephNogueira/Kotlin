@@ -1,0 +1,8 @@
+No String XML podemos configurar todos os dados, exemplo vamos imaginar que queremos por um nome padrão
+
+<resources>
+    <string name="app_name">MeuProjeto01</string>
+    <string name="nome_app">Alta Pressao GNV</string>
+</resources>
+
+Então podemos colocar ali nome_app e sempre quando a gente quiser podemos alterar em todos os locais.
