@@ -1,5 +1,7 @@
 package SobrecargaDeMetodos;
 
+import Encapsulamento.ContaBancaria;
+
 // Aqui temos outra sobrecarga de metodo
     // Imagina um app de filtro de imagem
     // O usuario tem filtro preto e branco
@@ -60,5 +62,7 @@ class Principal {
 
 
         usuario.pretoEBranco("imagem alleph"); // Repara que aqui estamos herdando de outra classe, o metodo.
+
+
     }
 }
