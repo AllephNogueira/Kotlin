@@ -1,5 +1,11 @@
 package Heranca;
 
+// Diferença e onde utlizalos
+// Public = pode ser acessado de qualquer local.
+// Private = pode ser acessado somente de dentro da propria classe
+// protect = pode ser acessado de dentro do pacote ou de classes filhas/sub-classes
+// default = pode ser acessado de dentro do mesmo pacote ou classe
+
 
 class Animal {
     public String name;
