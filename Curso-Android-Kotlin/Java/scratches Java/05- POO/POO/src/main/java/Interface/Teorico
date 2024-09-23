@@ -1,0 +1,5 @@
+Oque é interface?
+É um contrato, seja assim: Todas as classes que tiver essa interface/contrato
+é obrigado a seguir aquelas ações/metodos que estao ali.
+
+// * Lembrando que devem ter as mesmas ações/metodos, mas podem executar elas de forma diferentes.
