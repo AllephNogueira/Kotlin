@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Construcao Layout</string>
+    <string name="botao_jogar">Play</string>
 </resources>

@@ -1,0 +1,2 @@
+Button - Wrap Content = Ele vai colocar um espaço no conteúdo
+Button - Match constraints = Ele vai esticar o conteúdo de fora a fora.
