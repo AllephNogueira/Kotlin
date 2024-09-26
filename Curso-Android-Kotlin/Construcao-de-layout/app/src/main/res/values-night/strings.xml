@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="botao_jogar">Jogar</string>
+    <string name="botao_login">Login</string>
+    <string name="botao_senha">Senha</string>
 </resources>
