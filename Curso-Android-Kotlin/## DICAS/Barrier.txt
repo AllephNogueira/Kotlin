@@ -1,0 +1,5 @@
+O barrier funciona como uma linha que você pode colocar em baixo de um texto
+
+Imagina sem o barrier eu teria um texto que a medida que fosse ficando grande iria comendo todos os botões
+
+Com o barrier eu tenho um texto que a medida que cresce os botões vao descendo junto com ele.
