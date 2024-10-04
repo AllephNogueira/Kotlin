@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ConstrucaoLayout"
         tools:targetApi="31">
         <activity
+            android:name=".PaddingEMargem"
+            android:exported="false" />
+        <activity
             android:name=".Chains"
             android:exported="false" />
         <activity
