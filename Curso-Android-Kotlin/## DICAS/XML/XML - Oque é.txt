@@ -1,0 +1,12 @@
+XML é uma linguagem de marcação como o HTML, desenhada para escrever dados
+
+Vantagens = ela é extensível ou seja você não fica limitado a um certo numero de tags.
+
+
+HTML x XML
+
+HTML podemos utilizar as tags que já esta pronta <a><link>...
+
+XML
+
+XML podemos criar e utilizar tags prontas.

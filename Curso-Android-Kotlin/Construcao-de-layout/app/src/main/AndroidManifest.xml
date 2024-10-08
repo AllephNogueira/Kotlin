@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ConstrucaoLayout"
         tools:targetApi="31">
+        
         <activity
             android:name=".XML"
             android:exported="false" />

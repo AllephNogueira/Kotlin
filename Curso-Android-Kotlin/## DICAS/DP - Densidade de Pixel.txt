@@ -1,0 +1,13 @@
+Como funciona? 
+
+Imagina uma tela full HD
+
+Então nela 1DP vai ser = a 1PX
+
+Imagina uma tela 4K
+
+Então nela 1DP vai ser igual a 4PX
+
+
+
+** Isso foi feito para os botões, imagens.. se ajustarem automaticamente.
