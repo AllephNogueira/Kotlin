@@ -1,0 +1,28 @@
+Primeiro devemos definir as cores em Colors.xml
+
+
+
+    <!-- Cores customizadas para o tema -->
+    <color name="Primaria">#0F5AF2</color>
+    <color name="Primaria_variacao">#011033</color>
+
+
+
+Após isso vamos definir o themas, lembrando que: Devemos usar o mesmo nome porque estamos sobrescrevendo o método parente(pai)
+
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ConstrucaoLayout" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+
+        <!-- Cores primarias -->
+        <item name="colorPrimary">@color/Primaria</item> ******************************
+        <item name="colorPrimaryVariant">@color/Primaria_variacao</item> ****************************
+
+    </style>
+
+    <style name="Theme.ConstrucaoLayout" parent="Base.Theme.ConstrucaoLayout" />
+</resources>

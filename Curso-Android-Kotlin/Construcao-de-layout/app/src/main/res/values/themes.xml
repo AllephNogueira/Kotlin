@@ -3,6 +3,13 @@
     <style name="Base.Theme.ConstrucaoLayout" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+
+        <!-- Cores primarias -->
+        <item name="colorPrimary">@color/Primaria</item>
+        <item name="colorPrimaryVariant">@color/Primaria_variacao</item>
+        <item name="colorOnPrimary">@color/texto_primaria</item>
+
     </style>
 
     <style name="Theme.ConstrucaoLayout" parent="Base.Theme.ConstrucaoLayout" />
