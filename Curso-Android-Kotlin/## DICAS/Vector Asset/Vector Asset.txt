@@ -1,0 +1,9 @@
+Ele permite que você escolha itens que já tem disponível no android studio
+Podemos alterar a cor do ícone também que usamos
+Podemos também criar um botão com o ícone que criamos.
+
+
+Podemos também adicionar os ícones ao lado do texto e botão usando o drawableEnd por exemplo.
+
+
+
