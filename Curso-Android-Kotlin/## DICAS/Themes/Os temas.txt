@@ -1,0 +1,41 @@
+<item name="android:colorAccent">@color/my_accent_color</item>
+<item name="android:colorPrimary">@color/my_light_primary</item>
+<item name="android:colorPrimaryDark">@color/my_dark_primary</item>
+<item name="android:colorBackground">@color/my_background_color</item>
+<item name="android:colorForeground">@color/my_foreground_color</item>
+<item name="android:textColorPrimary">@color/my_text_primary</item>
+<item name="android:textColorSecondary">@color/my_text_secondary</item>
+<item name="android:buttonStyle">@style/MyButtonStyle</item>
+<item name="android:editTextStyle">@style/MyEditTextStyle</item>
+<item name="android:toolbarStyle">@style/MyToolbarStyle</item>
+<item name="android:windowBackground">@color/my_window_background</item>
+<item name="android:navigationBarColor">@color/my_navigation_bar_color</item>
+<item name="android:statusBarColor">@color/my_status_bar_color</item>
+
+
+
+
+Usando os themas lembrar de usar igual em cima, pegando a cor do xml color
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ConstrucaoLayout" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customizar cores primarias. -->
+
+        <item name="colorPrimary">#FF005B</item> <!-- Aqui esta aplicando aos botoes -->
+        <item name="colorPrimaryVariant">#1321C3</item>
+        <item name="colorOnPrimary">#FFFFFF</item> <!-- Aqui esta aplicando aos textos dos botoes -->
+
+        <!-- Customizar cores Secundarias. -->
+
+        <item name="colorSecondary">#C500FF</item> <!-- Aqui esta aplicando ao checkbox e o carregamento -->
+        <item name="colorSecondaryVariant">#A6A507</item>
+        <item name="colorOnSecondary">@color/fundo</item>
+
+
+        <!-- meu fundo -->
+        <item name="android:windowBackground">@color/fundo</item>
+
+
+    </style>
+</resources>

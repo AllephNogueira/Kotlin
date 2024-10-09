@@ -5,10 +5,14 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
 
-        <!-- Cores primarias -->
-        <item name="colorPrimary">@color/Primaria</item>
-        <item name="colorPrimaryVariant">@color/Primaria_variacao</item>
-        <item name="colorOnPrimary">@color/texto_primaria</item>
+<!--        &lt;!&ndash; Cores primarias &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/Primaria</item>-->
+<!--        <item name="colorPrimaryVariant">@color/Primaria_variacao</item>-->
+<!--        <item name="colorOnPrimary">@color/texto_primaria</item>-->
+<!--        <item name="android:statusBarColor">@color/Primaria_variacao</item> &lt;!&ndash; Cor da barra de navegacao &ndash;&gt;-->
+
+<!--        &lt;!&ndash; Configurando meu proprio item &ndash;&gt;-->
+<!--        <item name="android:windowBackground">@color/Primaria</item>-->
 
     </style>
 

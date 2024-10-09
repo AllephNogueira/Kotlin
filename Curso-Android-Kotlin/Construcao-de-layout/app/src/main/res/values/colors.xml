@@ -7,7 +7,16 @@
 
 
     <!-- Cores customizadas para o tema -->
-    <color name="Primaria">#0F5AF2</color>
-    <color name="Primaria_variacao">#011033</color>
-    <color name="texto_primaria">#FFFFFF</color>
+    <color name="primaria">#ffafcc</color>
+    <color name="primaria_variacao">#ffc8dd</color>
+    <color name="item_primaria">#cdb4db</color>
+
+
+    <!-- Cores secundarias -->
+    <color name="secundaria">#a2d2ff</color>
+    <color name="item_secundaria">#bde0fe</color>
+    <color name="fundo">#FFFFFF</color>
+
+
+
 </resources>
