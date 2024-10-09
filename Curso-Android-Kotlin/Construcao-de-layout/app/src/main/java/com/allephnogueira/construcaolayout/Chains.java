@@ -27,7 +27,6 @@ public class Chains extends AppCompatActivity {
 
     public void paddingEMargem(View view) {
         Intent intent = new Intent(this, PaddingEMargem.class);
-
         startActivity(intent);
     }
 }

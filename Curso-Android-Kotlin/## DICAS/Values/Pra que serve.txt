@@ -1,0 +1,24 @@
+Strings é onde vamos colocar os textos
+
+
+<resources>
+    <string name="app_name">Construcao Layout</string>
+    <string name="botao_jogar">Play</string>
+    <string name="botao_login">Login</string>
+    <string name="botao_senha">Senha</string>
+</resources>
+
+Colors onde vamos colocar as cores.
+
+
+
+	Segue o exemplo
+	
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="Principal">#011640</color>
+    <color name="Botoes">#0F5AF2</color>
+
+Observa que temos uma cor já principal ali.
