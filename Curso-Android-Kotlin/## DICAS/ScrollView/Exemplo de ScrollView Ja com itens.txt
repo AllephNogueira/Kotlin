@@ -1,3 +1,7 @@
+Esse é um exemplo com vários itens na tela
+Repara o Scroll abrindo e fechando em baixo
+
+
 <?xml version="1.0" encoding="utf-8"?>
 
 
@@ -15,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
-
+        
 
 
         <Button

@@ -4,15 +4,19 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
 
+        <item name="colorPrimary">#FF005B</item> <!-- Aqui esta aplicando aos botoes -->
+        <item name="colorPrimaryVariant">#1321C3</item>
+        <item name="colorOnPrimary">#FFFFFF</item> <!-- Aqui esta aplicando aos textos dos botoes -->
 
-<!--        &lt;!&ndash; Cores primarias &ndash;&gt;-->
-<!--        <item name="colorPrimary">@color/Primaria</item>-->
-<!--        <item name="colorPrimaryVariant">@color/Primaria_variacao</item>-->
-<!--        <item name="colorOnPrimary">@color/texto_primaria</item>-->
-<!--        <item name="android:statusBarColor">@color/Primaria_variacao</item> &lt;!&ndash; Cor da barra de navegacao &ndash;&gt;-->
+        <!-- Customizar cores Secundarias. -->
 
-<!--        &lt;!&ndash; Configurando meu proprio item &ndash;&gt;-->
-<!--        <item name="android:windowBackground">@color/Primaria</item>-->
+        <item name="colorSecondary">#C500FF</item> <!-- Aqui esta aplicando ao checkbox e o carregamento -->
+        <item name="colorSecondaryVariant">#A6A507</item>
+        <item name="colorOnSecondary">#B8099B</item>
+
+
+        <!-- meu fundo -->
+        <item name="android:windowBackground">@color/fundo</item>
 
     </style>
 

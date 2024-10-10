@@ -1,0 +1,14 @@
+Esse erro é quando o contentDescription não esta disponível
+Isso é um leito de tela
+
+
+Como aplicar?
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:contentDescription="Nessa tela é possivel rolar para visualizar todo conteudo" *****************************
+    tools:context=".ScrollView"

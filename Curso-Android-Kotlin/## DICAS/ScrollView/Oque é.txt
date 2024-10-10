@@ -1,0 +1,50 @@
+O ScrollView permite o usuário rolar a tela para baixo e ver todos os elementos dentro dele.
+
+Imagina uma tela de ficha de cadastro, onde você digita todos os seus dados...
+
+
+Como usar?
+
+Vamos colocar o scrollView como elemento pai(parente) e dentro dele vamos colocar os elementos
+
+	<ScrollView>
+		Elementos
+		Elementos
+	</ScrollView>
+
+
+
+
+
+
+**** Imagina o layout antes tínhamos o constraintLayout como o PAI, mas precisamos colocar o Scroll como o pai de todos e o elemento dentro dele.
+ficando dessa forma
+
+
+
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_height="705dp"
+    android:layout_width="410dp"
+    tools:layout_editor_absoluteX="1dp"
+    tools:layout_editor_absoluteY="1dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ScrollView">
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
+
+
+Lembrar de usar os nameSpace (android:) || podemos alterar esse nomeSpace também, mas ai vamos ter que alterar em todos os locais que ele é usado.

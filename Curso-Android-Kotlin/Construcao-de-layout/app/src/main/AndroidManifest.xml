@@ -12,7 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ConstrucaoLayout"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ScrollView"
+            android:exported="false" />
         <activity
             android:name=".XML"
             android:exported="false" />
@@ -25,8 +27,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
-
+            android:screenOrientation="sensor">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" /> <!-- Aqui esta dizendo que essa é a activity principal -->
 
