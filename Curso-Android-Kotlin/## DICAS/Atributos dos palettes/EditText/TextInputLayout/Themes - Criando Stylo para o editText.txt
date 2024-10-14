@@ -1,0 +1,27 @@
+Vamos supor que eu queria criar um stylo para o TextInputLayout
+
+
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AcaiDoTue" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+
+    <style name="Theme.AcaiDoTue" parent="Base.Theme.AcaiDoTue" />
+******************** Não esquecer que button já existe um tema, então vamos precisar herda ele e alterar com o parent.
+
+    <style name="CaixaTexto" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">@color/corBotoes</item>
+    </style>
+</resources>
+
+Podemos criar esse stylo e aplicar nos atributos
+
+Agora vamos alterar o stylo via código XML
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+

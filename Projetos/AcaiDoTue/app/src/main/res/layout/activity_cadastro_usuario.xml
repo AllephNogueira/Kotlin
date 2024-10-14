@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/cadastro"
+    tools:context=".CadastroUsuario.CadastroUsuario">
+
+    <TextView
+        android:id="@+id/textViewUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="16dp"
+        android:text="Usuario"
+        android:textColor="@color/corFundo"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewEmail"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="24dp"
+        android:text="Senha"
+        android:textColor="@color/corFundo"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewNome"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="24dp"
+        android:text="Nome"
+        android:textColor="@color/corFundo"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewTelefone"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="24dp"
+        android:text="E-mail"
+        android:textColor="@color/corFundo"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/textViewSenha"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewTelefone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginBottom="316dp"
+        android:text="Telefone"
+        android:textColor="@color/corFundo"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonCadastrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="212dp"
+        android:backgroundTint="@color/corBotoes"
+        android:fontFamily="monospace"
+        android:onClick="cadastroUsuario"
+        android:text="Cadastrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextNome"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:inputType="text"
+        android:padding="1dp"
+        android:textColor="@color/corFundo"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewNome"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintStart_toEndOf="@+id/textViewNome"
+        android:background="@android:color/transparent"/>
+
+    <EditText
+        android:id="@+id/editTextSenha"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:inputType="textPassword"
+        android:padding="1dp"
+        android:textColor="@color/corFundo"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewSenha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toEndOf="@+id/textViewSenha"
+        android:background="@android:color/transparent"/>
+
+    <EditText
+        android:id="@+id/editTextEmail"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:inputType="textEmailAddress"
+        android:padding="1dp"
+        android:textColor="@color/corFundo"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewEmail"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.375"
+        app:layout_constraintStart_toEndOf="@+id/textViewEmail"
+        android:background="@android:color/transparent"/>
+
+    <EditText
+        android:id="@+id/editTextTelefone"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:inputType="phone"
+        android:padding="1dp"
+        android:textColor="@color/corFundo"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewTelefone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.224"
+        app:layout_constraintStart_toEndOf="@+id/textViewTelefone"
+        android:background="@android:color/transparent"/>
+
+    <EditText
+        android:id="@+id/editTextUsuarioEntrar"
+        android:layout_width="128dp"
+        android:layout_height="36dp"
+        android:background="@android:color/transparent"
+        android:ems="10"
+        android:fontFamily="sans-serif"
+        android:inputType="text"
+        android:padding="1dp"
+        android:textColor="@color/corFundo"
+        app:layout_constraintBottom_toBottomOf="@+id/textViewUsuario"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toEndOf="@+id/textViewUsuario" />
+</androidx.constraintlayout.widget.ConstraintLayout>

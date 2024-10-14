@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.AcaiDoTue" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.AcaiDoTue" parent="Base.Theme.AcaiDoTue" />
+
+    <style name="CaixaTexto" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">@color/corBotoes</item>
+    </style>
+</resources>

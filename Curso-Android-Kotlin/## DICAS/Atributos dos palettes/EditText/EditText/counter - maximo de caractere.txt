@@ -1,0 +1,8 @@
+CounterEnabled eu habilito para ele contar quantas letras o usuário esta digitando.
+
+
+CounterMaxLength eu coloco ate quantas letras o usuário pode digitar.
+
+
+
+MaxLengeth - define a quantidade de caractere que pode ter.

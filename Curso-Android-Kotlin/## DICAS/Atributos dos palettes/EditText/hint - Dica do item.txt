@@ -1,0 +1,4 @@
+Hint é igual a uma dica, imagina que você esta colocando uma caixa de texto para o usuário digitar algo
+
+
+Então você colocar no hint: Digite seu nome

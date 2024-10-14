@@ -1,0 +1,11 @@
+é o local onde vamos surgerir oque o usuário vai digitar
+
+
+imagina que eu criei um TextInputLayout de Usuário
+
+então vamos colocar um helpe
+
+Ex: allephnogueira
+
+
+seria um sugestão de oque o usuário vai ter que digitar.

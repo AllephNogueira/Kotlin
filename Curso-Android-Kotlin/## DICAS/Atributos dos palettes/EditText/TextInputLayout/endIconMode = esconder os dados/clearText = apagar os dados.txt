@@ -1,0 +1,1 @@
+Clicando nele ele apaga todos os dados escritos

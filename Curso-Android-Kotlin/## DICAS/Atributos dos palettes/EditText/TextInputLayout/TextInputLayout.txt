@@ -1,0 +1,26 @@
+Ele é um item só
+
+Imagina que antes teríamos que criar um editText para digitar
+
+Login
+
+e outro inputText para o usuário digitar a senha
+
+Senha
+
+
+Agora com esse podemos criar apenas um item.
+
+
+Lembrando que o ideal é você adicionar um padding de pelo menos 8dp para você conseguir movimentar, porque vai ter 2 itens um dentro do outro.
+
+
+
+
+
+
+
+
+
+
+*****************

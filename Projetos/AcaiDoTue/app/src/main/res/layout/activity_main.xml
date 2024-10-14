@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/tlogin"
+    android:scrollbarSize="4dp"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/buttonCadastro"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginBottom="208dp"
+        android:backgroundTint="@color/corBotoes"
+        android:contentDescription="Fazer seu cadastro"
+        android:fontFamily="monospace"
+        android:onClick="cadastro"
+        android:text="CADASTRO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonEntrar"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonEntrar"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="208dp"
+        android:backgroundTint="@color/corBotoes"
+        android:contentDescription="Entrar no servico"
+        android:fontFamily="monospace"
+        android:onClick="entrar"
+        android:text="ENTRAR"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextSenhaEntrar"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="32dp"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textColor="@color/corFundo"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEntrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Regiao para digitar sua senha"/>
+
+    <EditText
+        android:id="@+id/editTextUsuarioEntrar"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="10dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textColor="@color/corFundo"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/editTextSenhaEntrar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="Digite seu login"/>
+
+    <Button
+        android:id="@+id/buttonEsqueciSenha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:contentDescription="Botao para quem esqueceu a senha"
+        android:fontFamily="monospace"
+        android:onClick="esqueciMinhaSenha"
+        android:text="ESQUECI MINHA SENHA"
+        android:textColor="@color/corBotoes"
+        android:textSize="10sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/buttonCadastro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

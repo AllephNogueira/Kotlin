@@ -1,0 +1,10 @@
+Podemos adicionar um ícone em uma caixa de texto, podemos adicionar ícones em vários locais
+
+
+Primeiro vamos em vectorAsset e vamos criar um drawable
+
+e depois vamos adicionar nos atributos
+
+drawable = pode ser end=final, left=inicio..
+
+

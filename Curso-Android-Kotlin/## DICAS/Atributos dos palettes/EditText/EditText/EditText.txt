@@ -1,0 +1,6 @@
+São as caixas de textos que vamos utilizar um exemplo é o 
+
+
+TextView = ele serve para você exibir um texto
+
+Password(Numeric) ele vai abrir um local para você digitar numeros
