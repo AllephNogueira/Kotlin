@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageCapa"
+        android:layout_width="0dp"
+        android:layout_height="312dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/capa" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="43dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/textView_Series"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/logo" />
+
+    <TextView
+        android:id="@+id/textView_Series"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Séries"
+        android:textColor="@color/menu_nevegacao"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toStartOf="@+id/textView_Filmes"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/textView_Filmes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Filmes"
+        android:textColor="@color/menu_nevegacao"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Series"
+        app:layout_constraintEnd_toStartOf="@+id/textView_MinhaLista"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_Series"
+        app:layout_constraintTop_toTopOf="@+id/textView_Series" />
+
+    <TextView
+        android:id="@+id/textView_MinhaLista"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Minha lista"
+        android:textColor="@color/menu_nevegacao"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Filmes"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_Filmes"
+        app:layout_constraintTop_toTopOf="@+id/textView_Filmes" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="87dp"
+        android:layout_height="71dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
+        app:srcCompat="@drawable/logo_peaky" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.10" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <TextView
+        android:id="@+id/textView_Sinistro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sinistro"
+        android:textColor="@color/menu_nevegacao"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Empolgante"
+        app:layout_constraintEnd_toEndOf="@id/guideline_Direita"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_Empolgante"
+        app:layout_constraintTop_toTopOf="@+id/textView_Empolgante" />
+
+    <TextView
+        android:id="@+id/textView_Violencia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Violência"
+        android:textColor="@color/menu_nevegacao"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/textView_Empolgante"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/guideline_Esquerda"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <TextView
+        android:id="@+id/textView_Empolgante"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Empolgante"
+        android:textColor="@color/menu_nevegacao"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textView_Violencia"
+        app:layout_constraintEnd_toStartOf="@+id/textView_Sinistro"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/textView_Violencia"
+        app:layout_constraintTop_toTopOf="@+id/textView_Violencia" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_Esquerda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_Direita"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <Button
+        android:id="@+id/button_Assitir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:drawableTop="@drawable/ic_add_24"
+        android:text="MINHA LISTA"
+        android:textColor="@color/menu_nevegacao"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_Assistir"
+        app:layout_constraintEnd_toStartOf="@+id/button_Assistir"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/guideline_Esquerda"
+        app:layout_constraintTop_toTopOf="@+id/button_Assistir" />
+
+    <Button
+        android:id="@+id/button_Detalhes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/transparent"
+        android:drawableTop="@drawable/ic_info_24"
+        android:text="DETALHES"
+        android:textColor="@color/menu_nevegacao"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        app:iconPadding="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/button_Assistir"
+        app:layout_constraintEnd_toEndOf="@id/guideline_Direita"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_Assistir"
+        app:layout_constraintTop_toTopOf="@+id/button_Assistir" />
+
+    <Button
+        android:id="@+id/button_Assistir"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/corSecundaria"
+        android:drawableLeft="@drawable/ic_play_arrow_24"
+        android:text="ASSISTIR"
+        android:textColor="@color/menu_nevegacao"
+        android:theme="@style/Base.Theme.InterfaceNetflix"
+        app:cornerRadius="3dp"
+        app:layout_constraintEnd_toStartOf="@+id/button_Detalhes"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/button_Assitir"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Empolgante" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Lançamentos"
+        android:textColor="@color/menu_nevegacao"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline_Esquerda"
+        app:layout_constraintTop_toBottomOf="@+id/button_Assistir" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="114dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@id/guideline_Esquerda"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:srcCompat="@drawable/f1" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="114dp"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+        app:layout_constraintEnd_toEndOf="@id/guideline_Direita"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView4"
+        app:layout_constraintTop_toTopOf="@+id/imageView4"
+        app:srcCompat="@drawable/f3" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="114dp"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="@+id/imageView3"
+        app:srcCompat="@drawable/f2" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

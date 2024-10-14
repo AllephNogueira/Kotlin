@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Customizando Netflix   -->
+
+    <color name="branco">#FFFFFFFF</color>
+    <color name="preto">#FF000000</color>
+
+
+    <color name="corPrimaria">#E70001</color>
+    <color name="primaria_variacao">#AA0407</color>
+    <color name="corSecundaria">#f70000</color>
+    <color name="fundo">#171417</color>
+    <color name="menu_nevegacao">@color/branco</color>
+</resources>
