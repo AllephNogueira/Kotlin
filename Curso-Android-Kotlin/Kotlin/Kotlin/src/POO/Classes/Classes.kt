@@ -1,4 +1,4 @@
-package Classes
+package POO.Classes
 
 class Jogador { // Classe
     // Atributos
