@@ -6,12 +6,12 @@ fun main() {
 //    carro.acelerar()
 
 
-
-    val c4 = C4()
-    c4.acelerar()
-
-
-    val gol = Gol()
-    gol.acelerar()
+//
+//    val c4 = C4()
+//    c4.acelerar()
+//
+//
+//    val gol = Gol()
+//    gol.acelerar()
 
 }
