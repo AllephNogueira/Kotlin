@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PrincipalActivity">
+
+    <ImageView
+        android:id="@+id/imageAnuncio"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="Filmes que estao em alta"
+        android:onClick="abrirDetalhesDeFilme"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/imgfundologo" />
+
+    <ImageView
+        android:id="@+id/imageLogo"
+        android:layout_width="74dp"
+        android:layout_height="96dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintEnd_toStartOf="@+id/buttonEstreias"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tv" />
+
+    <Button
+        android:id="@+id/buttonEmBreve"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/transparente"
+        android:drawableEnd="@drawable/ic_time_24"
+        android:onClick="filmesEmBReve"
+        android:padding="20dp"
+        android:text="Em Breve"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonEstreias"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/buttonEstreias"
+        app:layout_constraintTop_toTopOf="@+id/buttonEstreias" />
+
+    <Button
+        android:id="@+id/buttonEstreias"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/transparente"
+        android:fontFamily="sans-serif"
+        android:onClick="ultimosLancamentos"
+        android:padding="20dp"
+        android:text="Ultimas Estreias"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageLogo"
+        app:layout_constraintEnd_toStartOf="@+id/buttonEmBreve"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageLogo"
+        app:layout_constraintTop_toTopOf="@+id/imageLogo" />
+
+    <ImageView
+        android:id="@+id/imageLogoFilme"
+        android:layout_width="279dp"
+        android:layout_height="132dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline1"
+        app:srcCompat="@drawable/logo" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <TextView
+        android:id="@+id/textFilmes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="Filmes"
+        android:textColor="@color/menu_nevegacao"
+        android:textSize="34sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <ImageView
+        android:id="@+id/imageFilmeCard1"
+        android:layout_width="124dp"
+        android:layout_height="115dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageFilmeCard2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:srcCompat="@drawable/f1" />
+
+    <ImageView
+        android:id="@+id/imageFilmeCard2"
+        android:layout_width="124dp"
+        android:layout_height="115dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFilmeCard1"
+        app:layout_constraintEnd_toStartOf="@+id/imageFilmeCard3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageFilmeCard1"
+        app:layout_constraintTop_toTopOf="@+id/imageFilmeCard1"
+        app:srcCompat="@drawable/f3" />
+
+    <ImageView
+        android:id="@+id/imageFilmeCard3"
+        android:layout_width="124dp"
+        android:layout_height="115dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFilmeCard2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/imageFilmeCard2"
+        app:layout_constraintTop_toTopOf="@+id/imageFilmeCard2"
+        app:srcCompat="@drawable/f2" />
+
+    <TextView
+        android:id="@+id/textNomeTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="O Hobbit: A desolação de smolg"
+        android:textColor="@color/menu_nevegacao"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textGenero"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textGenero"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginBottom="16dp"
+        android:text="Fantasia"
+        android:textColor="@color/menu_nevegacao"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
