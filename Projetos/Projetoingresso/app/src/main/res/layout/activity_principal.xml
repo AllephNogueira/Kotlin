@@ -63,16 +63,6 @@
         app:layout_constraintStart_toEndOf="@+id/imageLogo"
         app:layout_constraintTop_toTopOf="@+id/imageLogo" />
 
-    <ImageView
-        android:id="@+id/imageLogoFilme"
-        android:layout_width="279dp"
-        android:layout_height="132dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline1"
-        app:srcCompat="@drawable/logo" />
-
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline1"
         android:layout_width="wrap_content"
@@ -140,7 +130,7 @@
         app:srcCompat="@drawable/f2" />
 
     <TextView
-        android:id="@+id/textNomeTop"
+        android:id="@+id/textNomeTopo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -164,5 +154,15 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/textGenero"
+        app:layout_constraintStart_toEndOf="@+id/textGenero"
+        app:layout_constraintTop_toTopOf="@+id/textGenero" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
