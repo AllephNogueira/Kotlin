@@ -9,10 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.allephnogueira.projetoingresso.PrincipalActivity
 import com.allephnogueira.projetoingresso.R
+import com.allephnogueira.projetoingresso.Filmes.MainActivity
 import com.bumptech.glide.Glide
-import java.util.logging.Handler
 
 class SplashAcitivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +45,7 @@ class SplashAcitivity : AppCompatActivity() {
         android.os.Handler(Looper.getMainLooper()).postDelayed({
             // Abertura para nova classe
             Log.d("Debug", "iniciando a contagem do tempo $tempoParaCarregar")
-            startActivity(Intent(this, PrincipalActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
             finish()
         }, tempoParaCarregar) // Tempo para entrada
 

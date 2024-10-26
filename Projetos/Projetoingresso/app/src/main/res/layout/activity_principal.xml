@@ -5,21 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PrincipalActivity">
+    tools:context=".Filmes.MainActivity">
 
-<!--    <ImageView-->
-<!--        android:id="@+id/imageAnuncio"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:contentDescription="Filmes que estao em alta"-->
-<!--        android:onClick="abrirDetalhesDeFilme"-->
-<!--        android:scaleType="centerCrop"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/guideline2"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        app:srcCompat="@drawable/imgfundologo" />-->
 
     <ImageView
         android:id="@+id/imageAnuncio"
@@ -40,6 +27,8 @@
         android:layout_width="74dp"
         android:layout_height="96dp"
         android:layout_marginTop="24dp"
+        android:contentDescription="Logo do aplicativo"
+        android:onClick="abrirDetalhesDeFilme"
         app:layout_constraintEnd_toStartOf="@+id/buttonEstreias"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,13 +37,16 @@
 
     <Button
         android:id="@+id/buttonEmBreve"
+        android:onClick="filmesEmBreve"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/dialog_holo_dark_frame"
         android:backgroundTint="@color/transparente"
         android:drawableEnd="@drawable/ic_time_24"
-        android:onClick="filmesEmBReve"
-        android:padding="20dp"
+        android:padding="10dp"
+        android:paddingStart="15dp"
         android:text="Em Breve"
+        app:iconPadding="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/buttonEstreias"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -63,11 +55,11 @@
 
     <Button
         android:id="@+id/buttonEstreias"
+        android:onClick="ultimasEstreias"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/transparente"
         android:fontFamily="sans-serif"
-        android:onClick="ultimosLancamentos"
         android:padding="20dp"
         android:text="Ultimas Estreias"
         android:textStyle="bold"
@@ -114,12 +106,34 @@
         android:id="@+id/imageFilmeCard1"
         android:layout_width="124dp"
         android:layout_height="115dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="Card de filme 1"
+        android:onClick="abrirDetalhesDeFilme"
         app:layout_constraintEnd_toStartOf="@+id/imageFilmeCard2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:srcCompat="@drawable/f1" />
+
+    <TextView
+        android:id="@+id/textDataCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="00/00/00"
+        android:textColor="@color/branco"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageFilmeCard1" />
+
+    <TextView
+        android:id="@+id/textCardSinopse"
+        android:layout_width="56dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="8dp"
+        android:textColor="@color/branco"
+        app:layout_constraintStart_toEndOf="@+id/textDataCard"
+        app:layout_constraintTop_toBottomOf="@+id/imageFilmeCard1" />
 
     <ImageView
         android:id="@+id/imageFilmeCard2"

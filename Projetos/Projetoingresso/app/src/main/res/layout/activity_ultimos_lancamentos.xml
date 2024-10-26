@@ -8,10 +8,10 @@
     tools:context=".Filmes.UltimosLancamentosActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Aqui é onde vamos colocar os filmes de ultimo lancamento"
+        android:text="Pagina em construção"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

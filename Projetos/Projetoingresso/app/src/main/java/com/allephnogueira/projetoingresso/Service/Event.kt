@@ -25,8 +25,8 @@ data class PremiereDate(
 )
 
 data class Image(
-    val url: String,
-
+    val url: String
+    // Aqui tinha uma virgula.
 )
 
 
