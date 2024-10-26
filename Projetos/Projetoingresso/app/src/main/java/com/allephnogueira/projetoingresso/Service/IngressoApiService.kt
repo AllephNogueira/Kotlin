@@ -1,4 +1,4 @@
-package com.allephnogueira.projetoingresso.TesteAPI
+package com.allephnogueira.projetoingresso.Service
 
 import retrofit2.Call
 import retrofit2.http.GET

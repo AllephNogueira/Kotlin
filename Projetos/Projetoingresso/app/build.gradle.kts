@@ -53,4 +53,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation("com.google.code.gson:gson:2.8.7")
 
+    // Acerta a data de exibição
+    implementation ("org.jetbrains.kotlinx:kotlinx-datetime:0.2.1")
+
 }

@@ -7,19 +7,33 @@
     android:layout_height="match_parent"
     tools:context=".PrincipalActivity">
 
+<!--    <ImageView-->
+<!--        android:id="@+id/imageAnuncio"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:contentDescription="Filmes que estao em alta"-->
+<!--        android:onClick="abrirDetalhesDeFilme"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/guideline2"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.5"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:srcCompat="@drawable/imgfundologo" />-->
+
     <ImageView
         android:id="@+id/imageAnuncio"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:contentDescription="Filmes que estao em alta"
         android:onClick="abrirDetalhesDeFilme"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/imgfundologo" />
+        app:srcCompat="@android:drawable/dialog_holo_dark_frame" />
 
     <ImageView
         android:id="@+id/imageLogo"
@@ -135,34 +149,38 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="8dp"
-        android:text="O Hobbit: A desolação de smolg"
+        android:contentDescription="Tipo do genero do filme"
+        android:text="Carregando..."
         android:textColor="@color/menu_nevegacao"
-        android:textSize="16sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/textGenero"
+        app:layout_constraintBottom_toTopOf="@+id/textTopoGenero"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textGenero"
+        android:id="@+id/textTopoGenero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginBottom="16dp"
         android:text="Fantasia"
         android:textColor="@color/menu_nevegacao"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textData"
+        android:id="@+id/textTopoData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/textGenero"
-        app:layout_constraintStart_toEndOf="@+id/textGenero"
-        app:layout_constraintTop_toTopOf="@+id/textGenero" />
+        android:text="data lançamento"
+        android:textColor="@color/branco"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/textTopoGenero"
+        app:layout_constraintStart_toEndOf="@+id/textTopoGenero"
+        app:layout_constraintTop_toTopOf="@+id/textTopoGenero" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

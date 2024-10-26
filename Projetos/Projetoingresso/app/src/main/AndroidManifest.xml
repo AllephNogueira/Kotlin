@@ -16,7 +16,7 @@
         android:theme="@style/Theme.ProjetoIngresso"
         tools:targetApi="31">
         <activity
-            android:name=".TesteAPI.MainActivity"
+            android:name=".TesteMetodos.TesteMainActivity"
             android:exported="false" />
         <activity
             android:name=".Filmes.DetalhesFilmesActivity"
@@ -29,12 +29,10 @@
             android:exported="false" />
         <activity
             android:name=".PrincipalActivity"
-            android:exported="false"
-            android:screenOrientation="portrait" />
+            android:exported="false"/>
         <activity
             android:name=".splash.SplashAcitivity"
-            android:exported="true"
-            android:screenOrientation="portrait">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
