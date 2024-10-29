@@ -1,32 +1,31 @@
 package com.allephnogueira.aulaacitivityfragment
 
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class DetalhesActivity : AppCompatActivity() {
 
-    lateinit var btnAbrirSegundaTela : Button
+    lateinit var btnFechar : Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_detalhes)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        btnAbrirSegundaTela = findViewById(R.id.button_abrir)
-        btnAbrirSegundaTela.setOnClickListener {
-            startActivity(Intent(this, DetalhesActivity::class.java))
+        btnFechar = findViewById(R.id.button_fechar)
+        btnFechar.setOnClickListener {
+            finish()
         }
-    }
 
+    }
 }
