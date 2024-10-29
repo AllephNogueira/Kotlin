@@ -1,6 +1,7 @@
 package com.allephnogueira.aulaacitivityfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ class DetalhesActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i("clico_vida", "onCreate")
         enableEdgeToEdge()
         setContentView(R.layout.activity_detalhes)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -28,4 +30,38 @@ class DetalhesActivity : AppCompatActivity() {
         }
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        //Carregar os dados que vem do servidor
+        //Imagina o alta pressão gnv, aqui é onde vamos carregar os dados do posto.
+        Log.i("cliclo_vida", "onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("clico_vida", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("clico_vida", "onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("clico_vida", "onStop")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("clico_vida", "onRestart")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("clico_vida", "onDestroy")
+    }
+
+
 }
