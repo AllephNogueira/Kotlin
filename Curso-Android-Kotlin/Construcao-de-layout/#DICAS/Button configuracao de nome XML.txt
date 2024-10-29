@@ -1,0 +1,11 @@
+Você sabia que da para configurar o nome de um botão em apenas um local? assim quando precisar alterar o botão você pode alterar em apenas um local e todos aqueles botões iram se alterar juntos.
+
+
+Isso você pode alterar em Strings.xml
+
+    <string name="botao_jogar">Play</string>
+
+
+e dentro do xml de botão você pode usar o.
+
+        android:text="@string/botao_jogar"

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"> <!-- ATENÇÃO: Aqui tem que ser assim para ele ocupar apenas o espaçamento necessario -->
+
+
+    <ImageView
+        android:id="@+id/imageFilmeCard"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/textCardFilme"
+        android:layout_width="242dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="Harry Potter"
+        android:textAlignment="textStart"
+        android:textColor="@color/CorLetras"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageFilmeCard"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textCardFilmeData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="26/10/2028"
+        android:textColor="@color/CorLetras"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/textCardFilme"
+        app:layout_constraintStart_toStartOf="@+id/textCardFilme"
+        app:layout_constraintTop_toBottomOf="@+id/textCardFilme" />
+
+    <TextView
+        android:id="@+id/textCardFilmeGenero"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="Fantasia"
+        android:textColor="@color/CorLetras"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/textCardFilmeData"
+        app:layout_constraintStart_toStartOf="@+id/textCardFilmeData"
+        app:layout_constraintTop_toBottomOf="@+id/textCardFilmeData" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="411dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="35dp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textCardFilmeGenero"
+        app:srcCompat="@android:drawable/dialog_holo_dark_frame" />
+
+    <TextView
+        android:id="@+id/textPreVenda"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FD0808"
+        android:contentDescription="Imagem que informa se tem pre venda"
+        android:drawableEnd="@drawable/ic_fire_24"
+        android:fontFamily="sans-serif-condensed-light"
+        android:paddingLeft="8dp"
+        android:text="PRÉ-VENDA"
+        android:textColor="@color/CorLetras"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/imageFilmeCard"
+        app:layout_constraintEnd_toEndOf="@+id/imageFilmeCard"
+        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintStart_toStartOf="@+id/imageFilmeCard" />
+</androidx.constraintlayout.widget.ConstraintLayout>
