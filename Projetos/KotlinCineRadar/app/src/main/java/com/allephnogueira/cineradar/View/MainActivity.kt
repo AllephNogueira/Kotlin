@@ -168,7 +168,7 @@ class MainActivity : AppCompatActivity() {
     private fun iniciarRecyclerView(events: List<Event>) {
         /**
          * Aqui é onde vamos passar os dados la para dentro do Adapter
-         * vamos informatar o tipo de dados que vai entrar que é a Lista de Eventos
+         * vamos informar o tipo de dados que vai entrar que é a Lista de Eventos
          * Vamos colocar ele para ser exibido cada filme um em baixo do outro
          * Podemos colocar também de outro formato para exibir um ao lado do outro, alterando a forma
          *      binding.recyclerView.layoutManager = LinearLayoutManager(this)
