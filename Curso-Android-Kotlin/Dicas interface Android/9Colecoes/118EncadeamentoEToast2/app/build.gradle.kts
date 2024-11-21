@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.allephnogueira.a118encadeamentoetoast"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.allephnogueira.a118encadeamentoetoast"
