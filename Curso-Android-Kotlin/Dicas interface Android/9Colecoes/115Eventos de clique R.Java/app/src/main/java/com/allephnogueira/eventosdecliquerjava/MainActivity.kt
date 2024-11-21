@@ -32,9 +32,9 @@ class MainActivity : AppCompatActivity() {
         Recursos.id.text_numero
 
 
-//        btnExecutar.setOnClickListener {
-//            textResultado.text = "Alleph"
-//        }
+        btnExecutar.setOnClickListener {
+            textResultado.text = "Alleph"
+        }
     }
 
     /**
