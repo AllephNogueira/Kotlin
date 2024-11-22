@@ -64,5 +64,13 @@ fun main() {
 
 
 
+
+
+
     mutableListClientes.clear() // Limpar a lista.
+
+
+    for (i in 1..4){
+        println(listaMutavel[i])
+    }
 }
