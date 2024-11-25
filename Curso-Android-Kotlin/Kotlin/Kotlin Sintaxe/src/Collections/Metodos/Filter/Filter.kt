@@ -1,4 +1,4 @@
-package Collections.Filter
+package Collections.Metodos.Filter
 
 /**
  * Imagina que criamos uma lista e queremos filtrar essa lista para exibir apenas algumas informações
@@ -32,5 +32,7 @@ fun main() {
     // IT é a palavra chave, podemos alterar ela por qualquer outra, poderiamos usar venda.
     // Mas assim fica mais curto.
     val vendasMenorQueCem = listaVendas.filter {it < 100}
-    vendasMenorQueCem.forEach { it -> println(it)  }
+    vendasMenorQueCem.forEach {
+        println(it)
+    }
 }
