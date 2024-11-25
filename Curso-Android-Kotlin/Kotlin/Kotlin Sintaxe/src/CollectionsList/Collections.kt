@@ -1,4 +1,4 @@
-package Collections
+package CollectionsList
 
 /**
  * São usadas para armazenar lista de listas.

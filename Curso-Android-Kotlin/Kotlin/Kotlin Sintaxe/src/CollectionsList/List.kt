@@ -1,6 +1,4 @@
-package Collections
-
-import kotlin.math.min
+package CollectionsList
 
 data class Cliente(
     val nome: String,

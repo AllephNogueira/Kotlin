@@ -1,6 +1,4 @@
-package Collections
-
-import org.w3c.dom.DOMStringList
+package CollectionsList
 
 /**
  * Set são coleções de itens unicos, ou seja os itens não se repetem.

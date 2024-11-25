@@ -1,4 +1,4 @@
-package Collections.Map
+package CollectionsList.Map
 
 /**
  * Vamos imaginar que queremos um map com 2 valores

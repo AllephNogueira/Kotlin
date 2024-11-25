@@ -1,4 +1,4 @@
-package Collections.Metodos.Filter
+package CollectionsList.Metodos.Filter
 
 /**
  * Imagina que criamos uma lista e queremos filtrar essa lista para exibir apenas algumas informações

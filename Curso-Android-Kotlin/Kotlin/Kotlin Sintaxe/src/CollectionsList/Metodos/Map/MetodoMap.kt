@@ -1,4 +1,4 @@
-package Collections.Metodos.Map
+package CollectionsList.Metodos.Map
 
 /**
  * Com o map, podemos fazer ordenações, alterações ou filtrar elementos da lista.

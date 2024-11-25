@@ -1,4 +1,4 @@
-package Collections.Map
+package CollectionsList.Map
 
 /**
  * Mutavel = podemos alterar, ou seja adicionar algo depois de esta pronto

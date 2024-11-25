@@ -1,4 +1,4 @@
-package Collections.Map
+package CollectionsList.Map
 
 /**
  * Map são muito uteis quando queremos adicionar CHAVE e VALOR
