@@ -1,4 +1,4 @@
-package CollectionsList.Metodos.union
+package CollectionsListEstruturas.Metodos.union
 
 /**
  * Imagina que temos LIST 1

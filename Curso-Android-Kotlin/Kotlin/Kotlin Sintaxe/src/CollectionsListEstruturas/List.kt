@@ -1,4 +1,4 @@
-package CollectionsList
+package CollectionsListEstruturas
 
 data class Cliente(
     val nome: String,

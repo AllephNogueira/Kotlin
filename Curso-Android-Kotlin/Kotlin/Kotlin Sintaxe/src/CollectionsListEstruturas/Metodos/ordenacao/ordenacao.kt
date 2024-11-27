@@ -1,4 +1,4 @@
-package CollectionsList.Metodos.ordenacao
+package CollectionsListEstruturas.Metodos.ordenacao
 
 /**
  * Ordenando uma lista

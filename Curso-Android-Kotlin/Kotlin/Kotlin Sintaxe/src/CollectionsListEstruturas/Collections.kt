@@ -1,4 +1,4 @@
-package CollectionsList
+package CollectionsListEstruturas
 
 /**
  * São usadas para armazenar lista de listas.

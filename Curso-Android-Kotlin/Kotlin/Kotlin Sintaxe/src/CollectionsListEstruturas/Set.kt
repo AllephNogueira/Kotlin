@@ -1,4 +1,4 @@
-package CollectionsList
+package CollectionsListEstruturas
 
 /**
  * Set são coleções de itens unicos, ou seja os itens não se repetem.
