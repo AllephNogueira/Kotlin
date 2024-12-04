@@ -6,7 +6,7 @@ package ProgramacaoFuncional.FuncoesDeEscopo
  * With -> Parecido com o run(executar algo), é usado para alterar propriedades de um objeto, mas tem uma sintaxe diferente.
  */
 
-data class ProdutoRun( var nome:String, var preco: Double) {
+data class produtoWith(var nome:String, var preco: Double) {
 
     fun desativarProduto () {
         println("Produto $nome, com o preço $preco foi desativado")
@@ -15,9 +15,9 @@ data class ProdutoRun( var nome:String, var preco: Double) {
 
 
 fun main() {
-    var produto: ProdutoRun? = null
+    var produto: produtoWith? = null
 
-    produto = ProdutoRun("Notebook", 1300.00)
+    produto = produtoWith("Notebook", 1300.00)
 
 
     with(produto) {

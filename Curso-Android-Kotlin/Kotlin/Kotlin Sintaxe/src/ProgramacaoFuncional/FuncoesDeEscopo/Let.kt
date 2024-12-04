@@ -10,6 +10,9 @@ package ProgramacaoFuncional.FuncoesDeEscopo
  *  With >
  *  Apply >
  *  Also >
+ *
+ *
+ *  Resumindo: O let vai sempre verificar se o objeto e nulo, se nao for ele executa o bloco dentro dele.
  */
 
 data class Produto (var nome: String, var preco: Double)

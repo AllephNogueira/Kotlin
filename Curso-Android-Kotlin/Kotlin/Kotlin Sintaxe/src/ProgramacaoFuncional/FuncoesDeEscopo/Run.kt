@@ -2,6 +2,11 @@ package ProgramacaoFuncional.FuncoesDeEscopo
 
 /**
  * Run -> Util para inicializar objetos
+ *
+ * Onde usar? como usar? praque usar?
+ * Run = É para quando voce esta executando alguma coisa.
+ * Ex: Quero salvar algo no banco de dados?
+ * Use o run, voce esta executando uma tarefa para salvar.
  */
 
 data class ProdutoRun( var nome:String, var preco: Double) {
@@ -12,9 +17,9 @@ data class ProdutoRun( var nome:String, var preco: Double) {
 
 
 fun main() {
-    var produto: ProdutoRun? = null
+    var produto: produtoWith? = null
 
-    produto = ProdutoRun("Notebook", 1300.00)
+    produto = produtoWith("Notebook", 1300.00)
 
 
     /**
