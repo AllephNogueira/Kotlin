@@ -12,9 +12,19 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 class AdapterAgenda(private val clique: (String) -> Unit)
     : Adapter <AdapterAgenda.AgendaViewHolder>() {
 
-    private val listaContatos = mutableListOf<Contato>()
+    private var listaContatos = mutableListOf<Contato>() // 1 Removemos a lista do construtor e colocamos ela como atributo.
+    // Usamos uma lista mutable = mudavel - onde podemos atualizar os dados depois que ela foi criada.
     
-    fun atualizarListaDeDados
+    fun atualizarListaDeDados (lista : MutableList<Contato>) {// / 2 Esse metodo vamos utilizar para atualizar os dados.
+        // Vamos chamar o metodo, passando uma lista; que pode ser uma nova lista
+        // O lista de contato recebe o metodo add todos, e como parametro dele vamos passar a nova lista
+        // Repara que aqui em baixo ja temos uma lista, só que quando atualizamos os dados, vamos substituir tudo que esta dentro dessa lista.
+        listaContatos = lista
+
+
+        notifyDataSetChanged()// 6 Passando o metodo para o adapter atualizar a lista novamente
+        // Com esse metodo o recyclerView entende que ele precisa recarregar os dados.
+    }
 
     inner class AgendaViewHolder (val itemView : View) : ViewHolder(itemView) {
         /**
