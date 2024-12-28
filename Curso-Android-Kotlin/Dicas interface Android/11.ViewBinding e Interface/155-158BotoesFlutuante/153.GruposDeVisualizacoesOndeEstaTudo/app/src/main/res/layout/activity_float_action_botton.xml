@@ -58,20 +58,4 @@
         app:srcCompat="@drawable/ic_add_telefone_24"
         app:tint="@color/white" />
 
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:text="SALVAR"
-        app:icon="@drawable/ic_salvar_24"
-        app:iconTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/fabBotaoExibir"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="#CC3F3F"
-        app:strokeWidth="6dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
