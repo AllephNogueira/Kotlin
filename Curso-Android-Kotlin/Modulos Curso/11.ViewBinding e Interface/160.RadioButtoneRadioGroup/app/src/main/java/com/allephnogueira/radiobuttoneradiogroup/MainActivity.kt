@@ -40,6 +40,12 @@ class MainActivity : AppCompatActivity() {
                 segundaFormaDeFazer()
 
             }
+
+            /** Agora imagina que queremos exibir uma lista com todos os itens que o usuario clicou
+             * Então teriamos que fazer um radioButton
+             * E ir pegando os dados e adicionando em uma listOf
+             * E ai sim imprimir essa listOf, podemos fazer dessa listOf um recyclerView com todos os dados.
+             */
         }
 
     }
@@ -93,6 +99,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.rgFormaPagamento.clearCheck()
     }
+
+
 
 
 }
