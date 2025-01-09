@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Spinner</string>
+
+
+    <string-array name="categorias">
+        <item>Selecione uma bandeira</item>
+        <item>BR</item>
+        <item>Shell</item>
+        <item>Ipiranga</item>
+        <item>Sem bandeiras &amp; Outros</item>
+    </string-array>
 </resources>
