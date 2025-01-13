@@ -1,6 +1,7 @@
 package com.allephnogueira.toolbar
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -39,11 +40,59 @@ class MainActivity : AppCompatActivity() {
         binding.tbPrincipal.title = "Youtube"
         binding.tbPrincipal.subtitle = "Videos a todo momento"
 
-
-        /** Nesse metodo vamos passar nossa toolbar e vamos configurar ela como se fosse uma ActionBar
-         *
+        /** Para configurar nossas imagens no menu, precisamos inflar ele.
+         * Para isso vamos criar um menu para ele um Layout xml
          */
-        setSupportActionBar(binding.tbPrincipal)
+
+        binding.tbPrincipal.inflateMenu(R.menu.menu_principal)
+
+        /** EVENTOS DE CLIQUE
+         * Se eu nao adicionar esses metodos, quando eu clicar, nada vai acontecer.
+         */
+
+        binding.tbPrincipal.setOnMenuItemClickListener { menuItem ->
+            /** ATENÇAO
+             * Aqui devemos retornar sempre um verdadeiro se ação foi executada
+             * Devemos adicionar um else, porque ele tem retorno
+             * Então se caso nao cair nessas opcoes devemos deixar uma opcao padrao para ele nao fazer nada.
+             */
+            when(menuItem.itemId) {
+
+                R.id.itemAdiconar -> {
+                    Toast.makeText(this, "Item adicionado...", Toast.LENGTH_SHORT).show()
+                    // Retorno qualificado = quer dizer que o retorno vai ser direcionado para o setOnMenuItemClickListener
+                    // Resumindo aqui estamos querendo dizer que o retorno vai ser para o setOnMenuItemClickListener...
+                    return@setOnMenuItemClickListener true
+                }
+                R.id.itemCarregar -> {
+                    Toast.makeText(this, "Item carregado...", Toast.LENGTH_SHORT).show()
+                    true
+                }
+                R.id.itemSair -> {
+                    Toast.makeText(this, "Saindo...", Toast.LENGTH_LONG).show()
+                    finish()
+                    true
+                }
+
+                else -> {
+                    true // Aqui vamos adicionar um true porque ele sempre vai retornar verdadeiro.
+                }
+            }
+
+        }
+
+        /** ATENÇÃO
+         *
+         * Nesse metodo vamos passar nossa toolbar e vamos configurar ela como se fosse uma ActionBar
+         *Aqui eu passo uma toolbar, mas ela age como se fosse uma actionBar
+         * Se eu quero uma toolBar personalizada eu devo desativar essa linha de codigo
+         *
+         * //setSupportActionBar(binding.tbPrincipal)
+         *
+         * Resumindo aplicando esse metodo de cima ela vai se comportar como se fosse uma ActionBar.
+         * E para usar os eventos de clique, podemos ver a aula anterior.
+         */
+
     }
 
 
