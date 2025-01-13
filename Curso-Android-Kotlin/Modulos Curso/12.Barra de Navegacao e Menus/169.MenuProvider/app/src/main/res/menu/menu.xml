@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuCadastrar"
+        android:icon="@drawable/ic_add_contato_24"
+        android:title="Cadastrar"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuDeletar"
+        android:icon="@drawable/ic_remover_contato_24"
+        android:title="Deletar"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menuSair"
+        android:title="Sair" />
+</menu>
