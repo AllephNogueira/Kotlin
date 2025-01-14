@@ -1,5 +1,6 @@
 package com.allephnogueira.toolbar
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -27,9 +28,20 @@ class MainActivity : AppCompatActivity() {
 
         inicializarToolBar()
 
+
+
     }
 
     private fun inicializarToolBar() {
+
+        binding.btnToolbarSeparada.setOnClickListener {
+            /** Abrir uma nova activity quando for clicado */
+            val intent = Intent(this, ToolbarSeparada::class.java)
+            startActivity(intent)
+        }
+
+
+
         /** Esse metodo serve para configurar nossa barra para diferentes versoes
          *
          * A baixo vamos configurar os dados como nome, subtitulo e apos vamos inicialiazar a toolbar
