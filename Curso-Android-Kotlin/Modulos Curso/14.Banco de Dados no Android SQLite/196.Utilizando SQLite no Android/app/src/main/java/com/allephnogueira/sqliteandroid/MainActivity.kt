@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         val titulo = binding.editProduto.text.toString()
         val produtoDAO = ProdutoDAO(this)
         val produto = Produto (
-            -1, titulo, "descricao produto..."
+            1, titulo, "descricao produto..."
         )
 
         produtoDAO.atualizar(produto)
@@ -136,12 +136,23 @@ class MainActivity : AppCompatActivity() {
         val produtoDAO = ProdutoDAO(this)
         val listaProdutos = produtoDAO.listar()
 
+        var texto = ""
+
         if (listaProdutos.isNotEmpty()) {
             /** Conferindo se a lista esta retornando alguma coisa, pq ela pode vir vazia */
             listaProdutos.forEach {
+                texto += "${it.id_produto} - ${it.titulo} - ${it.descricao}\n" // Aqui estamos configurando para ele ir acumulando os produtos dentro da variavel
+
+
+
+
                 Log.i("info_db", "${it.id_produto} - ${it.titulo}")
             }
 
+            binding.textResultado.text = texto // Imprimindo na tela.
+
+        }else {
+            binding.textResultado.text = "Nenhum item cadastrado."
         }
     }
 
@@ -178,7 +189,18 @@ class MainActivity : AppCompatActivity() {
         )
 
         /** Salvando o nosso produto criado no banco de dados, utilizando o metodo que criamos para isso **/
-        produtoDAO.salvar(produto) // Aqui agora chamamos o metodo passando o produto que criamos.
+        //produtoDAO.salvar(produto) // Aqui agora chamamos o metodo passando o produto que criamos.
+
+        if (produtoDAO.salvar(produto)) {
+            /** Lembra que aqui ele vai sempre retornar um verdadeiro ou falso */
+            Toast.makeText(applicationContext, "Produto salvo com sucesso.", Toast.LENGTH_SHORT).show()
+
+            /** Aqui estamos configurando para sempre quando ele salvar ele apagar automaticamente o nome do produto da caixa de texto */
+            binding.editProduto.setText("")
+        } else {
+            Toast.makeText(applicationContext, "Falha ao salvar produto", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
 }

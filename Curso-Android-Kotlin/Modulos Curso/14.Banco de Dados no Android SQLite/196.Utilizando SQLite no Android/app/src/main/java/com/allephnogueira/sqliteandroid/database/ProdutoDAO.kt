@@ -1,6 +1,8 @@
 package com.allephnogueira.sqliteandroid.database
 
+import android.content.ContentValues
 import android.content.Context
+import android.provider.ContactsContract.Data
 import android.util.Log
 import com.allephnogueira.sqliteandroid.model.Produto
 
@@ -8,18 +10,33 @@ class ProdutoDAO(context: Context) : IProdutoDAO {
     /** Essa classe vai ser responsavel por fazer o CRUD de PRODUTOS
      * Estamos encadeando os metodo para ser mais facil de usar depois, tanto escrita quanto leitura. **/
 
-    val escrita = DatabaseHelper(context).writableDatabase // Esse metodo serve para escrita (UPDATE, DELETE, INSERT)
-    val leitura = DatabaseHelper(context).readableDatabase // Esse metodo serve para leitura (SELECT)
+    private val escrita = DatabaseHelper(context).writableDatabase // Esse metodo serve para escrita (UPDATE, DELETE, INSERT)
+    private val leitura = DatabaseHelper(context).readableDatabase // Esse metodo serve para leitura (SELECT)
 
 
 
     override fun salvar(produto: Produto): Boolean {
 
-        val comandoSQL =
-            "INSERT INTO ${DatabaseHelper.TABELA_PRODUTOS} (id_produto, titulo, descriacao) VALUES (null, '${produto.titulo}', 'Descrição...');"
+        //val comandoSQL = "INSERT INTO ${DatabaseHelper.TABELA_PRODUTOS} (id_produto, titulo, descriacao) VALUES (null, '${produto.titulo}', 'Descrição...');"
+
+
+        val valores = ContentValues()
+        // Aqui seria o nome da coluna e o valor.
+        valores.put("${DatabaseHelper.TITULO}", produto.titulo)
+        // Imagina que temos mais de um valor, então podemos fazer mais chaves e valores
+        valores.put("${DatabaseHelper.DESCRICAO}", produto.descricao)
 
         try {
-            escrita.execSQL(comandoSQL) // writable para escrita
+           // escrita.execSQL(comandoSQL) // writable para escrita
+
+
+            escrita.insert( // Aqui é um metodo da classe SQLiteOpenHelper
+            /** Aqui ele espera receber 3 parametros, Tabela, coluna e valor */
+                DatabaseHelper.TABELA_PRODUTOS,
+                null, // Aqui só vamos precisar configurar quando não tiver nenhum valor sendo passado.
+                valores
+
+            )
             Log.i("info_db", "Produto cadastrado com sucesso.")
 
         } catch (e: Exception) {
@@ -36,10 +53,37 @@ class ProdutoDAO(context: Context) : IProdutoDAO {
          */
 
 
-        val codigoSQL = "UPDATE produtos SET titulo = '${produto.titulo}' WHERE id_produto = 2 ;"
+//        val codigoSQL = "UPDATE produtos SET titulo = '${produto.titulo}' WHERE id_produto = 2 ;"
+
+        val valores = ContentValues()
+        valores.put("${DatabaseHelper.TITULO}", produto.titulo)
+        valores.put("${DatabaseHelper.DESCRICAO}", produto.descricao)
+        // Aqui precisamos do nosso argumento, que seria o id que vamos atualizar
+        val args = arrayOf("${produto.id_produto}") /** Aqui sao os parametros que vai ser passado como argumento, eles vai entrar no lugar do ? */
 
         try {
-            escrita.execSQL(codigoSQL)
+            //escrita.execSQL(codigoSQL)
+
+
+
+
+            escrita.update(
+                /** Aqui é um metodo do SQLiteOpenHelper, mas ele espera receber 4 parametros
+                 *  Tabela, ContentValues, Where e uma Where args
+                 */
+
+                DatabaseHelper.TABELA_PRODUTOS,
+                valores,
+                "id_produto = ?", // condiçao de oque vamos atualizar. Poderiamos passar 2 valores tambem ex: "id_produto = 1 AND qnt = 10",
+                /** Seria como se fosse uma funçao com seus metodos, imagina que no args vamos ter 3 parametros, então o primeiro parametro vai ficar no primeiro ?
+                 * O segundo parametro vai ficar no segundo ?
+                 * O terceiro parametro vai ficar no 3 ?
+                 */
+                args
+
+
+
+            )
             Log.i("info_db", "Sucesso ao atualizar")
         }catch (e: Exception) {
             e.printStackTrace()
@@ -54,10 +98,25 @@ class ProdutoDAO(context: Context) : IProdutoDAO {
          * Futuramente vamos fazer um recyclerView para poder remover um produto. **/
 
 
-        val codigoSQL = "DELETE FROM produtos WHERE id_produto = $idProduto"
+        //val codigoSQL = "DELETE FROM produtos WHERE id_produto = $idProduto"
+
+        val args = arrayOf( idProduto.toString() )
 
         try {
-            escrita.execSQL(codigoSQL)
+           // escrita.execSQL(codigoSQL)
+
+
+            escrita.delete(
+                /** Também espera receber alguns parametros
+                 * 1 Tabela
+                 * 2 Condição
+                 */
+                DatabaseHelper.TABELA_PRODUTOS,
+                "${DatabaseHelper.ID_PRODUTO} = ?", // Lembrar que so temos uma condição la em cima, então la que vamos definir qual produto estamos removendo.
+                args // Argumento de qual produto vamos remover.
+            )
+
+
             Log.i("info_db", "Sucesso ao remover")
         }catch (e: Exception) {
             e.printStackTrace()
