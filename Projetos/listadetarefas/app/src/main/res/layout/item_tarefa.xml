@@ -9,19 +9,24 @@
         android:id="@+id/textData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="20/10/2025"
-        app:layout_constraintEnd_toEndOf="@+id/textDescricao"
-        app:layout_constraintStart_toStartOf="@+id/textDescricao"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDescricao" />
 
     <TextView
         android:id="@+id/textDescricao"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="Ir ao mercado"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
