@@ -6,7 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -45,12 +47,55 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Construir o recyclerView
-        tarefaAdapter = TarefaAdapter()
+        tarefaAdapter = TarefaAdapter(
+            /** Aqui estamos passando a função que vamos criar, passando o ID do item que queremos remover
+             *
+             */
+            { id -> confirmarExclusao(id) }
+        )
 
         binding.rvTarefas.adapter = tarefaAdapter
 
         binding.rvTarefas.layoutManager = LinearLayoutManager(this)
 
+
+    }
+
+    private fun confirmarExclusao(id: Int) {
+        /** Aqui dentro vamos criar um Alert Dialog para a confirmação
+         *
+         */
+
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setTitle("Confirmar exclusão?")
+        alertDialog.setMessage("Deseja realmente excluir a tarefa?")
+
+        /**Aqui temos 2 valores que não vamos utilizar, então para eles nao ficar ocupando espaço na memoria colocamos o _
+         *  Aqui estamos definindo um texto e a funçao lambda para quando o usuario clicar no sim */
+
+        alertDialog.setPositiveButton("Sim") { _, _ ->
+
+            val tarefaDAO = TarefaDAO(this)
+            tarefaDAO.remover(id) // Aqui vamos passar o id da tarefa que recebemos como parametro.
+
+            if (tarefaDAO.remover( id )) {
+                /** Lembrar que o tarefa remover vai retornar um verdadeiro ou falso
+                 * Se retornar verdadeiro caimos nesse toast aqui
+                 * Se nao caimos no ELSE
+                 */
+                Toast.makeText(this, "Tarefa removida", Toast.LENGTH_SHORT).show()
+                atualizarListaTarefas() // Atualizando o RecyclerView para recarregar lista de tarefas
+
+            }else {
+                Toast.makeText(this, "Falha ao remover", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        alertDialog.setNegativeButton("Não") { _, _ ->}
+
+        alertDialog
+            .create()
+            .show()
 
     }
 

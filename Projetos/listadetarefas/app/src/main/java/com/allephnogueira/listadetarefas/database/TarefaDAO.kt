@@ -2,6 +2,7 @@ package com.allephnogueira.listadetarefas.database
 
 import android.content.ContentValues
 import android.content.Context
+import android.provider.ContactsContract.Data
 import android.util.Log
 import com.allephnogueira.listadetarefas.model.Tarefa
 
@@ -38,7 +39,31 @@ class TarefaDAO(context: Context) : ITarefasDAO {
     }
 
     override fun remover(idTarefa: Int): Boolean {
-        TODO("Not yet implemented")
+
+
+
+        val args = arrayOf(idTarefa.toString())
+
+        try {
+            escrita.delete(
+                /** Vai remover da TABELA
+                 * Onde id_tarefa for igual a ...
+                 * (args é onde esta o ID ele esta recebendo do MainActivity)
+                 *
+                 * Agora apos remover precisamos usar o metodo para atualizar o recyclerView se tudo deu certo.
+                 */
+                DatabaseHelper.NOME_TABELA_TAREFAS,
+                "${DatabaseHelper.COLUNA_ID_TAREFA} = ?",
+                args
+            )
+            Log.i("info_db", "Sucesso ao remover tarefa!")
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_db", "Erro ao remover tarefa!")
+            return false
+        }
+
+        return true
     }
 
     override fun listarTarefa(): List<Tarefa> {
