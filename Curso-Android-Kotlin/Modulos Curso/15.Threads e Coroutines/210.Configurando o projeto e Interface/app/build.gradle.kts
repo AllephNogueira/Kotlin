@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.allephnogueira.a210threads"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.allephnogueira.a210threads"
@@ -32,6 +32,10 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 }
 
