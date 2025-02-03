@@ -7,7 +7,8 @@ import com.allephnogueira.listadetarefas.databinding.ItemTarefaBinding
 import com.allephnogueira.listadetarefas.model.Tarefa
 
 class TarefaAdapter(
-    val onClickExcluir: (Int) -> Unit // A entrada de dados vai ser uma função que recebe um tipo Inteiro e nao retorna nada (Unit)
+    val onClickExcluir: (Int) -> Unit, // A entrada de dados vai ser uma função que recebe um tipo Inteiro e nao retorna nada (Unit)
+    val onClickEditar: (Tarefa) -> Unit
 ) : RecyclerView.Adapter<TarefaAdapter.TarefaViewHolder>() {
 
     private var listaTarefas: List<Tarefa> = emptyList()
@@ -32,6 +33,10 @@ class TarefaAdapter(
 
             binding.btnExcluir.setOnClickListener {
                 onClickExcluir(tarefa.idTarefa)
+            }
+
+            binding.btnEditar.setOnClickListener {
+                onClickEditar(tarefa)
             }
         }
     }

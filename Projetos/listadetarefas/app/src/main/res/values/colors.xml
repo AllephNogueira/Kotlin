@@ -6,12 +6,12 @@
 
     <!-- Cores customizadas -->
 
-    <color name="primaria">#FF5617</color>
-    <color name="primaria_varicao">#E34D0B</color>
+    <color name="primaria">#5ecde0</color>
+    <color name="primaria_varicao">#00fff2</color>
 
 
-    <color name="secundaria">#FF6F3A</color>
-    <color name="secundaria_variacao">#FF8051</color>
+    <color name="secundaria">#c4ffc9</color>
+    <color name="secundaria_variacao">#e0e0e0</color>
 
 
     <color name="fundo">#EFEFEF</color>

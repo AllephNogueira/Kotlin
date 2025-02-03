@@ -46,12 +46,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+
+
+
         // Construir o recyclerView
         tarefaAdapter = TarefaAdapter(
             /** Aqui estamos passando a função que vamos criar, passando o ID do item que queremos remover
              *
              */
-            { id -> confirmarExclusao(id) }
+
+            { id -> confirmarExclusao(id) },
+            /** Aqui vamos fazer a funçao de editar uma tarefa, dentro do metodo que vamos fazer os detalhes */
+            {tarefa -> editar(tarefa)}        /** Abrindo o layout para quando o usuario clicar em atualizar */
         )
 
         binding.rvTarefas.adapter = tarefaAdapter
@@ -59,6 +66,15 @@ class MainActivity : AppCompatActivity() {
         binding.rvTarefas.layoutManager = LinearLayoutManager(this)
 
 
+    }
+
+    private fun editar(tarefa: Tarefa) {
+        val intent = Intent(this, AdicionarTarefaActivity::class.java)
+        /** Aqui vamos pegar essa tarefa e passar pra la
+         * Aqui vamos colocar na CHAVE o nome Tarefa e vamos passar a tarefa pra la. */
+        intent.putExtra("tarefa", tarefa)
+
+        startActivity(intent)
     }
 
     private fun confirmarExclusao(id: Int) {
