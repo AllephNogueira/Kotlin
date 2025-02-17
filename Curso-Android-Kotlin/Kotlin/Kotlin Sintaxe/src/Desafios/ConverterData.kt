@@ -1,11 +1,4 @@
-package testesDeCodigo
-
-import java.text.DateFormat
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import javax.swing.text.DateFormatter
-import kotlin.concurrent.timer
-import kotlin.math.min
+package Desafios
 
 /* Nesse desafio vamos converter 23:05 para 11:05
     Também vamos converter 11:05 para 23:05
