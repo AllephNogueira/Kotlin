@@ -1,6 +1,10 @@
 package com.allephnogueira.configuracaoretrofit.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Endereco (
+
+    @SerializedName("cep")
     val cep : String,
     val logradouro: String,
     val complemento: String,

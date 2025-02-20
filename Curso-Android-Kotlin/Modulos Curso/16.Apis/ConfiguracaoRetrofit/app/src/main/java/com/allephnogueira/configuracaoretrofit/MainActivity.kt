@@ -57,10 +57,14 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun recuperarEnderecoMetodo() {
 
+
+
         /* Retorno: estamos pegando o objeto convertido de JSON para nossa CLASSE
 
          */
         var retorno: Response<Endereco>? = null
+
+        val cepDigitadoPeloUsuario = "24465760"
 
         try {
             /** Explicando o codigo
@@ -70,7 +74,7 @@ class MainActivity : AppCompatActivity() {
              * ai esse objeto permite voce acessa o metodo recuperarEndereco
              */
             val enderecoAPI = retrofit.create( EnderecoAPI::class.java )
-            retorno = enderecoAPI.recuperarEndereco() // metodo dentro da INTERFACE
+            retorno = enderecoAPI.recuperarEndereco(cepDigitadoPeloUsuario) // metodo dentro da INTERFACE
 
 
         }catch (e: Exception){

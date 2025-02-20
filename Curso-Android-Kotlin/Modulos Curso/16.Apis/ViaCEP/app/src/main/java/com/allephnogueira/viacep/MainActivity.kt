@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -40,9 +41,14 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
+
         binding.btnBuscar.setOnClickListener {
+
+            val cepBuscado = binding.editCep.text.toString()
+
             CoroutineScope(Dispatchers.IO).launch {
-                endereco = retornarDadosApi()
+                endereco = retornarDadosApi(cepBuscado)
                 withContext(Dispatchers.Main) {
                     // Rua, Bairro, UF, Regiao
                     binding.textRua.text = "Rua: ${endereco?.logradouro}"
@@ -58,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    suspend fun retornarDadosApi() : Endereco? {
+    suspend fun retornarDadosApi(cepBuscado: String) : Endereco? {
 
         /* Iniciando uma variavel do tipo endereco */
         var endereco : Endereco? = null
@@ -66,7 +72,7 @@ class MainActivity : AppCompatActivity() {
 
             /* "Retrofit criando uma classe por baixo dos panos para recuperar endereco" */
             val enderecoAPI = retrofit.create(EnderecoAPI::class.java)
-            val resposta = enderecoAPI.recuperarEndereco()
+            val resposta = enderecoAPI.recuperarEndereco(cepBuscado)
 
             /* Verificando se a resposta foi dos dados que veio da API foi positiva */
             if (resposta.isSuccessful){
