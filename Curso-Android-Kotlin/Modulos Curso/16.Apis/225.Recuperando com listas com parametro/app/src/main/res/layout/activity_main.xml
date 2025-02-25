@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".View.MainActivity">
 
     <Button
         android:id="@+id/btnInicar"
@@ -42,30 +42,54 @@
         app:layout_constraintTop_toBottomOf="@+id/btnUmaPostagem" />
 
     <ImageView
-        android:id="@+id/btnRecuperarUmComentario"
+        android:id="@+id/btn_recuperar_os_comentarios"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnNovaPostagem"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textResultado"
+        app:layout_constraintTop_toTopOf="@+id/btnNovaPostagem"
         app:srcCompat="@drawable/ic_comentario_24" />
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
+        app:circularflow_radiusInDP="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnRecuperarUmComentario">
+        app:layout_constraintTop_toBottomOf="@+id/btnNovaPostagem">
 
         <TextView
             android:id="@+id/textComentario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
+
+    <Button
+        android:id="@+id/btnPostagensComQuery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Postagens com Query"
+        app:cornerRadius="4dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textResultado" />
+
+    <Button
+        android:id="@+id/btnNovaPostagem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="Postar algo..."
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/btnPostagensComQuery"
+        app:layout_constraintEnd_toStartOf="@+id/btn_recuperar_os_comentarios"
+        app:layout_constraintTop_toTopOf="@+id/btnPostagensComQuery"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

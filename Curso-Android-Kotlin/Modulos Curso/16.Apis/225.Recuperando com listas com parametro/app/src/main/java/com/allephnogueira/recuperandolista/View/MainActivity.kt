@@ -1,11 +1,13 @@
-package com.allephnogueira.recuperandolista
+package com.allephnogueira.recuperandolista.View
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.allephnogueira.recuperandolista.R
 import com.allephnogueira.recuperandolista.api.ComentarioAPI
 import com.allephnogueira.recuperandolista.api.PostagemAPI
 import com.allephnogueira.recuperandolista.api.RetrofitHelper
@@ -49,12 +51,66 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.btnRecuperarUmComentario.setOnClickListener {
+        binding.btnRecuperarOsComentarios.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 recuperarComentariosParaPostagem()
             }
         }
 
+
+        binding.btnPostagensComQuery.setOnClickListener {
+            // Recuperando comentarios com Query
+            // Vamos recuperar os comentarios de uma postagem, no caso vai ficar como padrao postagem 1
+            CoroutineScope(Dispatchers.IO).launch {
+                recuperarComentariosDaPostagemComQuery()
+            }
+
+        }
+
+        /** Quando o usuario clicar em publicar algo, vamos para uma nova activity para evitar sobrecarregar aqui */
+
+        binding.btnNovaPostagem.setOnClickListener {
+            val intent = Intent(this, PublicarActivity::class.java)
+            startActivity(intent)
+        }
+
+    }
+
+    private suspend fun recuperarComentariosDaPostagemComQuery() {
+        var retorno : Response<List<Comentario>>? = null
+
+        try {
+            val ComentarioAPI = retrofit.create(ComentarioAPI::class.java)
+            retorno = ComentarioAPI.recuperarComentariosParaPostagemQuery(1)
+        }catch (e : Exception) {
+            e.printStackTrace()
+            Log.i("info_comentario", "ERRO: Comentario não localizado!")
+        }
+
+        if (retorno != null && retorno.isSuccessful) {
+            val listaDeComentario = retorno.body()
+            var comentariosJuntos = ""
+            listaDeComentario?.forEach{
+
+                val id = it.id
+                val nome = it.name
+                val email = it.email
+                val comentario = it.comentario
+
+
+                comentariosJuntos += "\nID: $id\n" +
+                        "Nome: $nome\n" +
+                        "E-mail: $email\n" +
+                        "$comentario"
+
+                withContext(Dispatchers.Main) {
+                    binding.textComentario.text = comentariosJuntos
+                }
+
+                Log.i("info_comentarios", "$id - $comentario")
+
+            }
+        }
     }
 
     private suspend fun recuperarComentariosParaPostagem() {
