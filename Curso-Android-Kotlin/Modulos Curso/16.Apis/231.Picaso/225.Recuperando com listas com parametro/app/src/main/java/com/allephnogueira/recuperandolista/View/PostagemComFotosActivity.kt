@@ -58,7 +58,13 @@ class PostagemComFotosActivity : AppCompatActivity() {
                 val urlImagemGoogle = "https://i.ytimg.com/vi/wDr4S69y6Uk/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGHIgYSg2MA8=&rs=AOn4CLC4dZvrlF2aQuXA34mwoEtn_QLZHQ"
 
                 Picasso.get()
-                    .load(urlImagemGoogle)
+                    //.load(urlImagemGoogle)
+                    .load(urlImagem)
+                    .resize(100,200) // Aqui serve para alterar o tamanho da imagem.
+                    .placeholder(R.drawable.carregando) // Aqui definimos uma imagem para ser carregada antes dele carregar a imagem da API
+                    .error(R.drawable.picasso) // Aqui definimos uma imagem de erro
+                    //.centerInside() // Definindo como a imagem vai ser centralizada.
+
                     .into(binding.imageViewRecuperada)
             }
 
