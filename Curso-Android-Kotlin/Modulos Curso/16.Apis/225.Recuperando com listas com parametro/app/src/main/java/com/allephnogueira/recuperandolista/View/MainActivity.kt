@@ -78,10 +78,30 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 //atualizarPostagemMetodoPUT()
 
-                atualizarPostagemmetodoPATCH()
+                //atualizarPostagemmetodoPATCH()
+
+                // Remover postagem
+
+                removerPostagemMetodoDELETE()
             }
         }
 
+    }
+
+    private suspend fun removerPostagemMetodoDELETE() {
+        var retorno : Response<Unit> ? = null
+
+        try {
+            val removerPostagem = retrofit.create(PostagemAPI::class.java)
+            retorno = removerPostagem.removerPostagem(1)
+        }catch (e: Exception){
+            e.printStackTrace()
+        }
+
+        if (retorno != null && retorno.isSuccessful) {
+
+            Log.i("info_postagemRemovida", "${retorno.code()} - Postagem removida com sucesso!")
+        }
     }
 
 
