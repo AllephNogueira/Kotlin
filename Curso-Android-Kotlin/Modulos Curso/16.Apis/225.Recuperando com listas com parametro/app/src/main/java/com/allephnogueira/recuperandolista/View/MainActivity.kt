@@ -74,6 +74,98 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.btnAtualizarPostagem.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                //atualizarPostagemMetodoPUT()
+
+                atualizarPostagemmetodoPATCH()
+            }
+        }
+
+    }
+
+
+    private suspend fun atualizarPostagemmetodoPATCH() {
+
+        var retorno : Response<Postagem>? = null
+
+
+        /* Criando a postagem */
+        val postagem = Postagem(
+            "Atualização da descrição!",
+            -1,
+            null,
+            -1
+        )
+
+
+        try {
+            /* Lembrar que o retrofit.create ele cria uma classe a partir da Interface
+            Ai podemos usar seu metodo como se fosse realmente uma classe.
+             */
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.atualizarPostagemPatch(1, postagem)
+
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_atualizarPostagem", "ERRO: Não consegui atualizar sua postagem")
+        }
+
+
+        /* Verificando se retorno esta tudo correto */
+
+        if (retorno != null && retorno.isSuccessful){
+            val postagem = retorno.body()
+            val id = postagem?.id
+            val titulo = postagem?.title
+            val descricao = postagem?.descricao
+
+            val descricaoCompleta = "ID: $id, Titulo: $titulo - Descrição: $descricao"
+
+            Log.i("info_atualizarPostagem", descricaoCompleta)
+        }
+    }
+
+
+    private suspend fun atualizarPostagemMetodoPUT() {
+
+        var retorno : Response<Postagem>? = null
+
+
+        /* Criando a postagem */
+        val postagem = Postagem(
+            "Atualizando postagem",
+            -1,
+            "Nova atualização",
+            -1
+            )
+
+
+        try {
+            /* Lembrar que o retrofit.create ele cria uma classe a partir da Interface
+            Ai podemos usar seu metodo como se fosse realmente uma classe.
+             */
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.atualizarPostagem(1, postagem)
+
+        }catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_atualizarPostagem", "ERRO: Não consegui atualizar sua postagem")
+        }
+
+
+        /* Verificando se retorno esta tudo correto */
+
+        if (retorno != null && retorno.isSuccessful){
+            val postagem = retorno.body()
+            val id = postagem?.id
+            val titulo = postagem?.title
+            val descricao = postagem?.descricao
+
+            val descricaoCompleta = "ID: $id, Titulo: $titulo - Descrição: $descricao"
+
+            Log.i("info_atualizarPostagem", descricaoCompleta)
+        }
     }
 
     private suspend fun recuperarComentariosDaPostagemComQuery() {

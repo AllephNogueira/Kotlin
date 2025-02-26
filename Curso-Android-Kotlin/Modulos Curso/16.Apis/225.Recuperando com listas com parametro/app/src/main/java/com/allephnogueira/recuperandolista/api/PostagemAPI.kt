@@ -7,7 +7,9 @@ import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface PostagemAPI {
@@ -42,5 +44,19 @@ interface PostagemAPI {
         @Field("title") title : String,
         @Field("body") body : String
     ) : Response<Postagem>
+
+
+    @PUT("posts/{id}")
+    suspend fun atualizarPostagem (
+        @Path("id") id: Int, @Body postagem: Postagem
+    ) : Response<Postagem>
+
+
+    @PATCH("posts/{id}")
+    suspend fun atualizarPostagemPatch(
+        @Path("id") id: Int,
+        @Body postagem: Postagem
+    ) : Response<Postagem>
+
 
 }
