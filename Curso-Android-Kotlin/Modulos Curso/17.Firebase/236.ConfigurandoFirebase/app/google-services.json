@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "201592753694",
+    "project_id": "cursoandroid-61509",
+    "storage_bucket": "cursoandroid-61509.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201592753694:android:be4ed7ce6bbf3fb438280f",
+        "android_client_info": {
+          "package_name": "com.allephnogueira.aulafirebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjtyuTuIWinujnFZtBBOlSDbwxR-9dEBo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
