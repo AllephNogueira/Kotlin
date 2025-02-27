@@ -36,6 +36,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -45,9 +49,26 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // Firabase Bom
     implementation(platform("com.google.firebase:firebase-bom:32.7.2"))
+
+    // Analutics
     implementation("com.google.firebase:firebase-analytics")
+
+    // Autenticação
+    implementation("com.google.firebase:firebase-auth")
+
+    // Cloud Firestore banco de dados
+    implementation("com.google.firebase:firebase-firestore")
+
+    //Cloud Storage armazenamento
+    implementation("com.google.firebase:firebase-storage")
+
+
 }
