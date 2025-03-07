@@ -38,12 +38,68 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnExecutar.setOnClickListener {
-            //cadastroDeUsuario()
-            //logarUsuario()
+            //cadastroDeUsuario() // FirebaseAuth
+            //logarUsuario() // FirebaseAuth
 
 
-            salvarDados()
+            //salvarDados() // Firebase - Firestone
+            atualizarRemoverDados()
         }
+    }
+
+    private fun atualizarRemoverDados() {
+        /**
+         * Para atualizar ou remover precisamos selecionar o item que queremos.
+         * Temos o usuario 1 e usuario 2
+         * Vamos atualizar o usuario 2 "FERNANDA"
+         */
+
+        /* Dados que queremos atualizar, nesse caso colocamos tudo igual, mudamos somente o sobrenome */
+
+        val dados = mapOf(
+            "nome" to "Fernanda",
+            "sobrenome" to "Nogueira"
+            //"nascimento" to 1996 Removendo a linha não vai ter mas nascimento no documento da fernanda
+        )
+
+        /** Precisamos de uma referencia, para o dado que queremos alterar
+         * Nesse exemplo aqui de baixo estamos pegando a referencia de onde esta os dados da Fernanda
+         */
+
+        val referencia = bancoDeDados
+            .collection("usuarios")
+            .document("2")
+
+
+        /**
+         * Apos pegar a referencia da Fernanda, vamos ter um objeto DocumentReference
+         * Ai com esse objeto usamos o objeto set e passamos os novos dados.
+         * Dessa forma vamos substituir todos os valores, e se faltar algum valor la em cima na coluna ele vai deletar a coluna
+         */
+
+        //referencia.set(dados)
+
+        /**
+         * Dessa forma vamos atualizar somente o valor que queremos
+         * Nesse exemplo vamos utilizar chave : valor.
+         */
+
+//        referencia.update("nome", "Fernanda Ferreira")
+//            .addOnSuccessListener {
+//                exibirMensagem("Documento atualizado com sucesso!")
+//            }
+//            .addOnFailureListener {
+//                exibirMensagem("Falha ao atualizar documento!")
+//            }
+
+
+        /**
+         * Dessa forma também podemos remover a referencia no caso remover todo o documento
+         */
+
+        referencia.delete()
+
+
     }
 
     private fun salvarDados() {
