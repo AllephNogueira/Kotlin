@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "637598423111",
+    "firebase_url": "https://alta-pressao-gnv-4b961-default-rtdb.firebaseio.com",
+    "project_id": "alta-pressao-gnv-4b961",
+    "storage_bucket": "alta-pressao-gnv-4b961.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637598423111:android:6953091da55e1297157962",
+        "android_client_info": {
+          "package_name": "com.allephnogueira.altapressaognvpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637598423111-aj36hdruo1bilfjng7qaocqdsgrnf7be.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.allephnogueira.altapressaognvpro",
+            "certificate_hash": "96acc69c3d8ba902c2b776f5af06cf06d4e85ed6"
+          }
+        },
+        {
+          "client_id": "637598423111-jmohjf9hbcjj6rial4v5t7ij97h6vkge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaGvJtTlm14PhR0paN2xFGuG4XmVV2zgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637598423111-cbs4l0jqmbrccou2pf945cttn4hp0biu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637598423111:android:33324c2c14de2983157962",
+        "android_client_info": {
+          "package_name": "com.example.altapressaognv"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637598423111-jmohjf9hbcjj6rial4v5t7ij97h6vkge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaGvJtTlm14PhR0paN2xFGuG4XmVV2zgE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637598423111-cbs4l0jqmbrccou2pf945cttn4hp0biu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

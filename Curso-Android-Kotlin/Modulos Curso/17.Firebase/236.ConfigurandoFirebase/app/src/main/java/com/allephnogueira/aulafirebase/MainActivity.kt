@@ -2,6 +2,7 @@ package com.allephnogueira.aulafirebase
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -12,10 +13,19 @@ import com.google.firebase.Firebase
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
+
+    private val autenticacao by lazy { FirebaseAuth.getInstance() }
+
+
+    private val bancoDeDados by lazy {
+        FirebaseFirestore.getInstance()
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +38,79 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnExecutar.setOnClickListener {
-            cadastroDeUsuario()
+            //cadastroDeUsuario()
+            //logarUsuario()
+
+
+            salvarDados()
+        }
+    }
+
+    private fun salvarDados() {
+
+        /**
+         * Lembrar dos passos a passos no Firestore
+         *  Primeiro criamos uma coleção (Nome do nosso banco de dados)
+         *  Depois adicionamos o ID para o documento....
+         */
+
+        /**
+         * 1 Criando uma coleção
+         * 2 Criando o documento
+         * 3 Agora precisamos da chave e valor
+         *      Podemos criar um map, nele vamos ter CHAVE E VALOR
+         * 4 Simulando como se o usuario estivesse digitando os dados e a gente estivesse capturando seus dados.
+         * 5 temos as operações para testar se deu tudo certo ou deu falha, como no FirebaseAuth
+         */
+
+        val colunas = mapOf(
+            "nome" to "Fernanda",
+            "sobrenome" to "Ferreira",
+            "nascimento" to 1996
+        )
+
+        bancoDeDados
+            .collection("usuarios") // Nome do nosso banco de dados
+            .document("2") // Documento que identifca o usuario
+            .set(colunas) // set espera receber um tipo de dado e qualquer valor
+            .addOnSuccessListener { sucesso ->
+                exibirMensagem("Usuário salvo com sucesso!")
+
+            }.addOnFailureListener{ exception ->
+                Log.i("falha_salvar_dados", exception.message.toString())
+            }
+
+
+
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        //verificarUsuarioLogado()
+    }
+
+    private fun logarUsuario() {
+        // Imagina uma tela de login
+
+        val email = "alleph22@gmail.com"
+        val senha = "teste12345@nogueira"
+
+        val autenticador = FirebaseAuth.getInstance()
+
+        autenticador.signInWithEmailAndPassword(email, senha)
+            .addOnSuccessListener {// Se for sucesso caimos aqui
+            authResult ->
+
+                exibirMensagem("Autenticando...")
+                startActivity(Intent(this, PrincipalActivity::class.java))
+        }.addOnFailureListener {// Se for falha caimos aqui
+            exception ->
+            val mensagemDeErro = exception.message
+
+            binding.textResultado.text = "Falha: $mensagemDeErro"
+            exibirMensagem("$mensagemDeErro")
         }
     }
 
@@ -96,25 +178,22 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(applicationContext, texto, Toast.LENGTH_LONG).show()
     }
 
-    override fun onStart() {
-        super.onStart()
-        verificarUsuarioLogado()
-    }
 
     private fun verificarUsuarioLogado() {
-        val usuario = FirebaseAuth.getInstance()
+
+        //autenticacao.signOut()
 
 
-        /* Aqui ele vai pegar o usuario atual */
-        usuario.currentUser
+        /* Aqui ele vai pegar o usuario atual
+        CurrentUser ele vai pegar os dados do ultimo usuario.*/
+        val usuario = autenticacao.currentUser
+
         val idUsuario = usuario?.uid // Pegar o id do usuario que esta logado.
 
 
-        if (usuario != null) {
-            // Se der verdadeiro quer dizer que existe usuario logado
-            exibirMensagem("Usuario esta logado com id: $idUsuario")
-            // Se o usuario estiver logado, vamos jogar ele para a proxima tela
-            val intent = Intent(this, PrincipalActivity::class.java)
+        if (usuario != null) { // Verificar se o usuario esta logado
+            exibirMensagem("Usuario esta logado com id: $idUsuario") // Se der verdadeiro quer dizer que existe usuario logado
+            val intent = Intent(this, PrincipalActivity::class.java) // Se o usuario estiver logado, vamos jogar ele para a proxima tela
             startActivity(intent)
 
         }else{

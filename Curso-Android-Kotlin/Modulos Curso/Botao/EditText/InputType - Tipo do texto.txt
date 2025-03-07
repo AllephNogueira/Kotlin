@@ -1,0 +1,5 @@
+É o padrão do texto que vai ser digitado naquele local
+
+Estou usando ex: textPersonName = Texto onde o usuário vai digitar o nome
+
+input = entrada

@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Alta Pressao GNV PRO</string>
+    <string name="textoEntrada">Faça seu login.</string>
+    <string name="btnEntrar">Entrar</string>
+    <string name="btnCadastrar">Criar nova conta!</string>
+    <string name="btnEsqueciSenha">Esqueci minha senha!</string>
+    <string name="CampoDigiteEmail">E-mail</string>
+    <string name="CampoDigiteSenha">Senha</string>
+
+
+</resources>
