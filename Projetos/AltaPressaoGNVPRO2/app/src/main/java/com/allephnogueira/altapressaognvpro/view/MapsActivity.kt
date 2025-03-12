@@ -62,18 +62,33 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             btnCalculoCombustivel.setOnClickListener {
                 startActivity(Intent(applicationContext, CalculoCombustivelActivity::class.java))
             }
+
+            // Olhar aqui, para fechar o item quando clicar em outro canto da tela.
+            root.setOnClickListener {
+                layoutLateral.visibility = View.GONE
+            }
         }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mapa = googleMap
 
         // Solicitar permissão para acessar a localização do dispositivo
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO)
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO
+            )
         } else {
             // Se a permissão já foi concedida, obter a localização atual
-            mapa.isMyLocationEnabled = true // Pega a localização do aplicativo e tambem ativa o botao de "mira" para ir para seu local.
+            mapa.isMyLocationEnabled =
+                true // Pega a localização do aplicativo e tambem ativa o botao de "mira" para ir para seu local.
             obterLocalizacaoDispositivo()
         }
 
@@ -115,7 +130,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     // Método para lidar com a resposta da solicitação de permissões
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             if (ActivityCompat.checkSelfPermission(

@@ -9,11 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.allephnogueira.aulafirebase.databinding.ActivityMainBinding
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.auth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -43,8 +44,214 @@ class MainActivity : AppCompatActivity() {
 
 
             //salvarDados() // Firebase - Firestone
-            atualizarRemoverDados()
+            //atualizarRemoverDados()
+            //gerandoUmUsuarioComIdUnico()
+
+            //recuperarDadosComGET()
+
+            //recuperarDadosUsuariosAtualizados()
+
+            listaComTodosOsUsuarios()
+
+
         }
+    }
+
+    private fun listaComTodosOsUsuarios() {
+        /* Dessa maneira vamos recuperar uma lista de documentos,
+        Depois vamos entrar dentro de cada um deles e vamos recuperar seus dados.
+
+        Atençao reparar que percorremos primeiro o documento
+        Depois percorremos oque esta dentro de cada documento
+         */
+
+        val referenciaLista = bancoDeDados
+            .collection("usuarios")
+
+        referenciaLista.addSnapshotListener { querySnapshot, error ->
+            // Reparar que agora estamos trazendo um query e nao um documento
+            // Porque estamos trazendo varios documentos
+
+            // Dessa forma vamos trazer uma lista de documentos
+            val listaDocuments = querySnapshot?.documents
+
+
+            // Vamos guardar os dados que percorremos dentro da variavel
+            var listaResultado = ""
+            listaDocuments?.forEach { documentSnapshot ->
+                // percorrer essa lista de documentos
+                // Quando entramos dentro de documents, vamos ter as colunas/ DocumentSnapshot
+                /* Atenção como estamos percorrendo um documents, agora vamos ter as colunas
+                * E ai fazemos a mesma coisa que fizemos nos outros.
+                *
+                * Resumindo vamos percorrer cada um dos documentos e pegar os dados deles.*/
+                val dados = documentSnapshot.data
+                if (dados != null) {
+                    val nome = dados["nome"]
+                    val anoNascimento = dados["anoNascimento"]
+
+                    listaResultado += "nome: $nome - nascimento: $anoNascimento \n"
+                }
+
+            }
+
+            binding.textResultado.text = listaResultado
+
+        }
+    }
+
+    private fun recuperarDadosUsuariosAtualizados() {
+        // dessa forma sempre que tiver alguma atualização os dados vai ser atualizado também.
+        val idUsuarioLogado = autenticacao.currentUser?.uid // Pegar id do usuario LOGADO
+
+        if (idUsuarioLogado != null) { // Salvar a referencia do usuario
+            val referenciaUsuario = bancoDeDados
+                .collection("usuarios")
+                .document(idUsuarioLogado)
+
+
+            // Agora vamos pegar os dados e sempre que esses dados mudarem vamos atualizar
+            // O Firebase vai sempre notificar a gente de mudanças.
+            referenciaUsuario.addSnapshotListener{documentSnapshot, erro ->
+                val dados = documentSnapshot?.data // Precisamos verificar porque os valores/colunas podem nao existir.
+                if (dados != null) {
+                    val nome = dados["nome"]
+                    val anoNascimento = dados["anoNascimento"]
+
+                    val texto = "Seja bem vindo: $nome - $anoNascimento"
+                    binding.textResultado.text = texto
+                }
+            }
+
+        }
+
+    }
+
+    private  fun recuperarDadosComGET(){
+
+        //salvarDadosUsuario("AllephNogueira", "1994")
+
+        /* Aqui vamos recuperar os dados do usuario
+        vamos recuperar os dados do usuario que esta logado */
+
+        val idUsuarioLogado = autenticacao.currentUser?.uid
+
+        if (idUsuarioLogado != null) {
+            val referenciaUsuario = bancoDeDados
+                .collection("usuarios")
+                .document(idUsuarioLogado)
+
+            /* Get = pegar
+            Vamos pegar os dados do usuario que vai retornar da nossa consulta a cima
+            Atençao o GET pegamos esse dado de uma unica vez, como é a data de nascimento e isso não vai ficar sendo alterado
+            Podemos recuperar com o GET
+             */
+            referenciaUsuario
+                .get()
+                .addOnSuccessListener { documentSnpashot ->
+                    /* Aqui dentro se conseguir recuperar os dados, vamos ter um documentSnapshot
+                    Snapshot = instantanea ( algo pego na hora )
+                    Ou seja ele vai capturar o documento como esta naquele momento.
+                     */
+
+                    /* Aqui estamos recuperando o documento na hora
+                    o data = os dados que estao la dentro.
+                     */
+                    val dados = documentSnpashot.data
+
+                    /* Atenção os dados é do tipo map, então ele vai ter chave e valores.
+                    Atençao os dados que vem do servidor podem ser nulos, então voce deve verificar também
+                     */
+
+                    if (dados != null) {
+                        /* Se ele nao retornar null, vamos poder pegar os dados
+                        Atençao as colunas devem esta da mesma forma que voce esta inserindo aqui
+                        Nesse modelo a baixo voce esta inserindo a chave da e ele vai retornar o valor daquela chave.
+                         */
+
+                        val nome = dados["nome"]
+                        val anoNascimento = dados["anoNascimento"]
+
+                        /* Agora vamos inserir esses dados na tela
+
+                         */
+
+                        binding.textResultado.text = "Usuario: $nome - nascido em $anoNascimento"
+
+
+                    }
+
+
+                }
+                .addOnFailureListener {
+                    exibirMensagem("Falha em recuperar os dados")
+                }
+
+        }
+
+
+    }
+
+    private fun salvarDadosUsuario(nome: String, anoNascimento: String) {
+        /*
+        Esse metodo salva os dados do usuario pegando seu proprio ID do autenticador e criando uma coleção e documento com seu proprio ID
+         */
+
+        // Pegamos o ID do usuario que esta logado
+        val idUsuarioLogado = autenticacao.currentUser?.uid
+        // Verificamos se o id e diferente de nulo
+        if (idUsuarioLogado != null) {
+            // Se for diferente de nulo vamos salvar os dados no Firebase
+            // Colunas e dados que vamos salvar dentro delas
+            val dados = mapOf(
+                // Esses dados aqui tambem podem vir de outra forma, ou seja nos capturando esses dados.
+                "nome" to nome,
+                "anoNascimento" to anoNascimento
+            )
+
+            // Vamos criar a coleção usuarios
+            // Nome do documento vai ser ID do usuario
+            // Exibir mensagem se for sucesso e tambem se for falha.
+            bancoDeDados.collection("usuarios")
+                .document("2")
+                .set(dados)
+                .addOnSuccessListener { Task ->
+                    exibirMensagem("Dados salvo no banco de dados")
+                }
+                .addOnFailureListener { exception ->
+                    exibirMensagem("ERRO: ${exception.message}")
+                }
+
+        }
+    }
+
+    private fun gerandoUmUsuarioComIdUnico() {
+
+        /** Dessa forma seria se voce quisesse pegar o ID do usuario que esta logado
+         * Para passar como ID no banco de dados
+         */
+        val usuarioLogado = FirebaseAuth.getInstance().currentUser?.uid
+
+        val dados = mapOf(
+            "nome" to "Crixus",
+            "nascimento" to 2017,
+            "raça" to "Shitzu",
+            "propreitario" to "Alleph"
+        )
+
+        val referencia = bancoDeDados.collection("usuarios")
+
+        /**
+         * Passando o metodo .add
+         * Não precisamos passar o ID ele mesmo vai gerar um identificador para esses dados.
+         */
+        referencia.add(dados)
+            .addOnFailureListener {
+                exibirMensagem("Sucesso ao salvar!")
+            }
+            .addOnFailureListener {
+                exibirMensagem("Falha no salvamento!")
+            }
     }
 
     private fun atualizarRemoverDados() {
@@ -212,6 +419,10 @@ class MainActivity : AppCompatActivity() {
 
             // Aqui é o identificador do usuario o ID dele
             val idDoUsuario = authResult.user?.uid
+
+            if (idDoUsuario != null) {
+                salvarDadosUsuario("Alleph", "1994")
+            }
 
 
             exibirMensagem("Sucesso ao cadastrar usuario $idDoUsuario - $email") // Exibe um toast com os dados
