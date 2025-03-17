@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.allephnogueira.aulafirebase.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,7 +64,31 @@ class MainActivity : AppCompatActivity() {
             //.whereNotEqualTo("nome", "Alleph N") // Agora ele vai pegar todos que nao for igual a Alleph N
             //.whereIn("nome", listOf("Alleph N", "Crixus")) // Pesquisar apenas o valores que estao dentro da lista
             //.whereNotIn("nome", listOf("Alleph N", "Crixus")) // Aqui vamos trazer todos que nao esteja na lista.
-            .whereArrayContains("conhecimentos", "subir na janela") // Criamos um array no banco de dados e trouxemos apenas os usuarios que conhecem kotlin
+            //.whereArrayContains("conhecimentos", "subir na janela") // Criamos um array no banco de dados e trouxemos apenas os usuarios que conhecem kotlin
+
+            // Aplicando filtros com <, >, <=, >=
+            //.whereGreaterThan("anoNascimento", "2007") // Nesse exemplo estamos pesquisando onde anoNascimento seja maior que 2007, assim vamos pegar somente os menores de idade
+            // Maior ou igual >=
+            //.whereGreaterThanOrEqualTo("anoNascimento", "2007") // Maior ou igual
+
+            // Menor que <
+            //.whereLessThan("anoNascimento", "2007") // Agora vamos trazer os maiores de idade
+            // Menor ou Igual a <=
+            //.whereLessThanOrEqualTo("anoNascimento", "2007")  // Menor ou igual
+
+
+        /* Filtrar entre dois valores maior que > 1994
+            Ate menor que < 2007
+         */
+            .whereGreaterThanOrEqualTo("anoNascimento", "1996") // Maior ou igual
+            .whereLessThanOrEqualTo("anoNascimento", "2020") // Menor ou igual
+            /* Aqui estamos passando pelo campo que queremos ordenar
+            Porque poderia ser puxado mais de um campo, exemplo: Data da compra, ano lancamento produto...
+            E também colocamos a ordem que queremos, no caso aqui foi de menor para maior.
+             */
+            .orderBy("anoNascimento", Query.Direction.ASCENDING)
+
+
 
         // Acessando a lista de documento
 
