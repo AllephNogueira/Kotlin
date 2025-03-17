@@ -3,6 +3,7 @@ package com.allephnogueira.altapressaognvpro.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,6 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 
 class LoginActivity : AppCompatActivity() {
 
@@ -28,6 +30,8 @@ class LoginActivity : AppCompatActivity() {
 
     // Iniciar o serviço do Google
     private lateinit var googleLoginCliente: GoogleSignInClient
+
+    private val bancoDeDados by lazy { FirebaseFirestore.getInstance() }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -145,13 +149,63 @@ class LoginActivity : AppCompatActivity() {
         val credencial = GoogleAuthProvider.getCredential(account.idToken, null)
         autenticacao.signInWithCredential(credencial).addOnCompleteListener {
             if (it.isSuccessful) {
-                startActivity(
-                    Intent(this, MapsActivity::class.java)
-                )
-                //finish() // Fechar a tela de login
+                // Verificando se o usuario tem os dados
+                verificarDadosUsuario()
             } else {
                 Toast.makeText(this, "Login falhou!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    private fun verificarDadosUsuario() {
+
+        val idUsuario = autenticacao.currentUser?.uid
+
+        Log.i("LoginSucesso", "Estamos caindo aqui: $idUsuario")
+
+        if (idUsuario != null) {
+            val referencia = bancoDeDados
+                .collection("usuarios")
+                .document(idUsuario)
+
+            // Verificando agora se esse documento existe.
+            referencia.get()
+                .addOnSuccessListener { documentSnapshopt ->
+                    if (documentSnapshopt.exists()) { // Se o documento existir
+                        startActivity(Intent(this, MapsActivity::class.java))
+                    } else {
+                        exibirMensagem("Você precisa terminar de atualizar os seus dados!")
+                        atualizarDadosUsuario() // Se nao existir vamos atualizar.
+                    }
+                }
+        }
+
+
+    }
+
+    public fun atualizarDadosUsuario() {
+        /* Se o usuario se conectar com o Google, não vamos ter todos os dados dele.
+        Então antes de ele acessar o aplicativo, vamos precisar capturar os dados dele novamente.
+
+        Primeiro vamos pegar o ID dele.
+        Se o id estiver tudo certo, mas pegar o email dele.
+        */
+
+
+        val idUsuario = autenticacao.currentUser?.uid
+        if (idUsuario != null) {
+
+            val emailUsuario = autenticacao.currentUser?.email
+
+            val intent = Intent(this, CadastroActivity::class.java)
+            intent.putExtra("texto", "Google")
+            intent.putExtra("idUsuario", idUsuario)
+            intent.putExtra("email", emailUsuario)
+
+            startActivity(intent)
+
+        }
+
+
     }
 }

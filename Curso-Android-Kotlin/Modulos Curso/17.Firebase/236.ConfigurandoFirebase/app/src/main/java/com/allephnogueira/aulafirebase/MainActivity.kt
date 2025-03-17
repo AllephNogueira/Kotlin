@@ -11,10 +11,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.allephnogueira.aulafirebase.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,10 +47,48 @@ class MainActivity : AppCompatActivity() {
 
             //recuperarDadosUsuariosAtualizados()
 
-            listaComTodosOsUsuarios()
+            //listaComTodosOsUsuarios()
+
+            pesquisarDados()
 
 
         }
+    }
+
+    private fun pesquisarDados() {
+        // Acessando a lista de usuarios
+        val referenciaUsuarios = bancoDeDados
+            .collection("usuarios")
+            //.whereEqualTo("nome", "Alleph N") // Onde nome for igual a Alleph (Atenção ele diferencia maiuscula de minuscula)
+            //.whereNotEqualTo("nome", "Alleph N") // Agora ele vai pegar todos que nao for igual a Alleph N
+            //.whereIn("nome", listOf("Alleph N", "Crixus")) // Pesquisar apenas o valores que estao dentro da lista
+            //.whereNotIn("nome", listOf("Alleph N", "Crixus")) // Aqui vamos trazer todos que nao esteja na lista.
+            .whereArrayContains("conhecimentos", "subir na janela") // Criamos um array no banco de dados e trouxemos apenas os usuarios que conhecem kotlin
+
+        // Acessando a lista de documento
+
+        referenciaUsuarios.addSnapshotListener { querySnapshopt, error ->
+            val listaDeDocumentos = querySnapshopt?.documents
+
+            // Onde vamos armazenar o resultado dos nomes
+            var listaResultadoDocumento = ""
+
+            listaDeDocumentos?.forEach { documentSnapshot ->
+                // Percorrendo a lista de documentos.
+                val dados = documentSnapshot?.data
+                if (dados != null) {
+                    val nome = dados["nome"] // Estamos acessando a chave nome, para pegar o valor dela
+                    val anoNascimento = dados["anoNascimento"]
+
+
+                    listaResultadoDocumento += "$nome - $anoNascimento\n" // Aqui estamos acumulando todos os usuarios.
+
+
+                }
+            }
+            binding.textResultado.text = listaResultadoDocumento
+        }
+
     }
 
     private fun listaComTodosOsUsuarios() {

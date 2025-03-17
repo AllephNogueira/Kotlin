@@ -1,5 +1,6 @@
 package com.allephnogueira.altapressaognvpro.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -35,9 +36,20 @@ class CadastroActivity : AppCompatActivity() {
             insets
         }
 
+        /* Recupera oque esta vindo da outra intent
+        Se dentro de texto estiver a palavra Google
+        Vamos pedir para o usuario atualizar seus dados.
+         */
+
+
+        val texto = intent.getStringExtra("texto")
 
 
         with(binding) {
+
+            if (texto == "Google") {
+                terminarCadastroComGoogle("Termine seu cadastro.")
+            }
 
             /* Recuperar os dados que os usuarios estao digitando
             * Lembrar de sempre fazer isso dentro de um onClick */
@@ -51,6 +63,7 @@ class CadastroActivity : AppCompatActivity() {
                 val telefone = editTextTelefone.text.toString()
                 val anoNascimento = editTextAnoNascimento.text.toString()
 
+
                 usuario =
                     Usuario("-1", email, senha1, senha2, nome, sobrenome, telefone, anoNascimento)
 
@@ -63,12 +76,34 @@ class CadastroActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
-                cadastrarUsuario(usuario)
+                if (texto == "Google") {
+                    usuario.id = autenticador.currentUser?.uid
+                    cadastrandoUsuarioComIdUnico(usuario)
+
+                }else {
+                    cadastrarUsuario(usuario)
+                }
+
+
+
+
 
             }
         }
 
 
+    }
+
+    private fun terminarCadastroComGoogle(texto: String) {
+        binding.textoCadastro.text = texto
+        // Se tiver a mensagem de termine seu cadastro é sinal que o usuario esta conectado ao google.
+        // Agora vamos recuperar alguns dados
+
+        val email = intent.getStringExtra("email")
+        binding.editTextEmail.setText(email)
+        binding.editTextEmail.isEnabled = false
+
+        Log.i("CadastroActivity", "Usuario novo / usuario null")
     }
 
     private fun verificarCamposVazios(usuario: Usuario) : Boolean {
@@ -129,10 +164,6 @@ class CadastroActivity : AppCompatActivity() {
                         cadastrandoUsuarioComIdUnico(usuario)
                     }
 
-                    /* Se a conta for criada, vamos fechar a tela e vamos iniciar o aplicativo */
-                    finish()
-
-
                 }.addOnFailureListener { exception ->
                     val mensagemDoErro = exception.message
                     exibirMensagem("Falha: $mensagemDoErro")
@@ -154,7 +185,7 @@ class CadastroActivity : AppCompatActivity() {
     private fun cadastrandoUsuarioComIdUnico(usuario: Usuario) {
         /* Se ID nao vier nulo vamos fazer isso */
 
-        usuario.id?.let {
+        usuario.id?.let { idUsuario ->
 
             val dados = mapOf(
                 "id" to usuario.id,
@@ -170,9 +201,13 @@ class CadastroActivity : AppCompatActivity() {
 
             bancoDeDados
                 .collection("usuarios")
-                .document(it)
+                .document(idUsuario)
                 .set(dados).addOnSuccessListener {
                     exibirMensagem("Cadastro realizado com sucesso!")
+                    val intent = Intent(applicationContext, MapsActivity::class.java)
+                    startActivity(intent)
+
+
                 }.addOnFailureListener {
                     exibirMensagem("Erro: confira os dados.")
                 }

@@ -10,7 +10,11 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import com.allephnogueira.altapressaognvpro.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -19,7 +23,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.allephnogueira.altapressaognvpro.databinding.ActivityMapsBinding
+import com.allephnogueira.altapressaognvpro.model.CapturarUsuarioLogado
+import com.allephnogueira.altapressaognvpro.model.Localizacoes
+import com.allephnogueira.altapressaognvpro.model.Usuario
+import com.allephnogueira.altapressaognvpro.viewmodel.ExibirMensagem
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
+
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
@@ -29,6 +40,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapa: GoogleMap
     private lateinit var clienteLocalizacao: FusedLocationProviderClient
     private val CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO = 1
+    private lateinit var usuario: Usuario
+    private lateinit var localizacoes: Localizacoes
+    private val bancoDeDados by lazy { FirebaseFirestore.getInstance() }
+    private val exibirMensagem: (String) -> Unit by lazy {
+        { mensagem: String ->
+            ExibirMensagem.exibirMensagem(this, mensagem)
+        }
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,12 +83,111 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 startActivity(Intent(applicationContext, CalculoCombustivelActivity::class.java))
             }
 
-            // Olhar aqui, para fechar o item quando clicar em outro canto da tela.
-            root.setOnClickListener {
-                layoutLateral.visibility = View.GONE
+            ftAdicionarPosto.setOnClickListener {
+
+                if (verificarPermissaoLocalizacao()) {
+                    try {
+                        clienteLocalizacao.lastLocation.addOnSuccessListener { localizacao: Location? ->
+                            localizacao?.let {
+                                val latitudeUsuario = localizacao.latitude
+                                Log.i("LatitudeUsuario", "Latitude: $latitudeUsuario")
+
+                                // Usar a latitude
+                                val numeroDocumento = latitudeUsuario.toString().substring(0, 5)
+                                Log.i("NomeDocumento", "Nome do Documento: $numeroDocumento")
+
+
+                                /* Pegar o ID do usuario logado */
+
+                                val idUsuario = autenticador.currentUser?.uid
+
+                                /* Pegar dados do usuario se o ID nao for nulo */
+
+                                if (idUsuario != null) {
+                                    lifecycleScope.launch {
+                                        val usuario = CapturarUsuarioLogado.capturarUsuarioLogado(idUsuario)
+
+                                        if (usuario != null) {
+                                            Log.i("UsuarioLogado", "Usuário capturado: ${usuario.nome}")
+                                            usuario.email = autenticador.currentUser?.email // Capturando email do usuario
+
+                                            // Capturando os dados quando o usuario clicar no botao
+                                            // Aqui depois alguns dados vamos inserir aqui.
+                                            val localizacoes = Localizacoes(numeroDocumento,
+                                                localizacao.latitude.toString(),
+                                                localizacao.longitude.toString(),
+                                                "BR")
+
+                                            // Inflar o layout e pegar os dados.
+
+                                            val container = binding.container
+                                            val novoLayout = LayoutInflater.from(applicationContext).inflate(R.layout.adiconar_postos, container, false)
+                                            container.addView(novoLayout)
+
+                                            // Agora salvando no banco esses dados.
+
+                                            salvarDadosNoBanco(numeroDocumento, localizacoes, usuario, "postoGNV")
+
+
+                                        } else {
+                                            Log.e("UsuarioLogado", "Erro ao capturar o usuário ou usuário não encontrado.")
+                                        }
+                                    }
+                                }
+                            } ?: run {
+                                Log.i("ErroLocalizacao", "Não foi possível obter a localização.")
+                            }
+                        }
+                    } catch (e: SecurityException) {
+                        Log.i("ErroPermissao", "Exceção de segurança ao acessar localização: ${e.message}")
+                    }
+                } else {
+                    Log.i("Permissao", "Permissão de localização não concedida.")
+                }
             }
+
+
         }
 
+    }
+
+    private fun salvarDadosNoBanco(iddoLocal: String, local: Localizacoes, usuario: Usuario, tipoDeServico: String) {
+
+        val colunas = mapOf(
+            "latitude" to local.latitude,
+            "longetude" to local.longitude,
+            "nomePosto" to local.nomePosto,
+            "nomeUsuario" to usuario.nome
+
+        )
+        // Criamos uma coleçao com o nome do serviço postosGNV
+        // Pegamos o ID do local onde o usuario esta
+        // Agora criamos uma outra coleçao para ele guarda os dados do posto.
+        // COM ID ALEATORIO;
+
+        bancoDeDados
+            .collection(tipoDeServico)
+            .document(iddoLocal)
+            .collection("locais")
+            .document()
+            .set(colunas)
+            .addOnSuccessListener {
+                exibirMensagem("Posto salvo com sucesso!")
+            }
+            .addOnFailureListener {
+                exibirMensagem("ERRO: Não conseguimos salvar seu posto!")
+            }
+    }
+
+    private fun recuperarIdUsuario(): String {
+        val idUsuario = autenticador.currentUser?.uid
+        if (idUsuario != null) {
+            return idUsuario
+        } else {
+            exibirMensagem("ERRO: Id usuario nao encontrado.")
+            finish()
+        }
+        return ""
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -128,6 +247,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
     }
+
+    // Metodo para verificar se o usuario deu a permissao de localização
+
+    private fun verificarPermissaoLocalizacao(): Boolean {
+        return ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
 
     // Método para lidar com a resposta da solicitação de permissões
     override fun onRequestPermissionsResult(
