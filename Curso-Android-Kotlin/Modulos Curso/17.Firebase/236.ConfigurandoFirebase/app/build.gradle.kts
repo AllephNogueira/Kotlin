@@ -70,5 +70,8 @@ dependencies {
     //Cloud Storage armazenamento
     implementation("com.google.firebase:firebase-storage")
 
+    // Picaso
+    implementation ("com.squareup.picasso:picasso:2.8")
+
 
 }

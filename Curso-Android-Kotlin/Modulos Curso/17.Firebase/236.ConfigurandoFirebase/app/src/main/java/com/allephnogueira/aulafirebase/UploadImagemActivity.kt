@@ -1,0 +1,224 @@
+package com.allephnogueira.aulafirebase
+
+import android.net.Uri
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import com.allephnogueira.aulafirebase.databinding.ActivityUploadImagemBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
+import java.util.UUID
+
+class UploadImagemActivity : AppCompatActivity() {
+
+    private val binding by lazy { ActivityUploadImagemBinding.inflate(layoutInflater) }
+
+    /*1 Primeiro vamos criar esse atributo */
+    private var uriImagemSelecionada: Uri? = null
+
+
+    private val abrirGaleria = registerForActivityResult(
+        /** Oque esse codigo faz? ele espera abrir uma acitivty de resultado
+         * Tinhamos tambem esse outro metodo, mas foi depreciado.
+         * Tradução do registerForActivityResult
+         * Registrar para um resultado de activity
+         *
+         * 2 Aqui dentro do metodo precisamos passar oque vai retornar como resultado
+         * GetContent = usuario vai pegar um documento || eu vou pegar conteudos.
+         *
+         *
+         * 3 uri -> esse é o endereço que esta nossa foto, é onde esta nossa foto na galeria.
+         * Quando abrimos uma imagem, ela vai retornar o local onde esta essa imagem
+         * ex: c://computador//alleph//imagem//fotopraia.png
+         *
+         * 4 Devemos fazer um teste na URI porque ela pode ser nula também
+         * Se encontrar a imagem podemos usar ela, porque é bem simples.
+         */
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            /*2 Aqui vamos passar esse atributo
+            * Agora dentro de imagemSelecionada ja vamos ter o local de onde esta essa imagem
+            * Agora vamos fazer o upload dessa imagem */
+            uriImagemSelecionada = uri
+
+            binding.imageSelecionada.setImageURI(uri)
+            Toast.makeText(this, "Imagem selecionada.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Nenhuma imagem selecionada.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
+    //Armazenamento
+    private val armazenamento by lazy {
+        FirebaseStorage.getInstance()
+    }
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        setContentView(binding.root)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            insets
+        }
+
+        binding.btnGaleria.setOnClickListener {
+            abrirGaleria.launch("image/*") // Mime Type
+
+
+//             launch = executar - todo aquele bloco de notas que fizemos la em cima.
+//             * Mime Type = qual tipo de arquivo queremos exibir.  (pegue a lista no google)
+//             * Voce pode pesquisar no google
+//             * Aqui no input ele espera receber uma string com o tipo de dados.
+//             *
+//             * Aqui por exemplo vamos trabalhar com imagem e todos os tipos de imagem
+//             * Então vai ficar image/**
+//             * Se quiser trabalhar com um tipo de imagem ficaria
+//             * image.png
+//             *
+//             * Se quiser trabalhar com audio ficaria
+//             * audio/mpeg    - audio/vorbis   - audio/* < para todos os tipos de video
+//
+
+
+        }
+
+
+        binding.btnUpload.setOnClickListener {
+            uploadImagemStore()
+        }
+
+        binding.btnRecuperar.setOnClickListener {
+            recuperarImagemFirebase()
+        }
+    }
+
+    private fun recuperarImagemFirebase() {
+        val idUsuarioLogado = FirebaseAuth.getInstance().currentUser?.uid
+        if (idUsuarioLogado != null ) {
+
+            armazenamento.getReference("fotos")
+                .child(idUsuarioLogado)
+                .child("foto.jpg") // Nesse caso vamos estar recuperando pelo proprio nome do arquivo.
+                .downloadUrl // Aqui vai bixar a URL da imagem para a gente
+                .addOnSuccessListener { urlFirebase -> // Se for sucesso - vai retornar a URL la do firebase
+                    Toast.makeText(this, "URL recuperado: $urlFirebase", Toast.LENGTH_SHORT).show()
+
+
+                    Picasso.get()
+                        .load(urlFirebase)
+                        .resize(200, 160)
+                        .centerCrop()
+                        .into(binding.imageRecuperada)
+
+
+                }
+
+        }
+    }
+
+    private fun uploadImagemStore() {
+
+        // Pegando o ID do usuario, mas ele precisa logar
+        // E se voce precisar logar ele, voce pode inicar a principal activity de novo...
+        val idUsuario = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (idUsuario != null) {
+            // Primeiro devemos verificar se nossa URI = endereço da nossa imagem
+            // Ela não pode ser nula.
+
+            if (uriImagemSelecionada != null) {
+
+                /*
+                    fotos
+                        viagens
+                            + foto1.png
+                            + foto2.png
+                 */
+
+                /* Esse modo e para ilustrar melhor
+                armazenamento
+                    .getReference("fotos") // Criar a pasta fotos. (Se existir ele usa, se nao ele cria)
+                    .child("viagens") // == FILHO  - vamos definir um filho para a pasta
+                    .child("foto1.pgn") // Agora vamos definir o nome do arquivo.
+                    /*
+                    Atenção se voce nao quiser usar a pasta viagens, voce vai ter apenas a pasta fotos e o arquivo da foto.
+                    Voce não é obrigado a criar a pasta "viagens"
+                     */
+
+                 */
+
+                val gerarNomeParaImagem = UUID.randomUUID().toString() // Agora vamos gerar um nome automatico para a imagem.
+
+                armazenamento.getReference("fotos")
+                    .child(idUsuario)
+                    .child(gerarNomeParaImagem) // Agora ele vai gerar sempre um nome diferente para cada foto, se tiver nome igual ele fica substituindo...
+
+                    .putFile(uriImagemSelecionada!!) //Aqui estamos enviando putFile = arquivo, mas poderiamos enviar de varias formas ex: putBytes
+                    /** Atenção a uriImagemSelecionada é o caminho no celular do usuario
+                     * Quando da sucesso a gente retorna com o taks a URL dentro do Storage
+                     */
+                    .addOnSuccessListener { task ->
+                        Toast.makeText(this, "Imagem enviada!", Toast.LENGTH_SHORT).show()
+
+
+                        /** Se for sucesso ao salvar a imagem, podemos salvar essa imagem também dentro do firestor
+                         * Para futuramente a gente poder acessar essa imagem usando o picaso
+                         * Dessa forma estamos salvando a imagem dentro do proprio ID do usuario.
+                         */
+                        task.metadata?.reference?.downloadUrl?.addOnSuccessListener { urlFirebase ->
+
+                            uploadImagemFirestore(urlFirebase!!)
+                            Toast.makeText(this, "$urlFirebase", Toast.LENGTH_SHORT).show()
+                        }
+
+
+                    }.addOnFailureListener { erro ->
+                        Toast.makeText(this, "Falha ao enviar a imagem.", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+
+
+    }
+
+    private fun uploadImagemFirestore(urlFirebase: Uri) {
+        // 1 primeiro ID do usuario logado
+        val idUsuarioLogado = FirebaseAuth.getInstance().currentUser?.uid
+        if (idUsuarioLogado != null) {
+
+            // Instancia do banco de dados
+            val bancoDeDados = FirebaseFirestore.getInstance()
+
+            // Pegando imagem do usuario
+
+            val dados = mapOf(
+                "url_imagem" to urlFirebase
+            )
+
+            bancoDeDados.collection("usuarios")
+                .document(idUsuarioLogado)
+                .update(dados)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Imagem carregada!", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener {
+                    Toast.makeText(
+                        this,
+                        "ERRO: Não conseguimos guardar sua foto.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+        }
+    }
+}
