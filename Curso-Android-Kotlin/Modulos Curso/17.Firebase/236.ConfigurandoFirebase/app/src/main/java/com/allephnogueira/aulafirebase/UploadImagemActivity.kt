@@ -3,7 +3,6 @@ package com.allephnogueira.aulafirebase
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
@@ -11,7 +10,6 @@ import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -20,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import java.io.ByteArrayOutputStream
 import java.util.UUID
 
 class UploadImagemActivity : AppCompatActivity() {
@@ -156,12 +155,66 @@ class UploadImagemActivity : AppCompatActivity() {
 
 
         binding.btnUpload.setOnClickListener {
-            uploadImagemStore()
+            //uploadGaleria()
+            uploadCamera()
         }
 
         binding.btnRecuperar.setOnClickListener {
             recuperarImagemFirebase()
         }
+    }
+
+
+
+    private fun uploadCamera() {
+
+        /*
+        Se quiser entender melhor o comentario do codigo, veja uploadGaleria
+         */
+        val idUsuario = FirebaseAuth.getInstance().currentUser?.uid
+
+        if (idUsuario != null) {
+
+            if (bitmapImagemSelecionada != null) {
+
+
+                /* Imagem selecionada é do tipo bitmap, mas precisamos usar uma imagem do tipo bitArray
+                e para isso vamos precisar converter ela, no exemplo vamos converter para JPEG
+
+                Metodo compress: 3 parametros
+                    Format - qualidade de imagem (0 ate 100) - out put stream
+                        QUALIDADE IMAGEM: Atenção o usuario pode subir uma imagem muito grande, e com isso voce ocupa muito espaço, ideal é voce tentar subir com pelo menos 50%
+                Esse metodo compress = comprimir, mas na verdade voce transformar de bitmap para JPG/PNG...
+                 */
+
+                val outputStream = ByteArrayOutputStream()
+                bitmapImagemSelecionada?.compress(
+                    Bitmap.CompressFormat.JPEG, // Vamos converter / comprimir para JPEG
+                    100, // Vamos deixar a qualidade em 100%
+                    outputStream // Ele vai colocar essa imagem aqui dentro....
+                )
+
+
+                armazenamento.getReference("fotos")
+                    .child(idUsuario)
+                    .child("foto.jpg")
+                    .putBytes(outputStream.toByteArray()) // é uma maneira de empacotar sua imagem e enviar. // Nesse objeto que vai ter a imagem. Vamos converter para toByteArray
+                    .addOnSuccessListener { task ->
+                        Toast.makeText(this, "Imagem enviada!", Toast.LENGTH_SHORT).show()
+                        task.metadata?.reference?.downloadUrl?.
+
+                        addOnSuccessListener { urlFirebase ->
+                            uploadImagemFirestore(urlFirebase!!)
+                            Toast.makeText(this, "$urlFirebase", Toast.LENGTH_SHORT).show()
+
+                        }
+                    }.addOnFailureListener { erro ->
+                        Toast.makeText(this, "Falha ao enviar a imagem.", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+
+
     }
 
     private fun recuperarImagemFirebase() {
@@ -188,7 +241,7 @@ class UploadImagemActivity : AppCompatActivity() {
         }
     }
 
-    private fun uploadImagemStore() {
+    private fun uploadGaleria() {
 
         // Pegando o ID do usuario, mas ele precisa logar
         // E se voce precisar logar ele, voce pode inicar a principal activity de novo...
