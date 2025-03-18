@@ -410,7 +410,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        //verificarUsuarioLogado()
+        verificarUsuarioLogado()
     }
 
     private fun logarUsuario() {
@@ -519,7 +519,7 @@ class MainActivity : AppCompatActivity() {
 
         if (usuario != null) { // Verificar se o usuario esta logado
             exibirMensagem("Usuario esta logado com id: $idUsuario") // Se der verdadeiro quer dizer que existe usuario logado
-            val intent = Intent(this, PrincipalActivity::class.java) // Se o usuario estiver logado, vamos jogar ele para a proxima tela
+            val intent = Intent(this, UploadImagemActivity::class.java) // Se o usuario estiver logado, vamos jogar ele para a proxima tela
             startActivity(intent)
 
         }else{

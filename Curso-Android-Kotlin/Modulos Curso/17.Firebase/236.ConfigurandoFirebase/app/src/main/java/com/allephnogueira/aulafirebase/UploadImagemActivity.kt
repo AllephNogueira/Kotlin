@@ -1,10 +1,17 @@
 package com.allephnogueira.aulafirebase
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -21,6 +28,9 @@ class UploadImagemActivity : AppCompatActivity() {
 
     /*1 Primeiro vamos criar esse atributo */
     private var uriImagemSelecionada: Uri? = null
+
+
+    private var bitmapImagemSelecionada: Bitmap? = null
 
 
     private val abrirGaleria = registerForActivityResult(
@@ -53,6 +63,47 @@ class UploadImagemActivity : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Nenhuma imagem selecionada.", Toast.LENGTH_SHORT).show()
         }
+    }
+
+
+    private val abrirCamera = registerForActivityResult( // Registrar um resultado de uma activity
+        ActivityResultContracts.StartActivityForResult()
+    ) { resultadoActivity ->
+        /*// resultCode = codigo de resultado.
+        // Aqui só vai entrar no IF se o resultado der certo.
+        if (resultadoActivity.resultCode == RESULT_OK) {
+
+        }else {
+
+        }
+        Não vamos fazer dessa forma, vamos fazer de uma forma mais curta.
+        */
+
+        /* extras e quando pegamos dados de uma outra activity
+        Como aqui estamos abrindo uma activity(camera)
+        E pegando seu resultado
+        aqui estamos usando o extras para poder captpurar seus dados.
+
+        data = recuperar imagem da camera
+
+        Bitmap = podemos trocar o formato da imagem ex: PNG para JPG
+
+        esse getParcelable ele so funciona para versoes tiramisu então vamos verificar isso
+
+         */
+        bitmapImagemSelecionada = if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+            resultadoActivity
+                .data?. // Onde esta o arquivo
+                extras?. // Vamos passar o arquivo de outra activity
+                getParcelable("data", Bitmap::class.java) // Data porque vamos usar a camera // Bitmap para converter o tipo da imagem.
+        }else {
+            resultadoActivity
+                .data?. // Onde esta o arquivo
+                extras?. // Vamos passar o arquivo de outra activity
+                getParcelable("data") // Data porque vamos usar a camera
+        }
+
+        binding.imageSelecionada.setImageBitmap(bitmapImagemSelecionada)
     }
 
 
@@ -90,6 +141,16 @@ class UploadImagemActivity : AppCompatActivity() {
 //             * audio/mpeg    - audio/vorbis   - audio/* < para todos os tipos de video
 //
 
+
+        }
+
+        binding.btnCamera.setOnClickListener {
+            /* Aqui como usamos o StartActivityForResult precisamos passar uma intent
+            * Ja na galeria informamos o tipo de dados que queremos pegar.
+            *
+            * MediaStore = vai acessar varios recursos que podemos usar, nesse caso aqui vamos acessar uma ação e essa ação vai ser capturar imagem...*/
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            abrirCamera.launch(intent)
 
         }
 
