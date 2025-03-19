@@ -1,5 +1,6 @@
 package com.allephnogueira.aulafirebase
 
+import android.Manifest
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.allephnogueira.aulafirebase.databinding.ActivityUploadImagemBinding
+import com.allephnogueira.aulafirebase.helper.Permissao
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -112,10 +114,26 @@ class UploadImagemActivity : AppCompatActivity() {
     }
 
 
+    // Agora vamos passar as permissoes.
+    // Para acessar a permissao que vai ser passada.
+    private val permissoes = listOf(
+        Manifest.permission.CAMERA,
+        Manifest.permission.READ_MEDIA_IMAGES,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        // Passando as permissoes que vai ser acessada la para dentro da classe.
+        Permissao.requisitarPermissoes(
+            this,
+            permissoes
+            )
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
