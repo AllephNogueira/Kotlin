@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnExecutar.setOnClickListener {
             //cadastroDeUsuario() // FirebaseAuth
-            //logarUsuario() // FirebaseAuth
+            logarUsuario() // FirebaseAuth
 
 
             //salvarDados() // Firebase - Firestone
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 
             //listaComTodosOsUsuarios()
 
-            pesquisarDados()
+            //pesquisarDados()
 
 
         }
@@ -410,6 +410,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
         verificarUsuarioLogado()
     }
 

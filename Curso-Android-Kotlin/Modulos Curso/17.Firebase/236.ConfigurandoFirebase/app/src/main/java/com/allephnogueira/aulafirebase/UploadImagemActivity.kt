@@ -2,16 +2,19 @@ package com.allephnogueira.aulafirebase
 
 import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build.VERSION
 import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.allephnogueira.aulafirebase.databinding.ActivityUploadImagemBinding
@@ -96,8 +99,11 @@ class UploadImagemActivity : AppCompatActivity() {
             resultadoActivity
                 .data?. // Onde esta o arquivo
                 extras?. // Vamos passar o arquivo de outra activity
-                getParcelable("data", Bitmap::class.java) // Data porque vamos usar a camera // Bitmap para converter o tipo da imagem.
-        }else {
+                getParcelable(
+                    "data",
+                    Bitmap::class.java
+                ) // Data porque vamos usar a camera // Bitmap para converter o tipo da imagem.
+        } else {
             resultadoActivity
                 .data?. // Onde esta o arquivo
                 extras?. // Vamos passar o arquivo de outra activity
@@ -117,10 +123,40 @@ class UploadImagemActivity : AppCompatActivity() {
     // Agora vamos passar as permissoes.
     // Para acessar a permissao que vai ser passada.
     private val permissoes = listOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.CAMERA,
-        Manifest.permission.READ_MEDIA_IMAGES,
-        Manifest.permission.ACCESS_COARSE_LOCATION
+        Manifest.permission.READ_MEDIA_IMAGES
     )
+
+    private var temPermissaoCamera = false
+    private var temPermissaoGaleria = false
+
+
+    /*    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray,
+            deviceId: Int
+        ) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults, deviceId)
+            Log.i("permissao_app", "onRequestPermissionsResult: $requestCode ")
+
+            // Também vamos exibir as permissoes
+            // Vamos usar o forEachIndexed ele vai exibir também os indices
+
+            permissions.forEachIndexed {indice, valor ->
+                Log.i("permissao_app", "permissoes: ($indice) $valor ")
+            }
+
+            // grantResults
+            grantResults.forEachIndexed {indice, valor ->
+                Log.i("permissao_app", "concedida: ($indice) $valor ")
+
+                // desabilitar aqui se o resultado for -1
+
+            }
+
+        }*/
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,11 +164,14 @@ class UploadImagemActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
-        // Passando as permissoes que vai ser acessada la para dentro da classe.
-        Permissao.requisitarPermissoes(
-            this,
-            permissoes
-            )
+        solicitarPermissoes()
+
+        /*        // Passando as permissoes que vai ser acessada la para dentro da classe.
+                Permissao.requisitarPermissoes(
+                    this,
+                    permissoes,
+                    100
+                    )*/
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -141,7 +180,8 @@ class UploadImagemActivity : AppCompatActivity() {
         }
 
         binding.btnGaleria.setOnClickListener {
-            abrirGaleria.launch("image/*") // Mime Type
+            if (temPermissaoGaleria) {
+                abrirGaleria.launch("image/*") // Mime Type
 
 
 //             launch = executar - todo aquele bloco de notas que fizemos la em cima.
@@ -158,16 +198,28 @@ class UploadImagemActivity : AppCompatActivity() {
 //             * audio/mpeg    - audio/vorbis   - audio/* < para todos os tipos de video
 //
 
+            }else {
+                Toast.makeText(this, "Você nao tem permissao!", Toast.LENGTH_SHORT).show()
+
+            }
+
+
 
         }
 
         binding.btnCamera.setOnClickListener {
-            /* Aqui como usamos o StartActivityForResult precisamos passar uma intent
-            * Ja na galeria informamos o tipo de dados que queremos pegar.
-            *
-            * MediaStore = vai acessar varios recursos que podemos usar, nesse caso aqui vamos acessar uma ação e essa ação vai ser capturar imagem...*/
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            abrirCamera.launch(intent)
+
+            if (temPermissaoCamera) {
+                /* Aqui como usamos o StartActivityForResult precisamos passar uma intent
+                * Ja na galeria informamos o tipo de dados que queremos pegar.
+                *
+                * MediaStore = vai acessar varios recursos que podemos usar, nesse caso aqui vamos acessar uma ação e essa ação vai ser capturar imagem...*/
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                abrirCamera.launch(intent)
+            } else {
+                Toast.makeText(this, "Você nao tem permissao!", Toast.LENGTH_SHORT).show()
+            }
+
 
         }
 
@@ -182,6 +234,85 @@ class UploadImagemActivity : AppCompatActivity() {
         }
     }
 
+    private fun solicitarPermissoes() {
+
+        // Verificar permissoes que o usuario ja tem
+        val permissoesNegadas = mutableListOf<String>()
+        temPermissaoCamera = ContextCompat.checkSelfPermission(
+            this, Manifest.permission.CAMERA // Aqui estamos pedindo uma permissao especifica.
+            /* Aqui vamos testar com checkSelfPermission e vamos ver se existe a permissao para essa camera.
+            * Se existir vamos ter a permissao como TRUE */
+        ) == PackageManager.PERMISSION_GRANTED
+
+
+        temPermissaoGaleria = ContextCompat.checkSelfPermission(
+            this, Manifest.permission.CAMERA // Aqui estamos pedindo uma permissao especifica.
+            /* Aqui vamos testar com checkSelfPermission e vamos ver se existe a permissao para essa camera.
+            * Se existir vamos ter a permissao como TRUE */
+        ) == PackageManager.PERMISSION_GRANTED
+
+        // Agora vamos testar, se NAO tiver permissao de camera, vamos adicionar ela dentro da lista
+        // Agora com essas permissoes controladas, vamos poder exibir ou esconder algo se nao tiver permissao
+        // Supondo que o usuario nao der permissao para a camera, então podemos esconder o seu botao.
+
+        if (!temPermissaoCamera) {
+            permissoesNegadas.add(Manifest.permission.CAMERA)
+        }
+
+        if (!temPermissaoGaleria) {
+            permissoesNegadas.add(Manifest.permission.READ_EXTERNAL_STORAGE)
+        }
+
+        // OU seja se nao tiver permissao, vamos adicionar na permissao negadas
+        // e aqui em baixo é onde vamos solicitar essas permissoes.
+
+
+        if (permissoesNegadas.isNotEmpty()) {
+
+            // Solicitar permissoes
+            val gerenciadorDePermissoes = registerForActivityResult(
+                /* Vamos agora definir um contrato aqui dentro . Requisitar Multiplas Permissao */
+                ActivityResultContracts.RequestMultiplePermissions()
+            ) { permissoes: Map<String, Boolean> -> /* Aqui essa funçao lambda vai retornar um Map<String> e um boolean
+            ex: camera - true ||||| Se voce estiver pedindo a permisao da camera OU falso se a permisao for negada..
+             */
+                // Diferente do outro metodo e que nao vamos precisar de um metodo para capturar o retorno das permissoes, podemos fazer aqui dentro mesmo
+                // Essa funçao lambda que criamos aqui vai servi exatamente para isso.
+                // Aqui dentro vamos capturar as permissoes que foram dadas
+                Log.i("novas_permissoes", "Permissoes: $permissoes")
+
+
+                // AQUI VAMOS PEGAR AS PERMISSOES QUE FORAM DADAS PELO USUARIO!
+                // SERIA IGUAL O onRequestPermissionsResult
+                // Sabemos que essas permissoes tem a chave que sao o nome delas e tem o valor T - F
+                // para acessar elas.
+                // O Indice dele é o proprio nome da permissao
+                // ex: android.permission.Camera
+                // Entao vamos acessar o indice dele
+                // Agora o temPermissaoCamera é uma variavel do tipo Boolean
+                //      E com isso o resultado pode ser, verdadeiro, falso ou nulo
+                //      Devemos retornar somente verdadeiro ou falso
+                // Se for verdadeiro retornamos, se for falso pegamos o proprio resultado dela, que seria falso
+                // Dessa forma que esta em baixo.
+                // Segue a baixo como seria, se retornar falso...
+                // Esse ?: significa: Se for null faça isso, e estamos fazendo oque? Retornando um false
+                    // pq null = falso
+
+
+                temPermissaoCamera = permissoes[Manifest.permission.CAMERA] ?: temPermissaoCamera
+
+                temPermissaoGaleria = permissoes[Manifest.permission.READ_EXTERNAL_STORAGE] ?: temPermissaoGaleria
+
+
+            }
+            // executando as permissoes
+            // Lembrar que as permissoes manda entrar os dados tipo Array, mas nosso permissoes e do tipo List
+            // Por isso estamos convertendo para Array com o toTypeArray
+            gerenciadorDePermissoes.launch(permissoesNegadas.toTypedArray()) // Agora vamos pedir as permissoes que estao negadas.
+        }
+
+
+    }
 
 
     private fun uploadCamera() {
@@ -219,9 +350,7 @@ class UploadImagemActivity : AppCompatActivity() {
                     .putBytes(outputStream.toByteArray()) // é uma maneira de empacotar sua imagem e enviar. // Nesse objeto que vai ter a imagem. Vamos converter para toByteArray
                     .addOnSuccessListener { task ->
                         Toast.makeText(this, "Imagem enviada!", Toast.LENGTH_SHORT).show()
-                        task.metadata?.reference?.downloadUrl?.
-
-                        addOnSuccessListener { urlFirebase ->
+                        task.metadata?.reference?.downloadUrl?.addOnSuccessListener { urlFirebase ->
                             uploadImagemFirestore(urlFirebase!!)
                             Toast.makeText(this, "$urlFirebase", Toast.LENGTH_SHORT).show()
 
@@ -237,7 +366,7 @@ class UploadImagemActivity : AppCompatActivity() {
 
     private fun recuperarImagemFirebase() {
         val idUsuarioLogado = FirebaseAuth.getInstance().currentUser?.uid
-        if (idUsuarioLogado != null ) {
+        if (idUsuarioLogado != null) {
 
             armazenamento.getReference("fotos")
                 .child(idUsuarioLogado)
@@ -290,7 +419,8 @@ class UploadImagemActivity : AppCompatActivity() {
 
                  */
 
-                val gerarNomeParaImagem = UUID.randomUUID().toString() // Agora vamos gerar um nome automatico para a imagem.
+                val gerarNomeParaImagem = UUID.randomUUID()
+                    .toString() // Agora vamos gerar um nome automatico para a imagem.
 
                 armazenamento.getReference("fotos")
                     .child(idUsuario)
