@@ -2,8 +2,6 @@ package com.allephnogueira.whatsapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -20,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 class CadastroActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityCadastroBinding.inflate(layoutInflater) }
-    private val autenticador by lazy { FirebaseAuth.getInstance() }
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val bancoDeDados by lazy { FirebaseFirestore.getInstance() }
     private val storage by lazy { FirebaseFirestore.getInstance() }
 
@@ -109,7 +107,7 @@ class CadastroActivity : AppCompatActivity() {
 
     private fun cadastrarUsuario(nome: String, email: String, senha: String) {
 
-        autenticador.createUserWithEmailAndPassword(email, senha)
+        firebaseAuth.createUserWithEmailAndPassword(email, senha)
             .addOnCompleteListener { resultado ->
                 if (resultado.isSuccessful) {
 
