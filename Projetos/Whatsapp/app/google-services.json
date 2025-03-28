@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "439300066886",
+    "project_id": "aula-whatsapp-a0748",
+    "storage_bucket": "aula-whatsapp-a0748.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:439300066886:android:80966e944953c11bdd8447",
+        "android_client_info": {
+          "package_name": "com.allephnogueira.whatsapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsOiJaa5lFLebJ2Rrqus7Nj0nmqub1odM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
