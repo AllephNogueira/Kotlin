@@ -5,6 +5,7 @@
 
 
 
-    <color name="primaria">#0F8068</color>
-    <color name="destaque">#16A984</color>
+    <color name="primaria">#3B5998</color>
+    <color name="destaque">#FF6F61</color>
+    <color name="cinza">#E5E5E5</color>
 </resources>

@@ -12,7 +12,9 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.allephnogueira.whatsapp.adapters.ViewPagerAdapter
 import com.allephnogueira.whatsapp.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : AppCompatActivity() {
@@ -33,15 +35,55 @@ class MainActivity : AppCompatActivity() {
         ContextCompat.getColor(this, R.color.primaria).also { this.window.statusBarColor = it }
 
         inicializarToolbar()
+        inicaalizarNavegacaoPorAbas()
 
 
+    }
+
+    private fun inicaalizarNavegacaoPorAbas() {
+        /** Aqui é onde esta nosso tab layout
+         * Usamos também o viewPage
+         *  viewPage = onde vamos colocar os fragmentos de conversas e contatos.
+         *
+         *
+         *  TabLayoutMediator
+         *      Aqui dentro vamos passar nosso viewPage e também nosso tabLayout
+         */
+
+        val tabLayout = binding.tabLayoutPrincipal
+        val viewPager = binding.viewPagePrincipal
+
+        /** Vamos precisar de um adapter para manipular as abas
+            lifecycler = objeto que armazena informação sobre o ciclo de vida, nesse caso da nossa MainActivity
+         Dentro do nosso adapter vamos precisar passar a quantidade de abas
+         */
+
+        val abas = listOf("Conversas", "Contatos")
+
+        viewPager.adapter = ViewPagerAdapter(
+            abas, supportFragmentManager, lifecycle
+        )
+
+        /** Aqui vamos ocupar toda a area
+         * Antes ele estava meio que cortado, agora habilitamos para ele ocupar toda a area.*/
+
+        tabLayout.isTabIndicatorFullWidth = true
+
+        /** Aqui dentro da funçao lambda vamos ter - aba e posicação
+         *
+         */
+
+        TabLayoutMediator(tabLayout, viewPager) { aba, posicao ->
+            // Aqui ele vai percorrer a lista com os itens e vai fazer a montagem do tabLayout.
+            aba.text = abas[posicao]
+        }.attach()
     }
 
     private fun inicializarToolbar() {
         val toolbar = binding.includeMainToolbar.tbPrincipal // Logal da toolbar
         setSupportActionBar( toolbar ) /* Este método define a Toolbar como a  da Activity atual, permitindo que ela seja utilizada para exibir títulos, botões de navegação, e outros elementos da interface padrão de aplicativos Android. */
         supportActionBar?.apply {
-            title = "Whatsapp" // configura o texto
+            title = "Nexus Chat" // configura o texto
         }
         /** Vamos criar um menu para a nossa toolbar
          * Res > new XML > Source set = menu

@@ -15,6 +15,12 @@
     <style name="ActionOverFlowButton" parent="Widget.AppCompat.ActionButton.Overflow" >
         <item name="tint">@color/white</item> <!-- 3 Stylo criado para o botao do toolBar -->
     </style>
+    
+    
+    <!-- Stylo para a foto de perfil, onde colocamos redondo -->
+    <style name="Arredondamento" >
+        <item name="cornerSize">30dp</item>
+    </style>
 
     <style name="Theme.Whatsapp" parent="Base.Theme.Whatsapp" />
 
