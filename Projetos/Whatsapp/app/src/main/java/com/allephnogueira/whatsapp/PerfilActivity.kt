@@ -1,8 +1,8 @@
 package com.allephnogueira.whatsapp
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -11,13 +11,34 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.allephnogueira.whatsapp.databinding.ActivityPerfilBinding
+import com.allephnogueira.whatsapp.utils.exibirMensagem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 
 class PerfilActivity : AppCompatActivity() {
 
-    private val binding by lazy { ActivityPerfilBinding.inflate( layoutInflater ) }
+    private val binding by lazy { ActivityPerfilBinding.inflate(layoutInflater) }
 
     private var temPermissaoCamera = false
     private var temPermissaoGaleria = false
+
+    private val gerenciadorDeGaleria = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri ->
+        if (uri != null) {
+            binding.imagePerfil.setImageURI(uri) // Aqui ja temos a imagem (URI) é a imagem
+            uploadImagemStorage(uri)
+        } else {
+            exibirMensagem("Nenhuma imagem selecionada.")
+        }
+    }
+
+    private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val firebaseStorage by lazy { FirebaseStorage.getInstance() }
+    private val firestore by lazy { FirebaseFirestore.getInstance() }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +49,166 @@ class PerfilActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        ContextCompat.getColor(this, R.color.primaria).also { this.window.statusBarColor = it }
 
         iniciarToolbar()
         soliciarPermissoes()
+        inicializarEventosDeClique()
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        recuperarDadosIniciasDoUsuario()
+    }
+
+    private fun recuperarDadosIniciasDoUsuario() {
+        val idUsuarioLogado = recuperarIdUsuario()
+
+        firestore
+            .collection("Usuarios")
+            .document(idUsuarioLogado)
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                val dados =
+                    documentSnapshot?.data
+
+                if (dados != null) {
+                    val nome = dados["nome"] as String
+                    val fotoUrl = dados["foto"] as String
+
+                    binding.editNomePerfil.setText(nome)
+
+                    if (fotoUrl.isNotEmpty()) {
+                        Picasso.get()
+                            .load(fotoUrl)
+                            .into(binding.imagePerfil)
+                    }
+                }
+            }
+
+
+    }
+
+    private fun uploadImagemStorage(uri: Uri) {
+
+        val idUsuario = recuperarIdUsuario()
+
+        if (idUsuario.isNotEmpty()) {
+            // fotos
+            // usuarios
+            // idUsuario
+            // perfil.jpg
+            firebaseStorage.getReference("fotos")
+                .child("usuarios") //pasta
+                .child(idUsuario)   // pasta 2
+                .child("perfil.jpg") // pasta 3
+                .putFile(uri)
+                .addOnSuccessListener { task ->
+
+                    exibirMensagem("Sucesso ao fazer upload da imagem.")
+                    task.metadata
+                        ?.reference
+                        ?.downloadUrl
+                        ?.addOnSuccessListener { uri ->
+                            // Aqui vamos salvar o link da imagem do usuario
+
+                            val dados = mapOf(
+                                "foto" to uri.toString()
+                            )
+
+                            atualizarDadosPerfil(idUsuario, dados)
+
+                        }
+
+
+                }
+                .addOnFailureListener {
+                    exibirMensagem("Erro ao fazer upload na imagem")
+                    exibirMensagem("Faça seu login novamente.")
+                    firebaseAuth.signOut()
+                }
+        }
+
+    }
+
+    private fun atualizarDadosPerfil(idUsuario: String, dados: Map<String, String>) {
+        firestore
+            .collection("Usuarios")
+            .document(idUsuario)
+            .update(dados)
+            .addOnSuccessListener {
+                exibirMensagem("Sucesso ao atualizar perfil.")
+            }
+            .addOnFailureListener {
+                exibirMensagem("Erro ao atualizar seu perfil")
+            }
+    }
+
+    private fun recuperarIdUsuario(): String {
+        val idUsuario = firebaseAuth.currentUser?.uid
+        if (idUsuario != null) {
+            return idUsuario
+        } else {
+            firebaseAuth.signOut()
+            return ""
+        }
+
+    }
+
+    private fun inicializarEventosDeClique() {
+        binding.fabSelecionar.setOnClickListener {
+            /** Usuario vai clicar para selecionar uma imagem na galeria
+             * Mas vamos primeiro verificar se ele tem a permissao para abrir galeria
+             *
+             * Se tem permissao, vamos selecionar a imagem
+             * Aqui é o tipo de item que vamos selecionar e a extensão que no caso pode ser qualquer uma
+             *
+             * Se nao tem permissao vamos da um erro e pedir para o usuario a permissao novamente.
+             */
+            if (temPermissaoGaleria) {
+                gerenciadorDeGaleria.launch("image/*")
+            } else {
+                exibirMensagem("Você não tem permissão para acessar galeria")
+                soliciarPermissoes()
+            }
+
+        }
+
+
+        binding.btnAtualizarPerfil.setOnClickListener {
+            // Recuperar idUsuario
+
+            val idUsuario = recuperarIdUsuario()
+
+            // Atualizar nome do usuario
+            val nomeUsuario = binding.editNomePerfil.text.toString()
+
+            // Verificar se usuario digitou o nome
+
+            if (nomeUsuario.isNotEmpty()) {
+                // Fazendo o map do dados que vamos atualizar
+                val dados = mapOf(
+                    "nome" to nomeUsuario
+                )
+
+                // Salvar nome de usuario no firebaseStore
+                salvarDadosDoUsuario(idUsuario, dados)
+            } else {
+                exibirMensagem("Digite o seu nome.")
+            }
+
+        }
+    }
+
+    private fun salvarDadosDoUsuario(idUsuario: String, dados: Map<String, String>) {
+        firestore
+            .collection("Usuarios")
+            .document(idUsuario)
+            .update(dados)
+            .addOnSuccessListener { exibirMensagem("Sucesso ao atualizar nome.") }
+            .addOnFailureListener { exibirMensagem("Falha ao atualizar nome.") }
+
 
     }
 
@@ -78,15 +256,15 @@ class PerfilActivity : AppCompatActivity() {
             // SOLICITAR MULTIPLAS PERMISSOES
             val gerenciadorDePermissoes = registerForActivityResult(
                 ActivityResultContracts.RequestMultiplePermissions()
-            ){ permissoes ->
+            ) { permissoes ->
                 // Aqui vai ser o seguinte, ?: se existir a permissao e for verdadeira, vamos configurar o valor aqui
                 // Se for falso, adicionamos o falso que ja esta configurado dentro de temPermissaoCamera
                 temPermissaoCamera = permissoes[Manifest.permission.CAMERA] ?: temPermissaoCamera
-                temPermissaoGaleria = permissoes[Manifest.permission.READ_MEDIA_IMAGES] ?: temPermissaoCamera
+                temPermissaoGaleria =
+                    permissoes[Manifest.permission.READ_MEDIA_IMAGES] ?: temPermissaoCamera
             }
             gerenciadorDePermissoes.launch(listaPermissoesNegadas.toTypedArray())
         }
-
 
 
     }

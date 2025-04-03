@@ -63,5 +63,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-storage")
 
+    implementation ("com.squareup.picasso:picasso:2.8")
+
 
 }
