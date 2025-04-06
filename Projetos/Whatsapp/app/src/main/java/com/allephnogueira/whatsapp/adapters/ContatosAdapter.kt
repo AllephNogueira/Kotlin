@@ -8,7 +8,9 @@ import com.allephnogueira.whatsapp.databinding.ItemContatoBinding
 import com.allephnogueira.whatsapp.model.Usuario
 import com.squareup.picasso.Picasso
 
-class ContatosAdapter : Adapter<ContatosAdapter.ContatosViewHolder>() {
+class ContatosAdapter(
+    private val onClick: (Usuario) -> Unit
+) : Adapter<ContatosAdapter.ContatosViewHolder>() {
 
     private var listaContatos = emptyList<Usuario>()
     fun adicionarLista(lista: List<Usuario>) {
@@ -26,6 +28,15 @@ class ContatosAdapter : Adapter<ContatosAdapter.ContatosViewHolder>() {
             Picasso.get()
                 .load(usuario.foto)
                 .into(binding.imageContatoFoto)
+
+
+            // evento de clique
+            // Aqui é quando o usuario clica em contato, e vamos abrir uma nova activity com a tela de mensagem para o contato clicado
+            // E repara que estamos passando um usuario como referencia
+            // Dentro desse usuario, ja temos todos os dados.
+            binding.clItemContato.setOnClickListener{
+                onClick(usuario)
+            }
 
         }
     }

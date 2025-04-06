@@ -1,4 +1,4 @@
-package com.allephnogueira.whatsapp
+package com.allephnogueira.whatsapp.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.MenuProvider
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.allephnogueira.whatsapp.R
 import com.allephnogueira.whatsapp.adapters.ViewPagerAdapter
 import com.allephnogueira.whatsapp.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator

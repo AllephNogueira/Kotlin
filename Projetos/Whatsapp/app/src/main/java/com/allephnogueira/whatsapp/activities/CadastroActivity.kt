@@ -1,4 +1,4 @@
-package com.allephnogueira.whatsapp
+package com.allephnogueira.whatsapp.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.allephnogueira.whatsapp.R
 import com.allephnogueira.whatsapp.databinding.ActivityCadastroBinding
 import com.allephnogueira.whatsapp.model.Usuario
 import com.allephnogueira.whatsapp.utils.exibirMensagem

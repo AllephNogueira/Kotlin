@@ -1,4 +1,4 @@
-package com.allephnogueira.whatsapp
+package com.allephnogueira.whatsapp.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.allephnogueira.whatsapp.R
 import com.allephnogueira.whatsapp.databinding.ActivityPerfilBinding
 import com.allephnogueira.whatsapp.utils.exibirMensagem
 import com.google.firebase.auth.FirebaseAuth
