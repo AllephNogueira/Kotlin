@@ -6,6 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.allephnogueira.whatsapp.adapters.ContatosAdapter
 import com.allephnogueira.whatsapp.databinding.FragmentContatosBinding
 import com.allephnogueira.whatsapp.model.Usuario
 import com.google.firebase.auth.FirebaseAuth
@@ -14,11 +17,12 @@ import com.google.firebase.firestore.ListenerRegistration
 
 class ContatosFragment : Fragment() {
 
-    private lateinit var binding : FragmentContatosBinding
-    private lateinit var eventoSnapshot : ListenerRegistration
+    private lateinit var binding: FragmentContatosBinding
+    private lateinit var eventoSnapshot: ListenerRegistration
     private val firebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val firebaseFirestore by lazy { FirebaseFirestore.getInstance() }
 
+    private lateinit var contatosAdapter: ContatosAdapter
 
 
     override fun onCreateView(
@@ -28,6 +32,15 @@ class ContatosFragment : Fragment() {
 
         binding = FragmentContatosBinding.inflate(
             inflater, container, false
+        )
+
+        contatosAdapter = ContatosAdapter()
+        binding.rvContatos.adapter = contatosAdapter
+        binding.rvContatos.layoutManager = LinearLayoutManager(context)
+        binding.rvContatos.addItemDecoration(
+            DividerItemDecoration(
+                context, LinearLayoutManager.VERTICAL
+            )
         )
 
         return binding.root
@@ -66,32 +79,32 @@ class ContatosFragment : Fragment() {
                     // Lembrar que la dentro de usuario, vamos colocar um valor padrao
                     // Porque o firebase se nao encontrar esse valor que esta no servidor, ele não vai saber oque colocar la dentro
                     // Então ja deixamos um valor padrao.
-                    val usuario = documentSnapshot.toObject( Usuario::class.java )
+                    val usuario = documentSnapshot.toObject(Usuario::class.java)
+                    val idContato = firebaseAuth.currentUser?.uid
 
-                    if (usuario != null) {
-                        val idContato = firebaseAuth.currentUser?.uid
-                        if (idContato != null) {
-                            if (idContato != usuario.id) {
-                                // Estamos fazendo isso porque não queremos adicionar nos contatos o nosso proprio usuario
-                                // Então vamos adicionar todos, menos você.
-                                listaContatos.add( usuario )
-                                Log.i("fragmento_contatos", "nome: ${usuario.nome} - e-mail: ${usuario.email} ")
+                    if (usuario != null && idContato != null) {
 
-                            }
-
+                        if (idContato != usuario.id) {
+                            // Estamos fazendo isso porque não queremos adicionar nos contatos o nosso proprio usuario
+                            // Então vamos adicionar todos, menos você.
+                            listaContatos.add(usuario)
+                            Log.i(
+                                "fragmento_contatos",
+                                "nome: ${usuario.nome} - e-mail: ${usuario.email} "
+                            )
                         }
-
                     }
                 }
                 // Agora ja temos uma lista de contatos.
                 // Agora com essa lista de contatos, vamos utilizar para atualizar o RecyclerView
+                if (listaContatos.isNotEmpty()) {
+                    contatosAdapter.adicionarLista( listaContatos )
+                }
 
 
 
             }
     }
-
-
 
 
 }
