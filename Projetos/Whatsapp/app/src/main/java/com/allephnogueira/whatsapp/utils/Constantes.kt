@@ -7,4 +7,9 @@ object Constantes {
 
     const val MENSAGENS = "mensagens"
 
+
+    const val TIPO_REMETENTE = 0
+    const val TIPO_DESTINATARIO = 1
+
+
 }

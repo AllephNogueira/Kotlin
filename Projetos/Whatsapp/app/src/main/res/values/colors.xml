@@ -8,4 +8,5 @@
     <color name="primaria">#3B5998</color>
     <color name="destaque">#FF6F61</color>
     <color name="cinza">#E5E5E5</color>
+    <color name="fundo_mensagem_destinatario">#A6CFED</color>
 </resources>
