@@ -42,124 +42,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_lista_24" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/layoutLateral"
-        android:layout_width="300dp"
-        android:layout_height="0dp"
-        android:background="@color/branco"
-        android:backgroundTint="@color/branco"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/branco"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/branco"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Postos GNV"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Gasolina/Alcool"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Calibrador"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Lava jato"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Mecanico"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Borracheiro"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Auto Peças"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <Button
-                android:id="@+id/btnCalculoCombustivel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@android:color/transparent"
-                android:fontFamily="sans-serif-condensed"
-                android:gravity="start"
-                android:text="Calculo combustivel"
-                android:textColor="@color/preto"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/ftAdicionarPosto"
         android:layout_width="wrap_content"
@@ -167,13 +49,14 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:clickable="true"
-        android:foregroundTint="@color/branco"
-        app:backgroundTint="@color/verdeBotoes"
-        app:elevation="10dp"
+        app:background="@color/branco"
+        app:backgroundTint="@color/azulBotoes"
+        app:elevation="50dp"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_add_24" />
+        app:srcCompat="@drawable/ic_add_24"
+        app:tint="@color/branco" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/container"
@@ -183,5 +66,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- opcional, fundo escurecido -->
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

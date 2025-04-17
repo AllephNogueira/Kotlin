@@ -2,52 +2,81 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F3F4F6"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Título -->
-
-    <!-- Campo para nome do posto -->
-
-    <!-- Botão para salvar -->
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Adicionar Posto de Combustível"
-        android:textColor="#333333"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="sans-serif-condensed-light"
+        android:text="Selecione a bandeira"
+        android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/et_nome_posto"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/btnFechar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Nome do Posto"
-        android:inputType="textPersonName"
-        android:padding="12dp"
-        android:textColor="#333333"
-        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:srcCompat="@drawable/ic_close_24" />
+
+    <RadioGroup
+        android:id="@+id/rgPosto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <RadioButton
+            android:id="@+id/rbBR"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-condensed-light"
+            android:text="BR" />
+
+        <RadioButton
+            android:id="@+id/rbShell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Shell" />
+
+        <RadioButton
+            android:id="@+id/rbIpiranga"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Ipiranga" />
+
+        <RadioButton
+            android:id="@+id/rbOutros"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Outros" />
+    </RadioGroup>
 
     <Button
-        android:id="@+id/btn_salvar"
-        android:layout_width="match_parent"
+        android:id="@+id/btnSalvar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:backgroundTint="#4CAF50"
-        android:padding="12dp"
-        android:text="Salvar Posto"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:text="Adicionar"
+        app:cornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_nome_posto" />
+        app:layout_constraintTop_toBottomOf="@+id/rgPosto" />
 </androidx.constraintlayout.widget.ConstraintLayout>

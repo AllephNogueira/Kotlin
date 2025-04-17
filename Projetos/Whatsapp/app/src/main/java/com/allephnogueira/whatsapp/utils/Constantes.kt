@@ -6,6 +6,9 @@ object Constantes {
 
 
     const val MENSAGENS = "mensagens"
+    const val USUARIOS = "Usuarios"
+    const val CONVERSAS = "conversas"
+    const val ULTIMAS_CONVERSAS = "ultimas_conversas"
 
 
     const val TIPO_REMETENTE = 0

@@ -1,4 +1,3 @@
-O posto esta salvando antes de exibir o botão para o usuário digitar o nome
-Inflar o layout precisa também ter um botão para cancelar
+recuperarOsDadosDoUsuario
 
-O layout do canto também precisa de um botão para deixar de exibir.
+Terminar os botoes do lado esquerdo.

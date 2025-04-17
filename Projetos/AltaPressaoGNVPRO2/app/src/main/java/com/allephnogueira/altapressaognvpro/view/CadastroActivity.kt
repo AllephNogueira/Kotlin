@@ -77,7 +77,7 @@ class CadastroActivity : AppCompatActivity() {
                 }
 
                 if (texto == "Google") {
-                    usuario.id = autenticador.currentUser?.uid
+                    usuario.id = autenticador.currentUser?.uid.toString()
                     cadastrandoUsuarioComIdUnico(usuario)
 
                 }else {
@@ -118,7 +118,7 @@ class CadastroActivity : AppCompatActivity() {
         * ANY ==== O any é uma função de extensão no Kotlin que é utilizada para verificar se algum elemento de uma coleção (como uma lista) atende a uma determinada condição.
         *           Se pelo menos um elemento satisfizer a condição, any retorna true. Caso contrário, retorna false.
         * */
-        val campos = listOf(usuario.email, usuario.senha1, usuario.senha2, usuario.nome, usuario.sobrenome, usuario.telefone, usuario.anoNascimento)
+        val campos = listOf(usuario.email, usuario.senha, usuario.senha2, usuario.nome, usuario.sobrenome, usuario.telefone, usuario.anoNascimento)
         val todosOsCampos = campos.any { it.isNullOrBlank() }
         if (todosOsCampos) {
             exibirMensagem("Preencha todos os campos")
@@ -132,7 +132,7 @@ class CadastroActivity : AppCompatActivity() {
     }
 
     private fun verificarSeSenhasSaoIguais(usuario: Usuario) : Boolean {
-        if (usuario.senha1 != usuario.senha2) {
+        if (usuario.senha != usuario.senha2) {
             exibirMensagem("ERRO: Senhas diferentes")
             exibirMensagem("As senhas precisam ser iguais!")
             return true
@@ -144,9 +144,9 @@ class CadastroActivity : AppCompatActivity() {
 
     private fun cadastrarUsuario(usuario: Usuario) {
 
-        if (usuario.email != null && usuario.senha1 != null) {
+        if (usuario.email != null && usuario.senha != null) {
 
-            autenticador.createUserWithEmailAndPassword(usuario.email!!, usuario.senha1!!)
+            autenticador.createUserWithEmailAndPassword(usuario.email!!, usuario.senha!!)
                 .addOnSuccessListener { authResult ->
 
                     /* AQUI É SE TUDO DER CERTO VAMOS CAIR AQUI
@@ -156,8 +156,8 @@ class CadastroActivity : AppCompatActivity() {
                      */
 
                     /* Recuperando ID e EMAIL do usuario cadastrado */
-                    usuario.id = authResult.user?.uid
-                    usuario.email = authResult.user?.email
+                    usuario.id = authResult.user?.uid.toString()
+                    usuario.email = authResult.user?.email.toString()
                     Log.i("Id_usuario", "${usuario.id}")
 
                     if (usuario.id != null) {
@@ -190,7 +190,7 @@ class CadastroActivity : AppCompatActivity() {
             val dados = mapOf(
                 "id" to usuario.id,
                 "email" to usuario.email,
-                "senha" to usuario.senha1,
+                "senha" to usuario.senha,
                 "senha2" to usuario.senha2,
                 "nome" to usuario.nome,
                 "sobrenome" to usuario.sobrenome,

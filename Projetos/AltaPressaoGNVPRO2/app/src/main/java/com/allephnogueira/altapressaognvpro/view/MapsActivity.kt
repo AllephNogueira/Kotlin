@@ -4,32 +4,35 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.widget.Toast
-import androidx.lifecycle.lifecycleScope
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.allephnogueira.altapressaognvpro.R
+import com.allephnogueira.altapressaognvpro.constantes.Constantes
+import com.allephnogueira.altapressaognvpro.databinding.ActivityMapsBinding
+import com.allephnogueira.altapressaognvpro.databinding.AdiconarPostosBinding
+import com.allephnogueira.altapressaognvpro.databinding.LayoutLateralBinding
+import com.allephnogueira.altapressaognvpro.model.DadosDaLocalizacao
+import com.allephnogueira.altapressaognvpro.model.Usuario
+import com.allephnogueira.altapressaognvpro.viewmodel.ExibirMensagem
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.allephnogueira.altapressaognvpro.databinding.ActivityMapsBinding
-import com.allephnogueira.altapressaognvpro.model.CapturarUsuarioLogado
-import com.allephnogueira.altapressaognvpro.model.Localizacoes
-import com.allephnogueira.altapressaognvpro.model.Usuario
-import com.allephnogueira.altapressaognvpro.viewmodel.ExibirMensagem
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -40,8 +43,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mapa: GoogleMap
     private lateinit var clienteLocalizacao: FusedLocationProviderClient
     private val CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO = 1
-    private lateinit var usuario: Usuario
-    private lateinit var localizacoes: Localizacoes
+    private var usuario: Usuario? = null
+    private var dadosDaLocalizacao: DadosDaLocalizacao? = null
     private val bancoDeDados by lazy { FirebaseFirestore.getInstance() }
     private val exibirMensagem: (String) -> Unit by lazy {
         { mensagem: String ->
@@ -59,78 +62,60 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         fragmentoMapa.getMapAsync(this)
 
-        clienteLocalizacao = LocationServices.getFusedLocationProviderClient(this)
+        CoroutineScope(Dispatchers.IO).launch {
+            usuario = recuperarDadosDoUsuarioLogado(recuperarIdUsuario())
+        }
 
+        clienteLocalizacao = LocationServices.getFusedLocationProviderClient(this)
+        eventosDeClique()
+
+    }
+
+
+    private fun eventosDeClique() {
         with(binding) {
-            layoutLateral.visibility = View.GONE // Definir como invisível
 
             btnSair.setOnClickListener {
-                autenticador.signOut()
-                startActivity(Intent(applicationContext, LoginActivity::class.java))
+                deslogarUsuario()
             }
+
 
             btnInflar.setOnClickListener {
-                // Exibir os botões só quando o usuário clicar neles
-                // Se estiver visível, esconde o botão; se estiver invisível, ativa o botão.
-                if (layoutLateral.visibility == View.VISIBLE) {
-                    layoutLateral.visibility = View.GONE
-                } else {
-                    layoutLateral.visibility = View.VISIBLE
-                }
-            }
+                inflarContainerLateral()
 
-            btnCalculoCombustivel.setOnClickListener {
-                startActivity(Intent(applicationContext, CalculoCombustivelActivity::class.java))
             }
 
             ftAdicionarPosto.setOnClickListener {
-
                 if (verificarPermissaoLocalizacao()) {
                     try {
                         clienteLocalizacao.lastLocation.addOnSuccessListener { localizacao: Location? ->
                             localizacao?.let {
-                                val latitudeUsuario = localizacao.latitude
-                                Log.i("LatitudeUsuario", "Latitude: $latitudeUsuario")
+                                val latitudeDoUsuario = localizacao.latitude
+                                val numeroDoDocumento = latitudeDoUsuario.toString().substring(0, 5)
+                                val idUsuarioLogado = autenticador.currentUser?.uid
 
-                                // Usar a latitude
-                                val numeroDocumento = latitudeUsuario.toString().substring(0, 5)
-                                Log.i("NomeDocumento", "Nome do Documento: $numeroDocumento")
-
-
-                                /* Pegar o ID do usuario logado */
-
-                                val idUsuario = autenticador.currentUser?.uid
-
-                                /* Pegar dados do usuario se o ID nao for nulo */
-
-                                if (idUsuario != null) {
-                                    lifecycleScope.launch {
-                                        val usuario = CapturarUsuarioLogado.capturarUsuarioLogado(idUsuario)
-
-                                        if (usuario != null) {
-                                            Log.i("UsuarioLogado", "Usuário capturado: ${usuario.nome}")
-                                            usuario.email = autenticador.currentUser?.email // Capturando email do usuario
-
-                                            // Capturando os dados quando o usuario clicar no botao
-                                            // Aqui depois alguns dados vamos inserir aqui.
-                                            val localizacoes = Localizacoes(numeroDocumento,
-                                                localizacao.latitude.toString(),
-                                                localizacao.longitude.toString(),
-                                                "BR")
-
-                                            // Inflar o layout e pegar os dados.
-
-                                            val container = binding.container
-                                            val novoLayout = LayoutInflater.from(applicationContext).inflate(R.layout.adiconar_postos, container, false)
-                                            container.addView(novoLayout)
-
-                                            // Agora salvando no banco esses dados.
-
-                                            salvarDadosNoBanco(numeroDocumento, localizacoes, usuario, "postoGNV")
+                                if (idUsuarioLogado != null) {
+                                    // RECUPERAR DADOS DO USUÁRIO
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        // Recuperar os dados do usuário
+                                        val usuarioRecuperado =
+                                            recuperarDadosDoUsuarioLogado(idUsuarioLogado)
 
 
+                                        if (usuarioRecuperado != null) {
+                                            usuario = usuarioRecuperado
+
+                                            withContext(Dispatchers.Main) {
+                                                inflarLayoutParaPerguntarQualBandeira(
+                                                    numeroDoDocumento,
+                                                    localizacao
+                                                )
+                                            }
                                         } else {
-                                            Log.e("UsuarioLogado", "Erro ao capturar o usuário ou usuário não encontrado.")
+                                            Log.e(
+                                                "RecuperarDados",
+                                                "Não foi possível recuperar os dados do usuário."
+                                            )
                                         }
                                     }
                                 }
@@ -139,25 +124,129 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                             }
                         }
                     } catch (e: SecurityException) {
-                        Log.i("ErroPermissao", "Exceção de segurança ao acessar localização: ${e.message}")
+                        Log.i(
+                            "ErroPermissao",
+                            "Exceção de segurança ao acessar localização: ${e.message}"
+                        )
                     }
                 } else {
                     Log.i("Permissao", "Permissão de localização não concedida.")
                 }
             }
 
-
         }
-
     }
 
-    private fun salvarDadosNoBanco(iddoLocal: String, local: Localizacoes, usuario: Usuario, tipoDeServico: String) {
+    private fun inflarContainerLateral() {
+
+        val container = binding.container
+        val bindingContainerLateral = LayoutLateralBinding.inflate(layoutInflater, container, false)
+
+
+        bindingContainerLateral.textNomeUsuario.text = usuario?.nome ?: "Nome não encontrado."
+
+        bindingContainerLateral.btnFecharBarraLateral.setOnClickListener {
+            container.removeView(bindingContainerLateral.root)  // Remove o layout da view
+        }
+
+        container.addView(bindingContainerLateral.root)
+    }
+
+    private fun inflarLayoutParaPerguntarQualBandeira(
+        numeroDoDocumento: String,
+        localizacao: Location
+    ) {
+        val container = binding.container
+        val bindingNovoLayout = AdiconarPostosBinding.inflate(layoutInflater, container, false)
+
+
+
+        bindingNovoLayout.btnSalvar.setOnClickListener {
+
+            // Capturando o texto do RadioGroup
+
+            var bandeiraDoPosto = ""
+
+            with(bindingNovoLayout) {
+                bandeiraDoPosto = when {
+                    rbBR.isChecked -> "BR"
+                    rbShell.isChecked -> "Shell"
+                    rbIpiranga.isChecked -> "Ipiranga"
+                    else -> "Outros"
+                }
+            }
+
+
+            if (bandeiraDoPosto.isNotEmpty() && usuario != null) {
+
+                val novaLocalizacao = DadosDaLocalizacao().apply {
+                    idDoLocal = numeroDoDocumento
+                    latitude = localizacao.latitude.toString()
+                    longitude = localizacao.longitude.toString()
+                    nomePosto = bandeiraDoPosto
+                }
+
+                salvarDadosNoBanco(
+                    numeroDoDocumento,
+                    novaLocalizacao,
+                    usuario!!,
+                    Constantes.COLECAO_SERVICO_POSTOGNV
+                )
+
+
+            } else {
+                exibirMensagem("Selecione a bandeira do posto")
+            }
+
+            container.removeView(bindingNovoLayout.root)  // Remove o layout da view
+        }
+
+        bindingNovoLayout.btnFechar.setOnClickListener {
+            container.removeView(bindingNovoLayout.root)  // Remove o layout da view
+        }
+
+        container.addView(bindingNovoLayout.root)
+    }
+
+
+    suspend fun recuperarDadosDoUsuarioLogado(idUsuarioLogado: String): Usuario? {
+        return try {
+            val referenciaUsuario = bancoDeDados
+                .collection(Constantes.COLECAO_USUARIOS)
+                .document(idUsuarioLogado)
+
+            val documentSnapshot = referenciaUsuario.get().await() // Usando coroutines
+            documentSnapshot.toObject(Usuario::class.java)
+        } catch (e: Exception) {
+            exibirMensagem("Erro ao recuperar usuário: ${e.message}")
+            null
+        }
+    }
+
+    private fun abrirNovaActivity(activityClass: Class<*>) {
+        val intent = Intent(this, activityClass)
+        startActivity(intent)
+    }
+
+
+    private fun deslogarUsuario() {
+        autenticador.signOut()
+        startActivity(Intent(applicationContext, LoginActivity::class.java))
+    }
+
+    private fun salvarDadosNoBanco(
+        idDoLocal: String,
+        local: DadosDaLocalizacao,
+        usuario: Usuario, // CORRIGIR DEPOIS
+        tipoDeServico: String
+    ) {
 
         val colunas = mapOf(
             "latitude" to local.latitude,
             "longetude" to local.longitude,
             "nomePosto" to local.nomePosto,
-            "nomeUsuario" to usuario.nome
+            "nomeUsuario" to usuario.nome,
+            "data" to FieldValue.serverTimestamp()
 
         )
         // Criamos uma coleçao com o nome do serviço postosGNV
@@ -167,7 +256,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
         bancoDeDados
             .collection(tipoDeServico)
-            .document(iddoLocal)
+            .document(idDoLocal)
             .collection("locais")
             .document()
             .set(colunas)
@@ -248,7 +337,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    // Metodo para verificar se o usuario deu a permissao de localização
+// Metodo para verificar se o usuario deu a permissao de localização
 
     private fun verificarPermissaoLocalizacao(): Boolean {
         return ActivityCompat.checkSelfPermission(

@@ -61,7 +61,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textConversaNome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -82,7 +82,7 @@
         android:textColor="@color/destaque"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textConversaNome"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayoutSenhaLogin" />
 
     <Button
@@ -97,5 +97,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/textConversaNome" />
 </androidx.constraintlayout.widget.ConstraintLayout>

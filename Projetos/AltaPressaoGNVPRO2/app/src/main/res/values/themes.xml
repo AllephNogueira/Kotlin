@@ -5,7 +5,11 @@
 
 
 
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/azulBotoes</item>
+
+
+        <item name="android:fontFamily">sans-serif-condensed-light</item>
+
     </style>
 
     <style name="Theme.AltaPressaoGNVPRO" parent="Base.Theme.AltaPressaoGNVPRO" />
