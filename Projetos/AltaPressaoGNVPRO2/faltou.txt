@@ -1,3 +1,15 @@
 recuperarOsDadosDoUsuario
 
-Terminar os botoes do lado esquerdo.
+# Já feito
+1 Tela de login
+2 Cadastro de usuario
+3 Adicionar postos com a bandeira(Selecionar opcao)
+
+
+# A fazer!
+1 Fazer o navigation drawer
+    Terminar os botoes do lado esquerdo.
+    Video parou em 31:18 minutos
+    https://www.youtube.com/watch?v=phM9CGwBb04
+    Estava modifcando as cores.
+2 Exibir a localização dos postos.

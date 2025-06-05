@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -13,7 +14,6 @@ import com.allephnogueira.altapressaognvpro.R
 import com.allephnogueira.altapressaognvpro.constantes.Constantes
 import com.allephnogueira.altapressaognvpro.databinding.ActivityMapsBinding
 import com.allephnogueira.altapressaognvpro.databinding.AdiconarPostosBinding
-import com.allephnogueira.altapressaognvpro.databinding.LayoutLateralBinding
 import com.allephnogueira.altapressaognvpro.model.DadosDaLocalizacao
 import com.allephnogueira.altapressaognvpro.model.Usuario
 import com.allephnogueira.altapressaognvpro.viewmodel.ExibirMensagem
@@ -80,11 +80,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             }
 
 
-            btnInflar.setOnClickListener {
-                inflarContainerLateral()
-
-            }
-
             ftAdicionarPosto.setOnClickListener {
                 if (verificarPermissaoLocalizacao()) {
                     try {
@@ -137,20 +132,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
-    private fun inflarContainerLateral() {
-
-        val container = binding.container
-        val bindingContainerLateral = LayoutLateralBinding.inflate(layoutInflater, container, false)
 
 
-        bindingContainerLateral.textNomeUsuario.text = usuario?.nome ?: "Nome não encontrado."
-
-        bindingContainerLateral.btnFecharBarraLateral.setOnClickListener {
-            container.removeView(bindingContainerLateral.root)  // Remove o layout da view
-        }
-
-        container.addView(bindingContainerLateral.root)
-    }
 
     private fun inflarLayoutParaPerguntarQualBandeira(
         numeroDoDocumento: String,

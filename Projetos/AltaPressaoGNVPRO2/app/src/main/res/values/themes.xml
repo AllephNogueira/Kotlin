@@ -4,13 +4,26 @@
         <!-- Customize your light theme here. -->
 
 
-
         <item name="colorPrimary">@color/azulBotoes</item>
+        <item name="colorPrimaryVariant">@color/azulBotoes</item>
+
+
+
 
 
         <item name="android:fontFamily">sans-serif-condensed-light</item>
+        <item name="android:statusBarColor">@color/azulBotoes</item>
 
     </style>
 
     <style name="Theme.AltaPressaoGNVPRO" parent="Base.Theme.AltaPressaoGNVPRO" />
+
+    <style name="Theme.AltaPressaoGNVPRO.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.AltaPressaoGNVPRO.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.AltaPressaoGNVPRO.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
