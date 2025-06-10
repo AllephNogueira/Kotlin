@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
             .addOnSuccessListener { task ->
 
                 exibirMensagem("Entrada confirmada!")
-                startActivity(Intent(this, MapsActivity::class.java))
+                startActivity(Intent(this, MainActivity::class.java))
 
             }
             .addOnFailureListener { exception ->
@@ -172,7 +172,7 @@ class LoginActivity : AppCompatActivity() {
             referencia.get()
                 .addOnSuccessListener { documentSnapshopt ->
                     if (documentSnapshopt.exists()) { // Se o documento existir
-                        startActivity(Intent(this, MapsActivity::class.java))
+                        startActivity(Intent(this, MainActivity::class.java))
                     } else {
                         exibirMensagem("Você precisa terminar de atualizar os seus dados!")
                         atualizarDadosUsuario() // Se nao existir vamos atualizar.

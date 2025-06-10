@@ -1,4 +1,4 @@
-package com.allephnogueira.altapressaognvpro.view
+package com.allephnogueira.altapressaognvpro.viewmodel
 
 import android.content.Context
 import android.content.res.Resources

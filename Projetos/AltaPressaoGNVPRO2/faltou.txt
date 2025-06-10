@@ -4,12 +4,21 @@ recuperarOsDadosDoUsuario
 1 Tela de login
 2 Cadastro de usuario
 3 Adicionar postos com a bandeira(Selecionar opcao)
+4 Navegação drawer https://www.youtube.com/watch?v=phM9CGwBb04
+5 Postos sendo exibidos
+6 Tamanho dos icones
+7 Numero do documento agora esta OK
 
 
 # A fazer!
-1 Fazer o navigation drawer
-    Terminar os botoes do lado esquerdo.
-    Video parou em 31:18 minutos
-    https://www.youtube.com/watch?v=phM9CGwBb04
-    Estava modifcando as cores.
-2 Exibir a localização dos postos.
+Altera a aba contatos
+Criar informações sobre os postos clicados.
+Navegação dentro do proprio aplicativo.
+Transferir os postos do aplicativo antigo.
+
+Atualização futura
+Adicionar outros serviços, como calibrador e postos normais.
+
+
+# BUGS
+Aplicativo na sua primeira inicialização nao carrega a localização do usuario precisa recriar a tela.

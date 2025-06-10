@@ -204,7 +204,7 @@ class CadastroActivity : AppCompatActivity() {
                 .document(idUsuario)
                 .set(dados).addOnSuccessListener {
                     exibirMensagem("Cadastro realizado com sucesso!")
-                    val intent = Intent(applicationContext, MapsActivity::class.java)
+                    val intent = Intent(applicationContext, MainActivity::class.java)
                     startActivity(intent)
 
 

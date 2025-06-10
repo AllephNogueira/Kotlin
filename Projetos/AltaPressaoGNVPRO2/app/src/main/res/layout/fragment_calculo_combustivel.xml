@@ -5,16 +5,17 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient_fundo"
-    tools:context=".view.CalculoCombustivelActivity">
+    android:background="@drawable/background_gradient_fundo">
 
     <Button
-        android:id="@+id/button8"
+        android:id="@+id/btnCalcular"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="@color/azulBotoes"
         android:text="Calcular"
+        android:textColor="@color/branco"
+        android:textStyle="bold"
         app:cornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
         app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
@@ -33,9 +34,11 @@
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textGasolina"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Valor Gasolina"
+            android:inputType="number|numberDecimal"
             android:textColor="@color/branco"
             android:textColorHint="@color/branco" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -50,18 +53,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3">
+        app:layout_constraintTop_toBottomOf="@+id/textViewInformacoes">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/textEtanol"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Valor Etanol"
+            android:inputType="number|numberDecimal"
             android:textColor="@color/branco"
             android:textColorHint="@color/branco" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/textViewInformacoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="92dp"
@@ -73,5 +78,16 @@
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textResultado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:textColor="@color/branco"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@+id/btnCalcular"
+        app:layout_constraintStart_toStartOf="@+id/btnCalcular"
+        app:layout_constraintTop_toBottomOf="@+id/btnCalcular" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

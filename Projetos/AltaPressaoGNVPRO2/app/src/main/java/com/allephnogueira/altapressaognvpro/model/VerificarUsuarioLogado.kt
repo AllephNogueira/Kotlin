@@ -2,7 +2,8 @@ package com.allephnogueira.altapressaognvpro.model
 
 import android.content.Context
 import android.content.Intent
-import com.allephnogueira.altapressaognvpro.view.MapsActivity
+import com.allephnogueira.altapressaognvpro.view.MainActivity
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -15,7 +16,7 @@ class VerificarUsuarioLogado {
             val usuario = FirebaseAuth.getInstance()
 
             if (usuario.currentUser != null) {
-                val intent = Intent(context, MapsActivity::class.java)
+                val intent = Intent(context, MainActivity::class.java)
                 context.startActivity(intent)
             }
 

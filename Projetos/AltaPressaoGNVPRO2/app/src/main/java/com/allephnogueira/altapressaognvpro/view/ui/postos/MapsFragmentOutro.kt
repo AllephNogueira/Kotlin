@@ -1,22 +1,27 @@
-//package com.allephnogueira.altapressaognvpro.view
+//package com.allephnogueira.altapressaognvpro.view.ui.postos
 //
 //import android.Manifest
+//import android.app.Activity
 //import android.content.Intent
 //import android.content.pm.PackageManager
 //import android.location.Location
 //import android.os.Bundle
 //import android.util.Log
-//import androidx.appcompat.app.AppCompatActivity
+//import android.view.LayoutInflater
+//import android.view.View
+//import android.view.ViewGroup
 //import androidx.core.app.ActivityCompat
 //import androidx.core.content.ContextCompat
+//import androidx.fragment.app.Fragment
 //import com.allephnogueira.altapressaognvpro.R
 //import com.allephnogueira.altapressaognvpro.constantes.Constantes
-//import com.allephnogueira.altapressaognvpro.databinding.ActivityMapsBinding
 //import com.allephnogueira.altapressaognvpro.databinding.AdiconarPostosBinding
+//import com.allephnogueira.altapressaognvpro.databinding.FragmentMapsBinding
 //import com.allephnogueira.altapressaognvpro.model.Local
 //import com.allephnogueira.altapressaognvpro.model.Usuario
-//import com.allephnogueira.altapressaognvpro.viewmodel.ExibirMensagem
+//import com.allephnogueira.altapressaognvpro.view.LoginActivity
 //import com.allephnogueira.altapressaognvpro.viewmodel.Temas
+//import com.allephnogueira.altapressaognvpro.viewmodel.ExibirMensagem
 //import com.google.android.gms.location.FusedLocationProviderClient
 //import com.google.android.gms.location.LocationServices
 //import com.google.android.gms.maps.CameraUpdateFactory
@@ -24,7 +29,6 @@
 //import com.google.android.gms.maps.OnMapReadyCallback
 //import com.google.android.gms.maps.SupportMapFragment
 //import com.google.android.gms.maps.model.LatLng
-//import com.google.android.gms.maps.model.MarkerOptions
 //import com.google.firebase.auth.FirebaseAuth
 //import com.google.firebase.firestore.FieldValue
 //import com.google.firebase.firestore.FirebaseFirestore
@@ -34,30 +38,38 @@
 //import kotlinx.coroutines.tasks.await
 //import kotlinx.coroutines.withContext
 //
-//
-//class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
+//class MapsFragmentOutro : Fragment(), OnMapReadyCallback {
 //
 //    // Inicialização das variáveis
-//    private val binding by lazy { ActivityMapsBinding.inflate(layoutInflater) }
+//    private lateinit var binding: FragmentMapsBinding
 //    private val autenticador by lazy { FirebaseAuth.getInstance() }
 //    private lateinit var mapa: GoogleMap
 //    private lateinit var clienteLocalizacao: FusedLocationProviderClient
+//    private lateinit var latitudeELongitudeAtual : LatLng
 //    private val CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO = 1
 //    private var usuario: Usuario? = null
 //    private val bancoDeDados by lazy { FirebaseFirestore.getInstance() }
 //    private val exibirMensagem: (String) -> Unit by lazy {
 //        { mensagem: String ->
-//            ExibirMensagem.exibirMensagem(this, mensagem)
+//            ExibirMensagem.exibirMensagem(requireContext(), mensagem)
 //        }
 //    }
 //
+//    override fun onCreateView(
+//        inflater: LayoutInflater,
+//        container: ViewGroup?,
+//        savedInstanceState: Bundle?
+//    ): View {
+//        binding = FragmentMapsBinding.inflate(inflater, container, false)
+//        return binding.root
+//    }
 //
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(binding.root)
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//
 //
 //        // Obter o SupportMapFragment e notificar quando o mapa estiver pronto para uso.
-//        val fragmentoMapa = supportFragmentManager
+//        val fragmentoMapa = childFragmentManager
 //            .findFragmentById(R.id.map) as SupportMapFragment
 //        fragmentoMapa.getMapAsync(this)
 //
@@ -65,19 +77,20 @@
 //            usuario = recuperarDadosDoUsuarioLogado(recuperarIdUsuario())
 //        }
 //
-//        clienteLocalizacao = LocationServices.getFusedLocationProviderClient(this)
+//        clienteLocalizacao = LocationServices.getFusedLocationProviderClient(requireContext())
 //
 //        eventosDeClique()
 //
-//    }
 //
+//    }
 //
 //    private fun eventosDeClique() {
 //        with(binding) {
 //
-//            btnSair.setOnClickListener {
-//                deslogarUsuario()
-//            }
+////            btnSair.setOnClickListener {
+////                deslogarUsuario()
+////            }
+//
 //
 //            ftAdicionarPosto.setOnClickListener {
 //                if (verificarPermissaoLocalizacao()) {
@@ -90,7 +103,7 @@
 //
 //                                if (idUsuarioLogado != null) {
 //                                    // RECUPERAR DADOS DO USUÁRIO
-//                                    CoroutineScope(Dispatchers.IO).launch {
+//                                    CoroutineScope(kotlinx.coroutines.Dispatchers.IO).launch {
 //                                        // Recuperar os dados do usuário
 //                                        val usuarioRecuperado =
 //                                            recuperarDadosDoUsuarioLogado(idUsuarioLogado)
@@ -99,14 +112,14 @@
 //                                        if (usuarioRecuperado != null) {
 //                                            usuario = usuarioRecuperado
 //
-//                                            withContext(Dispatchers.Main) {
+//                                            withContext(kotlinx.coroutines.Dispatchers.Main) {
 //                                                inflarLayoutParaPerguntarQualBandeira(
 //                                                    numeroDoDocumento,
 //                                                    localizacao
 //                                                )
 //                                            }
 //                                        } else {
-//                                            Log.e(
+//                                            android.util.Log.e(
 //                                                "RecuperarDados",
 //                                                "Não foi possível recuperar os dados do usuário."
 //                                            )
@@ -114,17 +127,20 @@
 //                                    }
 //                                }
 //                            } ?: run {
-//                                Log.i("ErroLocalizacao", "Não foi possível obter a localização.")
+//                                android.util.Log.i(
+//                                    "ErroLocalizacao",
+//                                    "Não foi possível obter a localização."
+//                                )
 //                            }
 //                        }
 //                    } catch (e: SecurityException) {
-//                        Log.i(
+//                        android.util.Log.i(
 //                            "ErroPermissao",
 //                            "Exceção de segurança ao acessar localização: ${e.message}"
 //                        )
 //                    }
 //                } else {
-//                    Log.i("Permissao", "Permissão de localização não concedida.")
+//                    android.util.Log.i("Permissao", "Permissão de localização não concedida.")
 //                }
 //            }
 //
@@ -204,10 +220,9 @@
 //    }
 //
 //
-//
 //    private fun deslogarUsuario() {
 //        autenticador.signOut()
-//        startActivity(Intent(applicationContext, LoginActivity::class.java))
+//        startActivity(Intent(requireContext(), LoginActivity::class.java))
 //    }
 //
 //    private fun salvarDadosNoBanco(
@@ -219,7 +234,7 @@
 //
 //        val colunas = mapOf(
 //            "latitude" to local.latitude,
-//            "longetude" to local.longitude,
+//            "longitude" to local.longitude,
 //            "nomePosto" to local.nomePosto,
 //            "nomeUsuario" to usuario.nome,
 //            "data" to FieldValue.serverTimestamp()
@@ -234,8 +249,7 @@
 //            .collection(tipoDeServico)
 //            .document(idDoLocal)
 //            .collection("locais")
-//            .document()
-//            .set(colunas)
+//            .add(colunas)
 //            .addOnSuccessListener {
 //                exibirMensagem("Posto salvo com sucesso!")
 //            }
@@ -250,7 +264,7 @@
 //            return idUsuario
 //        } else {
 //            exibirMensagem("ERRO: Id usuario nao encontrado.")
-//            finish()
+//            //finish() Encerrar aplicativo
 //        }
 //        return ""
 //    }
@@ -260,15 +274,18 @@
 //
 //        // Solicitar permissão para acessar a localização do dispositivo
 //        if (ContextCompat.checkSelfPermission(
-//                this,
+//                requireContext(),
 //                Manifest.permission.ACCESS_FINE_LOCATION
 //            ) != PackageManager.PERMISSION_GRANTED
 //        ) {
 //            ActivityCompat.requestPermissions(
-//                this,
+//                requireContext() as Activity,
 //                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
 //                CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO
+//
 //            )
+//
+//
 //        } else {
 //            // Se a permissão já foi concedida, obter a localização atual
 //            mapa.isMyLocationEnabled =
@@ -277,47 +294,45 @@
 //        }
 //
 //
-//        // Exemplo de como adicionar marcador em Sydney e mover a camera pra la
-//        val sydney = LatLng(-34.0, 151.0)
-//        mapa.addMarker(MarkerOptions().position(sydney).title("Marcador em Sydney"))
-//        mapa.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+//        exibirMarcadores(latitudeELongitudeAtual)
+//
+//        //mapa.moveCamera(CameraUpdateFactory.newLatLng(sydney))
 //
 //        // Adicionar tema
-//        Temas.temaEscuro(this, googleMap)
+//        Temas.temaEscuro(requireContext(), googleMap)
 //    }
+//
+//    private fun exibirMarcadores(latitudeELongitudeAtual: LatLng) {
+//        Log.i("exibirMarcadores", "exibirMarcadores: ${latitudeELongitudeAtual.latitude} ")
+//
+//    }
+//
 //
 //    // Método para obter a localização do dispositivo
 //    private fun obterLocalizacaoDispositivo() {
 //        if (ActivityCompat.checkSelfPermission(
-//                this,
+//                requireContext(),
 //                Manifest.permission.ACCESS_FINE_LOCATION
 //            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                this,
+//                requireContext(),
 //                Manifest.permission.ACCESS_COARSE_LOCATION
 //            ) != PackageManager.PERMISSION_GRANTED
 //        ) {
-//            // TODO: Consider calling
-//            //    ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
 //            return
 //        }
 //        clienteLocalizacao.lastLocation.addOnSuccessListener { localizacao: Location? ->
 //            localizacao?.let {
-//                val latLngAtual = LatLng(localizacao.latitude, localizacao.longitude)
-//                mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(latLngAtual, 15f))
+//                latitudeELongitudeAtual = LatLng(localizacao.latitude, localizacao.longitude)
+//                mapa.moveCamera(CameraUpdateFactory.newLatLngZoom(latitudeELongitudeAtual, 15f))
 //            }
 //        }
 //    }
 //
-//// Metodo para verificar se o usuario deu a permissao de localização
 //
+//    // Metodo para verificar se o usuario deu a permissao de localização
 //    private fun verificarPermissaoLocalizacao(): Boolean {
 //        return ActivityCompat.checkSelfPermission(
-//            this,
+//            requireContext(),
 //            Manifest.permission.ACCESS_FINE_LOCATION
 //        ) == PackageManager.PERMISSION_GRANTED
 //    }
@@ -332,10 +347,10 @@
 //        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 //        if (requestCode == CODIGO_SOLICITACAO_PERMISSAO_LOCALIZACAO && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 //            if (ActivityCompat.checkSelfPermission(
-//                    this,
+//                    requireContext(),
 //                    Manifest.permission.ACCESS_FINE_LOCATION
 //                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-//                    this,
+//                    requireContext(),
 //                    Manifest.permission.ACCESS_COARSE_LOCATION
 //                ) != PackageManager.PERMISSION_GRANTED
 //            ) {
@@ -353,3 +368,4 @@
 //        }
 //    }
 //}
+//

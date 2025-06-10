@@ -1,6 +1,6 @@
 package com.allephnogueira.altapressaognvpro.model
 
-data class Usuario(
+class Usuario(
     var id: String = "",
     var email : String = "",
     var senha : String = "",
@@ -9,4 +9,6 @@ data class Usuario(
     var sobrenome : String = "",
     var telefone : String = "",
     var anoNascimento : String = ""
-)
+) {
+
+}
