@@ -8,7 +8,9 @@ object Constantes {
     const val LONGITUDE = "longitude"
     const val NOME_DO_POSTO = "nomePosto"
     const val NOME_USUARIO = "nomeUsuario"
-    const val QUANTIADE_AVALIACOES = "quantidadeAvaliacoes"
+    const val MEDIA_DAS_AVALIACOES = "mediaDasAvaliacoes"
+    const val SOMA_TOTAL_DAS_AVALIACOES = "somaTotalDasAvaliacoes"
+    const val QUANTIDADE_DE_AVALIADORES = "quantidadeAvaliadores"
 
 
 

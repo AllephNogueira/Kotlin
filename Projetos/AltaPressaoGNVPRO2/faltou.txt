@@ -8,13 +8,25 @@ recuperarOsDadosDoUsuario
 5 Postos sendo exibidos
 6 Tamanho dos icones
 7 Numero do documento agora esta OK
+8 BUG (Aplicativo só guardava a ultima localização, assim quando o usuario cadastrava um posto, ele teria que reiniciar para pegar a nova localização)
+9 Estamos agora salvando GNV, Gasolina, Eletrico, Calibrador, Mecanico e Ducha
+
+# BUG
+Aplicativo esta salvando toda vez a mesma localização --- TESTAR
+
 
 
 # A fazer!
+Perguntar qual o que vai ser salvo (Gasolina x GNV x CALIBRADOR, MECANICO) OK
+        #Criar uma lista, onde a quantidade de itens que esta dentro dela, vai repetir o botao de salvar, chamando cada item dentro dela OK
+    Criar um icone para cada serviço --
+    Criar um botao para pesquisar cada um dos serviços --
+Mudar a cor do botao salvar para branco.
 Altera a aba contatos
 Criar informações sobre os postos clicados.
 Navegação dentro do proprio aplicativo.
 Transferir os postos do aplicativo antigo.
+Acertar o nome o usuario no menu superior
 
 Atualização futura
 Adicionar outros serviços, como calibrador e postos normais.

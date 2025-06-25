@@ -41,9 +41,11 @@ class MapHelper(private val map: GoogleMap) {
     fun adicionarMarcador(context: Context, latitude: Double, longitude: Double, titulo: String, local: Local) {
         val latLng = LatLng(latitude, longitude)
 
-        val avaliacao = (local.avaliacao ?: "0").toDoubleOrNull() ?: 0.0
+        val avaliacao = (local.mediaDasAvaliacoes ?: "0").toDoubleOrNull() ?: 0.0
+        val quantidadeDeAvaliadores = (local.quantidadeDeAvaliadores ?: "0").toDoubleOrNull() ?: 0.0
 
         val icone = when {
+            quantidadeDeAvaliadores == 0.0 -> R.drawable.icon_new_posto
             avaliacao < 1 -> R.drawable.icon0
             avaliacao < 2 -> R.drawable.icon_estrela_1
             avaliacao < 3 -> R.drawable.icon_estrela_2

@@ -6,5 +6,7 @@ data class Local(
     var longitude: String? = null,
     var nomePosto: String? = null,
     var nomeUsuario: String? = null,
-    var avaliacao: String? = null
+    var mediaDasAvaliacoes: String? = null, // Media da avaliacao (Quantidade de avaliadores ex 100 /  somaTotalDasAvaliacoes ex 700)
+    var somaTotalDasAvaliacoes: String? = null, // QUantidade de pessoas que avaliaram
+    var quantidadeDeAvaliadores: String? = null,
 )

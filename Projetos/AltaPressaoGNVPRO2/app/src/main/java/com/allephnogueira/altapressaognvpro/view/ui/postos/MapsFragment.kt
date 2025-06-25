@@ -9,15 +9,15 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.allephnogueira.altapressaognvpro.R
 import com.allephnogueira.altapressaognvpro.constantes.Constantes
+import com.allephnogueira.altapressaognvpro.databinding.AdiconarPostosBinding
 import com.allephnogueira.altapressaognvpro.databinding.FragmentMapsBinding
+import com.allephnogueira.altapressaognvpro.model.Local
+import com.allephnogueira.altapressaognvpro.model.Usuario
 import com.allephnogueira.altapressaognvpro.utils.LocationPermissionHelper
 import com.allephnogueira.altapressaognvpro.utils.LocationService
 import com.allephnogueira.altapressaognvpro.utils.MapHelper
-import com.google.android.gms.maps.SupportMapFragment
-import com.allephnogueira.altapressaognvpro.databinding.AdiconarPostosBinding
-import com.allephnogueira.altapressaognvpro.model.Local
-import com.allephnogueira.altapressaognvpro.model.Usuario
 import com.allephnogueira.altapressaognvpro.viewmodel.Temas
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import java.util.Locale
 
 class MapsFragment : Fragment() {
 
@@ -58,7 +59,8 @@ class MapsFragment : Fragment() {
         }
 
         mapFragment.getMapAsync { map ->
-            Toast.makeText(requireContext(), "Mapa carregado com sucesso", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Mapa carregado com sucesso", Toast.LENGTH_SHORT)
+                .show()
             mapHelper = MapHelper(map)
             permissionHelper.verificarOuSolicitarPermissao()
             Temas.temaEscuro(requireContext(), map)
@@ -74,7 +76,13 @@ class MapsFragment : Fragment() {
 
             withContext(Dispatchers.Main) {
                 binding.ftAdicionarPosto.setOnClickListener {
+                    // Atualizar sempre a localização quando o usuario clicar no botao
+                    atualizarLocalizacao()
+
                     inflarLayoutParaEscolherBandeiraDoPosto()
+
+                    binding.ftAdicionarPosto.hide()
+
                 }
             }
 
@@ -83,10 +91,18 @@ class MapsFragment : Fragment() {
 
     }
 
+    private fun atualizarLocalizacao() {
+        locationService.getUltimaLocalizacao { novaLocalizacao ->
+            novaLocalizacao?.let {
+                local.latitude = it.latitude.toString()
+                local.longitude = it.longitude.toString()
+            }
+        }
+    }
 
 
     private fun carregarPostosNoMapa() {
-        val numeroDoDocumento = local.latitude.toString().substring(0,5)
+        val numeroDoDocumento = local.latitude.toString().substring(0, 5)
         Log.i("MAPA", "carregarPostosNoMapa: numeroDoDocumento $numeroDoDocumento ")
 
         // Cancelar listener anterior se existir (bom para evitar múltiplos listeners)
@@ -97,7 +113,11 @@ class MapsFragment : Fragment() {
             .collection("locais")
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    Toast.makeText(requireContext(), "Erro ao carregar postos: ${error.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Erro ao carregar postos: ${error.message}",
+                        Toast.LENGTH_LONG
+                    ).show()
                     Log.e("MAPA", "Erro ao carregar postos", error)
                     return@addSnapshotListener
                 }
@@ -110,16 +130,32 @@ class MapsFragment : Fragment() {
                         val latitude = localDoc.getString(Constantes.LATITUDE)?.toDoubleOrNull()
                         val longitude = localDoc.getString(Constantes.LONGITUDE)?.toDoubleOrNull()
                         val nomePosto = localDoc.getString(Constantes.NOME_DO_POSTO)
-                        val avaliacao = localDoc.getString(Constantes.QUANTIADE_AVALIACOES) ?: "0"
+                        val mediaDasAvaliacoes =
+                            localDoc.getLong(Constantes.MEDIA_DAS_AVALIACOES)?.toString() ?: "0"
+                        val somaTotalDasAvaliacoes =
+                            localDoc.getLong(Constantes.SOMA_TOTAL_DAS_AVALIACOES)?.toString()
+                                ?: "0"
+                        val quantidadeDeAvaliadores =
+                            localDoc.getLong(Constantes.QUANTIDADE_DE_AVALIADORES)?.toString()
+                                ?: "0"
+
 
                         if (latitude != null && longitude != null && nomePosto != null) {
                             val localMarcador = Local()
                             localMarcador.latitude = latitude.toString()
                             localMarcador.longitude = longitude.toString()
                             localMarcador.nomePosto = nomePosto
-                            localMarcador.avaliacao = avaliacao
+                            localMarcador.mediaDasAvaliacoes = mediaDasAvaliacoes
+                            localMarcador.somaTotalDasAvaliacoes = somaTotalDasAvaliacoes
+                            localMarcador.quantidadeDeAvaliadores = quantidadeDeAvaliadores
 
-                            mapHelper.adicionarMarcador(requireContext(), latitude, longitude, nomePosto, localMarcador)
+                            mapHelper.adicionarMarcador(
+                                requireContext(),
+                                latitude,
+                                longitude,
+                                nomePosto,
+                                localMarcador
+                            )
                         }
                     }
                 }
@@ -162,6 +198,7 @@ class MapsFragment : Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>, grantResults: IntArray
     ) {
@@ -177,36 +214,80 @@ class MapsFragment : Fragment() {
 
         containerSelecionarBandeiraDoPosto.btnFechar.setOnClickListener {
             container.removeAllViews() // Fechar
+            exibirFloatBotao()
         }
 
         containerSelecionarBandeiraDoPosto.btnSalvar.setOnClickListener {
+
             var bandeiraSelecionada = when {
                 containerSelecionarBandeiraDoPosto.rbBR.isChecked -> "BR"
                 containerSelecionarBandeiraDoPosto.rbShell.isChecked -> "Shell"
                 containerSelecionarBandeiraDoPosto.rbIpiranga.isChecked -> "Ipiranga"
-                else -> "Outros"
+                containerSelecionarBandeiraDoPosto.rbOutros.isChecked -> "Outros"
+                else -> ""
             }
 
-            // CAPTURAR BANDEIRA, USUARIO, LOCALIZAÇÃO
-            if (bandeiraSelecionada.isNotEmpty() && usuario.id.isNotEmpty() && local.latitude != null) {
+            val checkboxMarcados = listOf(
+                containerSelecionarBandeiraDoPosto.cbGNV,
+                containerSelecionarBandeiraDoPosto.cbGasolina,
+                containerSelecionarBandeiraDoPosto.cbEletrico,
+                containerSelecionarBandeiraDoPosto.cbCalibrador,
+                containerSelecionarBandeiraDoPosto.cbMecanico,
+                containerSelecionarBandeiraDoPosto.cbDucha
+            )
+
+            val quantidadeDeCheckboxSelecionado = checkboxMarcados.count { it.isChecked }
+            val checkBoxQueOUsuarioSelecionouFoi = checkboxMarcados.filter { it.isChecked }.map {
+                it.text.toString().lowercase(
+                    Locale.ROOT
+                )
+            }
+
+            Log.i("Checkbox_Selecionados", "O usuario selecionou o $checkBoxQueOUsuarioSelecionouFoi ")
+            Log.i("Checkbox_Selecionados", "Quantidade de servicos selecionados $quantidadeDeCheckboxSelecionado ")
+            /* Explicação do codigo:
+            Quanto o usuario seleciona uma bandeira de posto ele é obrigado a selecionar um tipo de serviço:
+                GNV, GASOLINA, ELETRICO, CALIBRADOR
+            Quando seleciona Mecanico ou Ducha, nao precisa selecionar a bandeira do posto.
+             */
+            if (
+                (bandeiraSelecionada.isNotEmpty() && quantidadeDeCheckboxSelecionado >= 1 || bandeiraSelecionada.isEmpty() && (checkBoxQueOUsuarioSelecionouFoi.contains("mecanico") || checkBoxQueOUsuarioSelecionouFoi.contains("ducha"))  )
+                && usuario.id.isNotEmpty() && local.latitude != null
+            ) {
                 local.nomePosto = bandeiraSelecionada
 
-
-                // Se os dados nao estao vazios, vamos salvar no banco de dados.
+                /*
+                Agora aqui vamos capturar o tipo de serviço que o usuario selecionou e vamos salvar no banco de dados
+                 */
                 CoroutineScope(Dispatchers.IO).launch {
-                    salvarPostoNoBancoDeDados(usuario, local)
-
+                    for (i in 0 until quantidadeDeCheckboxSelecionado) {
+                        Log.i("Checkbox_Selecionados", "Salvando ${checkBoxQueOUsuarioSelecionouFoi[i]}")
+                        salvarPostoNoBancoDeDados(checkBoxQueOUsuarioSelecionouFoi[i], usuario, local)
+                    }
 
                 }
 
+                exibirFloatBotao()
+
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Você deve selecionar a bandeira e/ou tipo de serviço",
+                    Toast.LENGTH_LONG
+                ).show()
             }
+
 
         }
 
 
     }
 
-    private suspend fun salvarPostoNoBancoDeDados(usuario: Usuario, local: Local) {
+    private fun exibirFloatBotao() {
+        binding.ftAdicionarPosto.show()
+    }
+
+    private suspend fun salvarPostoNoBancoDeDados(tipodeServico: String ,usuario: Usuario, local: Local) {
         val idDoLocal = local.latitude!!.substring(0, 5)
 
         val colunas = mapOf(
@@ -214,30 +295,23 @@ class MapsFragment : Fragment() {
             Constantes.LONGITUDE to local.longitude,
             Constantes.NOME_DO_POSTO to local.nomePosto,
             Constantes.NOME_USUARIO to usuario.nome,
-            Constantes.QUANTIADE_AVALIACOES to local.avaliacao,
+            Constantes.MEDIA_DAS_AVALIACOES to 0.0,
+            Constantes.SOMA_TOTAL_DAS_AVALIACOES to 0,
+            Constantes.QUANTIDADE_DE_AVALIADORES to 0,
+
             "data" to FieldValue.serverTimestamp()
 
         )
 
-        bancoDeDados.collection(Constantes.COLECAO_SERVICO_POSTOGNV).document(idDoLocal)
+        bancoDeDados.collection(tipodeServico).document(idDoLocal)
             .collection("locais").add(colunas).addOnSuccessListener {
                 Toast.makeText(requireContext(), "Obrigado.", Toast.LENGTH_SHORT).show()
+
+
+                // Fechar o container quando o usuario salvar
+                val container = binding.containerSelecionarBandeira
+
+                container.removeAllViews() // Fechar
             }
     }
 }
-
-
-/*private val callback = OnMapReadyCallback { googleMap ->
-//    /**
-//     * Manipulates the map once available.
-//     * This callback is triggered when the map is ready to be used.
-//     * This is where we can add markers or lines, add listeners or move the camera.
-//     * In this case, we just add a marker near Sydney, Australia.
-//     * If Google Play services is not installed on the device, the user will be prompted to
-//     * install it inside the SupportMapFragment. This method will only be triggered once the
-//     * user has installed Google Play services and returned to the app.
-//     */
-//    val sydney = LatLng(-34.0, 151.0)
-//    googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-//} */

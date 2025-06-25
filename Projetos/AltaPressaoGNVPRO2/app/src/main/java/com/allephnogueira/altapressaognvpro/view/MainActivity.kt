@@ -13,17 +13,20 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.allephnogueira.altapressaognvpro.R
 import com.allephnogueira.altapressaognvpro.databinding.ActivityMainBinding
+import com.allephnogueira.altapressaognvpro.databinding.NavHeaderStartBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        
 
         setSupportActionBar(binding.appBarStart.toolbar)
 
@@ -41,6 +44,8 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

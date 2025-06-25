@@ -2,30 +2,33 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textSelecioneBandeira"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-condensed-light"
         android:text="Selecione a bandeira"
+        android:textColor="@color/branco"
         android:textSize="34sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/btnFechar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/textView"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="Botão para fechar"
+        app:layout_constraintBottom_toBottomOf="@+id/textSelecioneBandeira"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toTopOf="@+id/textView"
+        app:layout_constraintStart_toEndOf="@+id/textSelecioneBandeira"
+        app:layout_constraintTop_toTopOf="@+id/textSelecioneBandeira"
         app:srcCompat="@drawable/ic_close_24" />
 
     <RadioGroup
@@ -36,37 +39,58 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView">
+        app:layout_constraintTop_toBottomOf="@+id/textSelecioneBandeira">
 
         <RadioButton
             android:id="@+id/rbBR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:buttonTint="@color/branco"
             android:fontFamily="sans-serif-condensed-light"
-            android:text="BR" />
+            android:text="BR"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/rbShell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Shell" />
+            android:text="Shell"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/rbIpiranga"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Ipiranga" />
+            android:text="Ipiranga"
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/rbOutros"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Outros" />
+            android:text="Outros"
+            android:textSize="20sp" />
+
     </RadioGroup>
+
+
+    <TextView
+        android:id="@+id/TextOpcaoBandeira"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Selecione o serviço"
+        android:textColor="@color/branco"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@+id/rgPosto"
+        app:layout_constraintStart_toStartOf="@+id/rgPosto"
+        app:layout_constraintTop_toBottomOf="@+id/rgPosto" />
+
 
     <Button
         android:id="@+id/btnSalvar"
@@ -74,9 +98,81 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Adicionar"
+        android:textColor="@color/branco"
+        android:textSize="20sp"
         app:cornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rgPosto" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutServicos" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutServicosPostos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/TextOpcaoBandeira"
+        app:layout_constraintStart_toStartOf="@+id/TextOpcaoBandeira"
+        app:layout_constraintTop_toBottomOf="@+id/TextOpcaoBandeira">
+
+        <CheckBox
+            android:id="@+id/cbGNV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="GNV"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/cbGasolina"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Gasolina"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/cbEletrico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Elétrico"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayoutServicos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayoutServicosPostos"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="@+id/linearLayoutServicosPostos"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutServicosPostos">
+
+        <CheckBox
+            android:id="@+id/cbCalibrador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Calibrador"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/cbMecanico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Mecanico"
+            android:textSize="20sp" />
+
+        <CheckBox
+            android:id="@+id/cbDucha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:text="Ducha"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
